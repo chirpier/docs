@@ -1,8 +1,8 @@
 export default {
   index: "Overview",
-  "get-started": "",
-  emit: "",
-  chart: "",
-  monitor: "",
-  "use-cases": "",
+  "get-started": "Get Started",
+  emit: "Emit",
+  chart: "Charts",
+  monitor: "Monitor",
+  "use-cases": "Use Cases",
 };
