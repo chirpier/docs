@@ -101,7 +101,7 @@ export default async function RootLayout({ children }) {
                 fontFamily: "var(--font-sans)",
               }}
             >
-              MIT {new Date().getFullYear()} ©{" "}
+              {new Date().getFullYear()} ©{" "}
               <a href="https://www.chirpier.co" target="_blank">
                 Chirpier
               </a>
