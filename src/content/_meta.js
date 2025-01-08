@@ -1,7 +1,10 @@
 export default {
   index: {
     title: "Overview",
-    display: "hidden",
+    display: 'hidden',
+    theme: {
+      typesetting: "article",
+    },
   },
   docs: {
     title: "Docs",
