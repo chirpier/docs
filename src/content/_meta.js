@@ -1,8 +1,17 @@
 export default {
-  index: "Overview",
-  "get-started": "Get Started",
-  emit: "Emit",
-  chart: "Charts",
-  monitor: "Monitor",
-  use: "Use Cases",
+  index: {
+    title: "Overview",
+    hidden: true,
+    theme: {
+      typesetting: "article",
+    },
+  },
+  docs: {
+    title: "Docs",
+    type: "page",
+  },
+  usecases: {
+    title: "Use Cases",
+    type: "page",
+  },
 };
