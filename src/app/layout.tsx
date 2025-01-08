@@ -72,8 +72,7 @@ export default async function RootLayout({ children }) {
       }
       logoLink="https://www.chirpier.co"
       projectLink={"https://github.com/chirpier/docs"}
-    >
-    </Navbar>
+    ></Navbar>
   );
 
   return (
@@ -83,42 +82,7 @@ export default async function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${fontSans.variable}`}
     >
-      <Head faviconGlyph="✦" />
-      <body
-        className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono`}
-        style={{
-          fontFamily: "var(--font-sans)",
-        }}
-      >
-        <Layout
-          navbar={navbar}
-          footer={<div />}
-          darkMode={false}
-          editLink="Edit this page on GitHub"
-          docsRepositoryBase="https://github.com/chirpier/docs"
-          feedback={{
-            content: "Feedback",
-            labels: "feedback",
-          }}
-          sidebar={{ defaultMenuCollapseLevel: 2 }}
-          pageMap={await getPageMap()}
-        >
-          {children}
-          <Footer
-            style={{
-              fontSize: "12px",
-              fontWeight: "300",
-              fontFamily: "var(--font-sans)",
-            }}
-          >
-            MIT {new Date().getFullYear()} ©{" "}
-            <a href="https://www.chirpier.co" target="_blank">
-              Chirpier
-            </a>
-            .
-          </Footer>
-        </Layout>
-      </body>
+      {children}
     </html>
   );
 }
