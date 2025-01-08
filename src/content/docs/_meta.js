@@ -1,6 +1,6 @@
 export default {
-  "get-started": "",
-  emit: "",
-  chart: "",
-  monitor: "",
+  "get-started": "Get Started",
+  emit: "Emit",
+  chart: "Chart",
+  monitor: "Monitor",
 };
