@@ -3,7 +3,7 @@ const withNextra = nextra({
   search: {
     codeblocks: false,
   },
-  contentDirBasePath: "/src",
+  contentDirBasePath: "/",
   defaultShowCopyCode: true,
 });
 
