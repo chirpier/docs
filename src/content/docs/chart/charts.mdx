@@ -42,37 +42,3 @@ After selecting a chart type, you can:
 
 Once your chart is configured - your chart will appear in the **Charts** page. And will update in real-time as data is emitted to Chirpier. 
 Nothing else is required.
-
-## Example - Sales
-
-Here's an example of creating a line chart showing total daily sales:
-
-1. Navigate to the **Charts** page
-2. Click **New Chart** in the top right
-3. Choose "Line" as the chart type
-4. Configure the chart:
-   - GroupID: `default`
-   - Stream: `sales`
-   - Aggregation: `Sum`
-   - Fallback strategy: `Zero` - this will fill in missing data with a zero value
-4. Add a title: "Daily Sales"
-5. Save the chart to your workspace
-
-Your chart will automatically update as new data comes into your data source.
-
-## Example - Temperature
-
-Here's an example of creating a line chart showing the temperature:
-
-1. Navigate to the **Charts** page
-2. Click **New Chart** in the top right
-3. Choose "Line" as the chart type
-4. Configure the chart:
-   - GroupID: `default`
-   - Stream: `temperature`
-   - Aggregation: `Average`
-   - Fallback strategy: `Last` - this will fill in missing data with the last known value
-5. Add a title: "Temperatures"
-6. Save the chart to your workspace
-
-Your chart will automatically update as new data comes into your data source.

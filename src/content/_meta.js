@@ -1,7 +1,10 @@
 export default {
-  'index': '',
-  'get-started': '',
-  'emit': '',
-  'chart': '',
-  'monitor': '',
-}
+  docs: {
+    title: "Docs",
+    type: "page",
+  },
+  "use-cases": {
+    title: "Use Cases",
+    type: "page",
+  },
+};
