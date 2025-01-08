@@ -15,7 +15,19 @@ const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(
   withNextra({
     reactStrictMode: true,
-    output: "export",
-    dynamicParams: true,
+    output: "standalone",
+    images: {
+      unoptimized: true,
+    },
+    webpack: (config, { isServer }) => {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        module: false,
+      };
+
+      return config;
+    },
+    productionBrowserSourceMaps: false,
   })
 );

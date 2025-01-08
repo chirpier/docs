@@ -2,10 +2,8 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/app/**/*.{js,jsx,ts,tsx,md,mdx}",
-    "./src/content/**/*.{md,mdx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx,md,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,md,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./mdx-components.js",
     "./node_modules/nextra/dist/components/**/*.{js,jsx,ts,tsx}",
     "./node_modules/nextra-theme-docs/**/*.{js,jsx,ts,tsx}",
@@ -184,6 +182,7 @@ const config: Config = {
       },
     },
   },
+  plugins: [],
 };
 
 export default config;
