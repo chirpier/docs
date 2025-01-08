@@ -15,5 +15,7 @@ const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(
   withNextra({
     reactStrictMode: true,
+    output: "export",
+    dynamicParams: true,
   })
 );

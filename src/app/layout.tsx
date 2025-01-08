@@ -1,38 +1,11 @@
 /* eslint-env node */
-import { Footer, Layout, LocaleSwitch, Navbar } from "nextra-theme-docs";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import { Viewport } from "next";
-import { getLocale, getMessages } from "next-intl/server";
 import "nextra-theme-docs/style.css";
 import Image from "next/image";
 import { JetBrains_Mono as FontMono, Poppins } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
-import "./global.css";
-
-// Function to get messages with fallback
-async function getMessagesWithFallback(locale: string) {
-  try {
-    // First try to load the specific locale (e.g. en-US)
-    const messages = await getMessages({ locale });
-    return messages;
-  } catch (error) {
-    // If specific locale fails, try the base locale (e.g. 'en' from 'en-US')
-    const baseLocale = locale.split("-")[0];
-    try {
-      console.warn(
-        `Translations for locale "${locale}" not found. Trying base locale "${baseLocale}".`
-      );
-      return await getMessages({ locale: baseLocale });
-    } catch (baseError) {
-      // If base locale also fails, fall back to 'en'
-      console.warn(
-        `Translations for base locale "${baseLocale}" not found. Falling back to "en".`
-      );
-      return await getMessages({ locale: "en" });
-    }
-  }
-}
 
 const fontMono = FontMono({
   subsets: ["latin"],
@@ -74,9 +47,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const locale = await getLocale();
-  const messages = await getMessagesWithFallback(locale);
-
   const navbar = (
     <Navbar
       logo={
@@ -103,7 +73,6 @@ export default async function RootLayout({ children }) {
       logoLink="https://www.chirpier.co"
       projectLink={"https://github.com/chirpier/docs"}
     >
-      <LocaleSwitch />
     </Navbar>
   );
 
@@ -121,30 +90,34 @@ export default async function RootLayout({ children }) {
           fontFamily: "var(--font-sans)",
         }}
       >
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <Layout
-            navbar={navbar}
-            footer={<div />}
-            darkMode={false}
-            editLink="Edit this page on GitHub"
-            docsRepositoryBase="https://github.com/chirpier/docs"
-            feedback={{
-              content: "Feedback",
-              labels: "feedback",
+        <Layout
+          navbar={navbar}
+          footer={<div />}
+          darkMode={false}
+          editLink="Edit this page on GitHub"
+          docsRepositoryBase="https://github.com/chirpier/docs"
+          feedback={{
+            content: "Feedback",
+            labels: "feedback",
+          }}
+          sidebar={{ defaultMenuCollapseLevel: 2 }}
+          pageMap={await getPageMap()}
+        >
+          {children}
+          <Footer
+            style={{
+              fontSize: "12px",
+              fontWeight: "300",
+              fontFamily: "var(--font-sans)",
             }}
-            sidebar={{ defaultMenuCollapseLevel: 2 }}
-            pageMap={await getPageMap()}
           >
-            {children}
-            <Footer style={{ fontSize: "12px", fontWeight: "300", fontFamily: "var(--font-sans)" }}>
-              MIT {new Date().getFullYear()} ©{" "}
-              <a href="https://www.chirpier.co" target="_blank">
-                Chirpier
-              </a>
-              .
-            </Footer>
-          </Layout>
-        </NextIntlClientProvider>
+            MIT {new Date().getFullYear()} ©{" "}
+            <a href="https://www.chirpier.co" target="_blank">
+              Chirpier
+            </a>
+            .
+          </Footer>
+        </Layout>
       </body>
     </html>
   );

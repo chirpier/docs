@@ -1,11 +1,3 @@
-import { useTranslations } from "next-intl";
-
-export const Translate = ({ text }) => {
-  const t = useTranslations();
-  console.log(t(text));
-  return <span>{t(`${text}`)}</span>;
-};
-
 # Core Concepts
 
 Familiarize yourself with Chirpier's core concepts and terminology to get a better understanding of how Chirpier works and how you can make the most of its features.
@@ -36,7 +28,7 @@ Once you've emitted data to Chirpier, you can create and publish Charts in our C
 Chirpier Charts will update in real-time in any modern browser, when data is emitted to Chirpier. So no need for browser refreshes.
 Chirpier supports four chart types:
 
-- **Summary**: Display a summary of your data with a text-based <Translate text="visualization" />
+- **Summary**: Display a summary of your data with a text-based visualization
 - **Tracker**: Show data in a column-based tracking view
 - **Bar**: Visualize data using bar charts
 - **Line**: Plot data points on a line graph
