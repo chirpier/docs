@@ -1,5 +1,4 @@
 export default {
-  index: "Overview",
-  charts: "",
-  sharing: "",
+  charts: "Charts",
+  sharing: "Sharing",
 };

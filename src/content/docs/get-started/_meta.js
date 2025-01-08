@@ -1,6 +1,6 @@
 export default {
-  'quick-start': '',
-  'core-concepts': '',
-  architecture: '',
-  plans: '',
-}
+  "quick-start": "",
+  "core-concepts": "",
+  architecture: "",
+  plans: "",
+};

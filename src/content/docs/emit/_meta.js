@@ -1,4 +1,4 @@
 export default {
-  sdk: 'SDK',
-  api: '',
-}
+  sdk: "SDK",
+  api: "API",
+};

@@ -1,4 +1,4 @@
 export default {
-  'policies': '',
-  'alerts': '',
-}
+  policies: "",
+  alerts: "",
+};
