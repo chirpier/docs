@@ -81,11 +81,11 @@ export default async function RootLayout({ children }) {
       lang="en"
       dir="ltr"
       suppressHydrationWarning
-      className={`min-h-[100vh] w-full antialiased ${fontSans.variable}`}
+      className={`${fontSans.variable}`}
     >
       <Head faviconGlyph="✦" />
       <body
-        className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono`}
         style={{
           fontFamily: "var(--font-sans)",
         }}
