@@ -82,7 +82,41 @@ export default async function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${fontSans.variable}`}
     >
-      {children}
+      <Head />
+      <body
+        style={{
+          fontFamily: "var(--font-sans)",
+        }}
+      >
+        <Layout
+          navbar={navbar}
+          footer={
+            <Footer
+              style={{
+                fontSize: "12px",
+                fontWeight: "300",
+                fontFamily: "var(--font-sans)",
+              }}
+            >
+              MIT {new Date().getFullYear()} ©{" "}
+              <a href="https://www.chirpier.co" target="_blank">
+                Chirpier
+              </a>
+            </Footer>
+          }
+          darkMode={false}
+          editLink="Edit this page on GitHub"
+          docsRepositoryBase="https://github.com/chirpier/docs"
+          feedback={{
+            content: "Feedback",
+            labels: "feedback",
+          }}
+          sidebar={{ defaultMenuCollapseLevel: 2 }}
+          pageMap={await getPageMap()}
+        >
+          {children}
+        </Layout>
+      </body>
     </html>
   );
 }
