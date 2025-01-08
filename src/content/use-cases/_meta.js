@@ -1,4 +1,4 @@
 export default {
-  "use-cases-index": "",
+  "index": "",
   examples: "",
 };
