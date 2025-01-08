@@ -1,4 +1,5 @@
 export default {
+  index: "Overview",
   docs: {
     title: "Docs",
     type: "page",
