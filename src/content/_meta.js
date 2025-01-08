@@ -1,8 +1,9 @@
 export default {
   index: {
     title: "Overview",
-    display: 'hidden',
+    display: "hidden",
     theme: {
+      sidebar: false,
       typesetting: "article",
     },
   },
@@ -10,7 +11,7 @@ export default {
     title: "Docs",
     type: "page",
   },
-  usecases: {
+  "use-cases": {
     title: "Use Cases",
     type: "page",
   },
