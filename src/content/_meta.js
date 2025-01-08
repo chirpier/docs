@@ -4,5 +4,5 @@ export default {
   emit: "Emit",
   chart: "Charts",
   monitor: "Monitor",
-  "use-cases": "Use Cases",
+  use: "Use Cases",
 };
