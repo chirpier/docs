@@ -10,24 +10,20 @@ const withNextra = nextra({
   readingTime: true,
 });
 
-const withNextIntl = createNextIntlPlugin();
+export default withNextra({
+  reactStrictMode: true,
+  output: "standalone",
+  images: {
+    unoptimized: true,
+  },
+  webpack: (config, { isServer }) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      module: false,
+    };
 
-export default withNextIntl(
-  withNextra({
-    reactStrictMode: true,
-    output: "standalone",
-    images: {
-      unoptimized: true,
-    },
-    webpack: (config, { isServer }) => {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        module: false,
-      };
-
-      return config;
-    },
-    productionBrowserSourceMaps: false,
-  })
-);
+    return config;
+  },
+  productionBrowserSourceMaps: false,
+});
