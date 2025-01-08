@@ -1,5 +1,11 @@
 export default {
-  index: "Overview",
+  index: {
+    type: "page",
+    display: "hidden",
+    theme: {
+      typesetting: "article",
+    },
+  },
   docs: {
     title: "Docs",
     type: "page",
