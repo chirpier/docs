@@ -41,6 +41,9 @@ export const metadata = {
     "msapplication-TileImage": "/favicon.ico",
     "msapplication-TileColor": "#fff",
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
   twitter: {
     site: "https://www.chirpier.co",
   },
@@ -76,34 +79,11 @@ export default async function RootLayout({ children }) {
   );
 
   return (
-    <html
-      lang="en"
-      dir="ltr"
-      suppressHydrationWarning
-      className={`${fontSans.variable}`}
-    >
-      <Head />
-      <body
-        style={{
-          fontFamily: "var(--font-sans)",
-        }}
-      >
+    <html lang="en">
+      <body>
         <Layout
           navbar={navbar}
-          footer={
-            <Footer
-              style={{
-                fontSize: "12px",
-                fontWeight: "300",
-                fontFamily: "var(--font-sans)",
-              }}
-            >
-              MIT {new Date().getFullYear()} ©{" "}
-              <a href="https://www.chirpier.co" target="_blank">
-                Chirpier
-              </a>
-            </Footer>
-          }
+          footer={<div />}
           darkMode={false}
           editLink="Edit this page on GitHub"
           docsRepositoryBase="https://github.com/chirpier/docs"
