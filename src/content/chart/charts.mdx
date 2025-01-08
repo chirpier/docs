@@ -1,0 +1,86 @@
+import { useTranslations } from "next-intl";
+
+export const Translate = ({ text }) => {
+  const t = useTranslations();
+  console.log(t(text));
+  return <span>{t(`${text}`)}</span>;
+};
+
+# Charts
+
+Charts in Chirpier help you <Translate text="visualize" /> your data in seconds.
+This guide shows you how to create a new chart.
+
+## Create a chart
+
+To create a new chart:
+
+1. Navigate to the **Charts** page in the Chirpier UI
+2. Click **New Chart** in the top right
+3. Choose a chart type:
+   - Line chart
+   - Bar chart 
+   - Tracker chart 
+   - Summary view
+4. Select your GroupID from the dropdown
+5. Select your Stream from the dropdown
+
+## Configure your chart
+
+After selecting a chart type, you can:
+
+- Give your chart a name
+- Choose a data fallback strategy for handling missing data:
+  - None: Leave gaps where data is missing
+  - Zero: Fill missing values with zero
+  - Last: Use the last known value
+  - Cumulative: Show cumulative total for the stream
+- Configure aggregation settings for each stream:
+  - Sum: Total of all values in a time window
+  - Count: Number of data points in a time window
+  - Average: Mean value in a time window
+  - Maximum: Highest value in a time window
+  - Minimum: Lowest value in a time window
+- Customize the appearance:
+  - Choose colors for each data stream
+- Make the chart shareable
+  - Add a password shared charts
+
+## Publish your chart
+
+Once your chart is configured - your chart will appear in the **Charts** page. And will update in real-time as data is emitted to Chirpier. 
+Nothing else is required.
+
+## Example - Sales
+
+Here's an example of creating a line chart showing total daily sales:
+
+1. Navigate to the **Charts** page
+2. Click **New Chart** in the top right
+3. Choose "Line" as the chart type
+4. Configure the chart:
+   - GroupID: `default`
+   - Stream: `sales`
+   - Aggregation: `Sum`
+   - Fallback strategy: `Zero` - this will fill in missing data with a zero value
+4. Add a title: "Daily Sales"
+5. Save the chart to your workspace
+
+Your chart will automatically update as new data comes into your data source.
+
+## Example - Temperature
+
+Here's an example of creating a line chart showing the temperature:
+
+1. Navigate to the **Charts** page
+2. Click **New Chart** in the top right
+3. Choose "Line" as the chart type
+4. Configure the chart:
+   - GroupID: `default`
+   - Stream: `temperature`
+   - Aggregation: `Average`
+   - Fallback strategy: `Last` - this will fill in missing data with the last known value
+5. Add a title: "Temperatures"
+6. Save the chart to your workspace
+
+Your chart will automatically update as new data comes into your data source.

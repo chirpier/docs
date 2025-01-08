@@ -1,0 +1,31 @@
+import { Tabs, Tab } from "nextra/components";
+
+# API
+
+Chirpier provides multiple ways to send data to our platform:
+
+1. [Official SDKs](/emit/sdk) for popular programming languages
+2. [API](/emit/api) over HTTPS for direct integration
+
+## Direct API
+
+It's also possible to send data to Chirpier using our API, using our events API.
+
+Construct your on API request to
+- The Chirpier events API `https://{region}.chirpier.co/v1.0/events` 
+- Using the `Authorization` header with your API key as the Bearer token
+- Your event object in JSON format with the following fields:
+  - `group_id` (UUID): The unique monitoring group identifier
+  - `stream_name` (str): A unique stream name as the measurement name
+  - `value` (float): Numeric value to record as the measurement value
+
+```bash
+curl -X POST https://events.chirpier.co/v1.0/events \\
+-H "Authorization: Bearer ${token}" \\
+-H "Content-Type: application/json" \\
+-d '[{
+    "group_id": "${groupId}",
+    "stream_name": "My measurement",
+    "value": 15.30
+}]'`
+```

@@ -1,0 +1,64 @@
+# Policies
+
+Alert Policies are used to generate alerts to your team - if a data stream meets a set of conditions specified.
+
+## Policy Configuration
+
+Create a new policy by clicking the **Create Policy** button in the [Policies](https://www.chirpier.co/auth) page.
+
+When creating a new policy, you have the following configuration options:
+
+### Basic Settings
+
+- **Enabled** - Toggle to enable or disable the policy
+- **Group** - Select which group this policy belongs to
+- **Stream** - Select which data stream this policy monitors
+- **Name** - Give your policy a descriptive name
+- **Description** - Optionally add details about the policy's purpose
+
+### Alert Parameters
+
+- **Period** - Choose the monitoring time window for the policy:
+  - Minute - Monitor data over 1 minute interval
+  - Hour - Monitor data over 1 hour interval
+  - Day - Monitor data over 1 day interval
+- **Aggregate** - Select how to aggregate data points:
+  - Sum - Total of all values emitted in a given time window
+  - Count - Number of data points emitted in a given time window
+  - Average - Mean value emitted in a given time window
+  - Max - Maximum value emitted in a given time window
+  - Min - Minimum value emitted in a given time window
+- **Condition** - Set the threshold condition for the policy in a given time window:
+  - Greater Than - Alert when value exceeds threshold
+  - Less Than - Alert when value falls below threshold
+  - Greater Than or Equal - Alert when value meets or exceeds threshold
+  - Less Than or Equal - Alert when value meets or falls below threshold
+- **Threshold** - The numeric value to compare against for the policy
+
+### Alert Settings
+
+- **Severity** - Set the importance level of alerts:
+  - Info - Low priority information
+  - Warning - Potential issues
+  - Error - Serious problems
+  - Critical - Urgent issues requiring immediate attention
+
+### Example
+
+Let's say you want to monitor a temperature sensor in a server room. You could create a policy with these settings:
+
+- **Name**: Server Room Temperature Alert
+- **Description**: Monitor server room temperature for overheating
+- **Period**: Minute
+- **Aggregate**: Average
+- **Condition**: Greater Than
+- **Threshold**: 30
+- **Severity**: Critical
+
+This policy would:
+
+1. Calculate the average temperature emitted to Chirpier every minute
+2. Trigger a critical alert if the average temperature exceeds 30°C
+3. Notify team members immediately of potential server room cooling issues
+
+This allows for quick response to prevent equipment damage from overheating.

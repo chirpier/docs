@@ -1,0 +1,85 @@
+import { useTranslations } from "next-intl";
+
+export const Translate = ({ text }) => {
+  const t = useTranslations();
+  console.log(t(text));
+  return <span>{t(`${text}`)}</span>;
+};
+
+# Core Concepts
+
+Familiarize yourself with Chirpier's core concepts and terminology to get a better understanding of how Chirpier works and how you can make the most of its features.
+
+## Groups
+
+Groups are who you're monitoring. A group can be a specific team, a whole
+organisation, or a particular customer.
+
+All accounts come with a Default Group for emitting data. Create a new group by navigating to the **Groups** page.
+
+You can send measurement stream data for your group via our [SDK](/emit-data/sdk) or [API](/emit-data/api).
+
+## Streams
+
+Streams are what you want to measure against a monitoring group. This can be anything,
+such as website clicks, completed orders, or measurements from IoT
+devices.
+
+Create a stream by navigating to the **Streams** page.
+
+Once you've set up a monitoring stream, you can start sending stream data for your stream via our [SDK](/emit-data/sdk) or [API](/emit-data/api).
+
+## Charts
+
+Once you've emitted data to Chirpier, you can create and publish Charts in our Charts page. This is where the magic happens.
+
+Chirpier Charts will update in real-time in any modern browser, when data is emitted to Chirpier. So no need for browser refreshes.
+Chirpier supports four chart types:
+
+- **Summary**: Display a summary of your data with a text-based <Translate text="visualization" />
+- **Tracker**: Show data in a column-based tracking view
+- **Bar**: Visualize data using bar charts
+- **Line**: Plot data points on a line graph
+
+For each chart, you can configure:
+
+- Chart name and stream selection
+- Data fallback strategy (none, zero, last, or cumulative) for handling missing data points
+- Aggregation methods (sum, count, average, max, min) for line and bar charts
+- Custom colors for visual styling
+- Sharing options with optional password protection
+
+Charts can be reordered by dragging and dropping, and will automatically update in real-time as new data arrives.
+
+[Read more about Charts](/charts).
+
+## Alert Policies
+
+Policies allow you to define monitoring rules for your data streams. Each policy can be configured with:
+
+- Enable/disable toggle to activate or pause monitoring
+- Group and stream selection to specify what to monitor
+- Policy name and description for identification
+- Monitoring period (minute, hour, or day) for time-based analysis
+- Aggregation method (sum, count, average, max, min) for data processing
+- Condition operators (greater than, less than, equal to, etc.) for threshold checks
+- Threshold value to trigger alerts
+- Alert severity levels (info, warning, error, critical) for prioritization
+
+This gives you the ability to monitor when your stream has exceeded a certain threshold in a minute, hour, or day.
+
+Once configured, policies will evaluate incoming data against these rules and trigger alerts when conditions are met.
+
+[Read more about Policies](/policies).
+
+## Alerts
+
+View your alert notifications that have been triggered by your Alert Policies.
+
+[Read more about Alerts](/alerts).
+
+## Integration token
+
+Your Integration token authorizes requests to Chirpier - and are personal to you. This is all you need to start emitting data to Chirpier.
+
+[Read more about Tokens](/tokens).

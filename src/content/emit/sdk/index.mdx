@@ -1,0 +1,100 @@
+import { Tabs, Tab } from "nextra/components";
+
+# SDKs
+
+Chirpier provides multiple ways to your applications to emit data to our platform:
+
+1. [Official SDKs](/emit/sdk) for popular programming languages
+2. [API](/emit/api) over HTTPS for direct integration
+
+## Official SDKs
+
+For the easiest integration experience, we provide official SDKs that handle the API communication for you:
+
+- JavaScript/TypeScript SDK
+- Python SDK
+- Go SDK
+
+<Tabs items={['TypeScript', 'Python', 'Go']}>
+  <Tabs.Tab>
+    ```javascript
+    // Use the Chirpier JavaScript SDK in your application
+    import { initialize, monitor, Event } from "@chirpier/chirpier-js";
+
+    // Initialize the SDK with your API key
+    initialize({ key: token, region: region });
+
+    // Send a data stream tied to a group_id
+    monitor({
+        // The unique monitoring group identifier
+        group_id: groupId,
+        // A unique stream name
+        stream_name: "My measurement",
+        // Example measurement value emitted
+        value: 15.30,
+    } as Event);
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```python
+    # Use the Chirpier Python SDK in your application
+    from chirpier import Chirpier, Event
+
+    # Initialize the SDK with your API key
+    Chirpier.initialize(api_key=token, region=region)
+
+    # Send a data stream tied to a group_id
+    Chirpier.monitor(
+        Event(
+            # The unique monitoring group identifier
+            group_id=groupId,
+            # A unique stream name
+            stream_name="My measurement",
+            # Example measurement value emitted
+            value=15.30,
+        )
+    );
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```go
+    // Use the Chirpier Go SDK in your application
+    import (
+        "context"
+        "github.com/chirpier/chirpier-go"
+    )
+
+    // Initialize the SDK with your API key
+    chirpier.Initialize(chirpier.Options{
+        Key: token,
+        Region: region,
+    })
+
+    // Send a data stream tied to a group_id
+    chirpier.Monitor(
+        context.Background(),
+        chirpier.Event{
+              // The unique monitoring group identifier
+              GroupID: groupId`,
+              // A unique stream name
+              StreamName: "My measurement",
+              // Example measurement value emitted
+              Value: 15.30,
+    });
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+The SDKs provide a simple interface to send events with just a few lines of code in your preferred language.
+
+## Features
+Our SDKs provide the following features:
+
+- Easy-to-use API for sending events to Chirpier
+- Automatic batching of events for improved performance
+- Automatic retry mechanism with exponential backoff
+- Thread-safe operations
+- Periodic flushing of the event queue
