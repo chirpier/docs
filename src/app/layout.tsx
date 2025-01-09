@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 }
 
 export const metadata = {
-  metadataBase: new URL("https://docs.chirpier.co"),
+  metadataBase: new URL("https://docs.chirpier.co/docs"),
   title: {
     template: "%s - Chirpier",
   },
@@ -40,9 +40,6 @@ export const metadata = {
   other: {
     "msapplication-TileImage": "/favicon.ico",
     "msapplication-TileColor": "#fff",
-  },
-  icons: {
-    icon: "/icon.png",
   },
   twitter: {
     site: "https://www.chirpier.co",
@@ -75,7 +72,8 @@ export default async function RootLayout({ children }) {
       }
       logoLink="https://www.chirpier.co"
       projectLink={"https://github.com/chirpier/docs"}
-    ></Navbar>
+    >
+    </Navbar>
   );
 
   return (
@@ -83,30 +81,30 @@ export default async function RootLayout({ children }) {
       lang="en"
       dir="ltr"
       suppressHydrationWarning
-      className={`${fontSans.variable}`}
+      className={`min-h-[100vh] w-full antialiased ${fontSans.variable}`}
     >
-      <Head />
+      <Head faviconGlyph="✦" />
       <body
+        className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono antialiased`}
         style={{
-          fontFamily: "var(--font-sans), var(--font-mono)",
+          fontFamily: "var(--font-sans) var(--font-mono)",
         }}
       >
         <Layout
           navbar={navbar}
-          footer={
-            <Footer
-              style={{
-                fontSize: "12px",
-                fontWeight: "300",
-                fontFamily: "var(--font-sans)",
-              }}
-            >
-              {new Date().getFullYear()} ©{" "}
-              <a href="https://www.chirpier.co" target="_blank">
-                Chirpier
-              </a>
-            </Footer>
-          }
+          footer={<Footer
+            style={{
+              fontSize: "12px",
+              fontWeight: "300",
+              fontFamily: "var(--font-sans)",
+            }}
+          >
+            {new Date().getFullYear()} ©{" "}
+            <a href="https://www.chirpier.co" target="_blank">
+              Chirpier
+            </a>
+            .
+          </Footer>}
           darkMode={false}
           editLink="Edit this page on GitHub"
           docsRepositoryBase="https://github.com/chirpier/docs"
