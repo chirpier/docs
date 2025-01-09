@@ -1,10 +1,27 @@
 export default {
+  "*": {
+    type: "page",
+  },
   docs: {
     title: "Docs",
-    type: "page",
+    theme: {
+      breadcrumb: true,
+      footer: true,
+      sidebar: true,
+      toc: true,
+      navbar: true,
+      pagination: true,
+    },
   },
   "use-cases": {
     title: "Use Cases",
-    type: "page",
+    theme: {
+      breadcrumb: true,
+      footer: true,
+      sidebar: true,
+      toc: true,
+      navbar: true,
+      pagination: true,
+    },
   },
 };
