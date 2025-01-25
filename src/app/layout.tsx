@@ -75,7 +75,6 @@ export default async function RootLayout({ children }) {
       }
       logoLink="https://www.chirpier.co"
       projectLink={"https://github.com/chirpier/docs"}
-
     ></Navbar>
   );
 
@@ -113,6 +112,7 @@ export default async function RootLayout({ children }) {
             </Footer>
           }
           darkMode={false}
+          nextThemes={{ defaultTheme: "light" }}
           editLink="Edit this page on GitHub"
           docsRepositoryBase="https://github.com/chirpier/docs"
           feedback={{
