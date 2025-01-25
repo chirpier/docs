@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>https://docs.chirpier.co/</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/use-cases</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/get-started/quick-start</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/get-started/core-concepts</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/get-started/architecture</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/get-started/plans</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/emit/sdk</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/emit/sdk/js</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/emit/sdk/python</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/emit/sdk/go</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/emit/api</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/charts</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/charts/line</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/charts/bar</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/charts/tracker</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/charts/summary</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/monitor/policies</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/docs/monitor/alerts</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/use-cases/examples/sales</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://docs.chirpier.co/use-cases/examples/temperature</loc>
+  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>
