@@ -96,12 +96,12 @@ export default async function RootLayout({ children }) {
           footer={
             <Footer
               style={{
-                fontSize: "12px",
+                fontSize: "11px",
                 fontWeight: "300",
-                fontFamily: "var(--font-sans)",
+                fontFamily: "var(--font-sans)"
               }}
             >
-              {new Date().getFullYear()} ©{" "}
+              {new Date().getFullYear()} © {" "}
               <a href="https://www.chirpier.co" target="_blank">
                 Chirpier
               </a>

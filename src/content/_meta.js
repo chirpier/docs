@@ -2,6 +2,11 @@ export default {
   "*": {
     type: "page",
   },
+  index: {
+    type: "page",
+    title: "Chirpier",
+    display: "hidden",
+  },
   docs: {
     title: "Docs",
     theme: {
