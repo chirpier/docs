@@ -1,0 +1,47 @@
+# Tracker chart
+
+A tracker chart for visualizing data related to monitoring.
+
+<div
+  style={{
+    marginTop: "25px",
+    marginBottom: "25px",
+  }}
+>
+  ![Tracker Chart](/tracker.png)
+</div>
+
+## Additional properties
+
+Here are the additional properties you can configure for your tracker chart:
+
+- The stream aggregation setting for your chart:
+  - Sum: Total of all values for a stream in a time window
+  - Count: Number of data points for a stream in a time window
+  - Average: Mean value for a stream in a time window
+  - Maximum: Highest value for a stream in a time window
+  - Minimum: Lowest value for a stream in a time window
+- The condition for the tracker:
+  - Greater than: The tracker will be green if the value is greater than the condition
+  - Less than: The tracker will be green if the value is less than the condition
+  - Equal to: The tracker will be green if the value is equal to the condition
+- The threshold for monitoring the aggregation value
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "25px",
+    maxWidth: "500px",
+    border: "0.5px solid #e0e0e0",
+    borderRadius: "10px",
+  }}
+>
+  ![Tracker Chart Options](/tracker-options.png)
+</div>
+
+The tracker chart will then display a green or red indicator based on the condition and threshold.
+
+- Green: The tracker will be green if the value meets the condition of the threshold
+- Red: The tracker will be red if the value does not meet the condition of the threshold

@@ -1,6 +1,6 @@
 # Python
 
-The Chirpier SDK for Python is a simple, lightweight, and efficient SDK to emit event data to Chirpier direct from your Python applications.
+The [Chirpier SDK for Python](https://github.com/chirpier/chirpier-py) is a simple, lightweight, and efficient SDK to emit event data to Chirpier direct from your Python applications.
 
 ## Installation
 
@@ -62,26 +62,10 @@ event = Event(
 - `stream_name` (str): Name of the measurement stream
 - `value` (float): Numeric value to record
 
-### Monitor
+### Emit
 
 Send an event to Chirpier using the `monitor` function.
 
 ```python
 Chirpier.monitor(event)
 ```
-
-## Test
-
-Run the test suite to ensure everything works as expected:
-
-```bash
-pytest tests/
-```
-
-## License
-
-This SDK is licensed under the MIT License.
-
-## Support
-
-If you have any questions or need support, please open an issue on the GitHub repository or contact us at [contact@chirpier.co](mailto:contact@chirpier.co).

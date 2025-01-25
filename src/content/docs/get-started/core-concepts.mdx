@@ -7,26 +7,26 @@ Familiarize yourself with Chirpier's core concepts and terminology to get a bett
 Groups are who you're monitoring. A group can be a specific team, a whole
 organisation, or a particular customer.
 
-All accounts come with a Default Group for emitting data. Create a new group by navigating to the **Groups** page.
+All accounts come with a Default Group for emitting data. Create a new group by navigating to the [Groups](https://www.chirpier.co/teams/groups) page.
 
-You can send measurement stream data for your group via our [SDK](/docs/emit-data/sdk) or [API](/docs/emit-data/api).
+You can send measurement stream data for your group via our [SDK](/docs/emit/sdk) or [API](/docs/emit/api).
 
 ## Streams
 
 Streams are what you want to measure against a monitoring group. This can be anything,
-such as website clicks, completed orders, or measurements from IoT
-devices.
+such as website clicks, completed orders, or measurements from IoT devices.
 
-Create a stream by navigating to the **Streams** page.
+Create a stream by navigating to the [Streams](https://www.chirpier.co/teams/streams) page.
 
-Once you've set up a monitoring stream, you can start sending stream data for your stream via our [SDK](/docs/emit-data/sdk) or [API](/docs/emit-data/api).
+Once you've set up a monitoring stream, you can start emitting data via our [SDK](/docs/emit/sdk) or [API](/docs/emit/api).
 
 ## Charts
 
-Once you've emitted data to Chirpier, you can create and publish Charts in our Charts page. This is where the magic happens.
+Once you've emitted data to Chirpier, you can create and publish Charts in our [Charts](https://www.chirpier.co/teams/charts) page. This is where the magic happens.
 
-Chirpier Charts will update in real-time in any modern browser, when data is emitted to Chirpier. So no need for browser refreshes.
-Chirpier supports four chart types:
+Chirpier Charts will update in real-time in any modern web browser, immediately as data is emitted to Chirpier. So no need for browser refreshes, or waiting for data warehouse updates.
+
+Chirpier currently supports four real-time chart types:
 
 - **Summary**: Display a summary of your data with a text-based visualization
 - **Tracker**: Show data in a column-based tracking view
@@ -41,13 +41,13 @@ For each chart, you can configure:
 - Custom colors for visual styling
 - Sharing options with optional password protection
 
-Charts can be reordered by dragging and dropping, and will automatically update in real-time as new data arrives.
+Charts can be reordered in your dashboard, and will automatically update in real-time as new data arrives.
 
-[Read more about Charts](/docs/chart/charts).
+Read more about [Charts](/docs/charts/charts).
 
-## Alert Policies
+## Alert policies
 
-Policies allow you to define monitoring rules for your data streams. Each policy can be configured with:
+[Alert Policies](https://www.chirpier.co/teams/policies) allow you to define monitoring rules for your data streams. Each policy can be configured with:
 
 - Enable/disable toggle to activate or pause monitoring
 - Group and stream selection to specify what to monitor
@@ -58,18 +58,18 @@ Policies allow you to define monitoring rules for your data streams. Each policy
 - Threshold value to trigger alerts
 - Alert severity levels (info, warning, error, critical) for prioritization
 
-This gives you the ability to monitor when your stream has exceeded a certain threshold in a minute, hour, or day.
+This gives you the ability to monitor when your stream has exceeded a certain threshold in a minute, hour, or day. E.g., if your stream has exceeded 100 clicks in a minute, or 1000 clicks in an hour.
 
 Once configured, policies will evaluate incoming data against these rules and trigger alerts when conditions are met.
 
-[Read more about Policies](monitor/policies).
+Read more about [Policies](/docs/monitor/policies).
 
 ## Alerts
 
-View your alert notifications that have been triggered by your Alert Policies.
+View your Alert notifications that have been triggered by your Policies in the [Alerts](https://www.chirpier.co/teams/alerts) page.
 
-[Read more about Alerts](/docs/monitor/alerts).
+Read more about [Alerts](/docs/monitor/alerts).
 
 ## Integration token
 
-Your Integration token authorizes requests to Chirpier - and are personal to you. This is all you need to start emitting data to Chirpier.
+Your Integration token authorizes requests to Chirpier - and are personal to you. This is all you need to start emitting data to Chirpier. You can find your token in the [Integration](https://www.chirpier.co/teams/integration) page.

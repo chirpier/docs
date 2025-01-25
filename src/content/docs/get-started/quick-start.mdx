@@ -12,31 +12,39 @@ With Chirpier, you can ingest data from anywhere, and create real-time charts an
 ### Create an account
 
 Chirpier has a free tier for any proof of concept, so anyone can start building today. Create a free account [here](https://www.chirpier.co/auth)
-using a GitHub, GitLab Google, or your email address.
+using a GitHub, GitLab, Google, or your email address.
 
 ### Find your integration token
 
-Navigate to the **Integration** page to find your personal token.
-Use your personal token to send data to the Chirpier service.
+Navigate to the [Integration](https://www.chirpier.co/teams/integration) page to find your personal token.
+Copy your personal token, and use it to authenticate the events you send to the Chirpier service.
 
 ### Emit
 
 Identify your monitoring groups - these are who you're monitoring. A group can be a specific team, a whole
 organisation, or a particular customer.
+All Chirpier teams have a default monitoring group, and you can create additional groups.
 
-Once you've set up a monitoring group, you can start sending stream data for your group via our [SDK](/docs/emit-data/sdk) or [API](/docs/emit-data/api).
+Once you've a monitoring group, you can start sending stream data for your group via our [SDK](/docs/emit/sdk) or [API](/docs/emit/api).
+
+This is as simple as a few lines of code with:
+
+- Your personal token
+- Your **group ID**
+- Your **stream name**
+- The **value** of the stream
 
 ### Chart
 
-Log in to your account with Chirpier, and view your charts in our
-authenticated dashboard. Our mutli-tenanted architecture means only
-you and your team will see the data you&apos;ve sent us with your
-API key.
+Navigate to your [Charts dashboard](https://www.chirpier.co/teams/charts), and create a chart in your
+authenticated dashboard.
+Our mutli-tenanted architecture means only you and your team will see the data you&apos;ve sent us with your
+personal token.
 
 ### Monitor
 
-Set up your alert policies to monitor your data streams and trigger alerts when conditions are met.
+Set up your [alert policies](/docs/monitor/policies) to monitor your data streams and trigger alerts when conditions are met.
 
 </Steps>
 
-Learn more about [Charts](/docs/chart/charts) and how to create them.
+Learn more about [Charts](/docs/charts/charts) and how to create them.

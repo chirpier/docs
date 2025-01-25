@@ -2,18 +2,18 @@ import { Tabs, Tab } from "nextra/components";
 
 # SDKs
 
-Chirpier provides multiple ways to your applications to emit data to our platform:
+Chirpier provides multiple ways to send data to our platform:
 
-1. [Official SDKs](/docs/emit/sdk) for popular programming languages
-2. [API](/docs/emit/api) over HTTPS for direct integration
+- [Official SDKs](/docs/emit/sdk) for popular programming languages
+- [API](/docs/emit/api) over HTTPS for direct integration
 
-## Official SDKs
+## Supported SDKs
 
-For the easiest integration experience, we provide official SDKs that handle the API communication for you:
+For the easiest integration experience, we provide support for the following SDKs that handle the API communication for you:
 
-- JavaScript/TypeScript SDK
-- Python SDK
-- Go SDK
+- [JavaScript/TypeScript](/docs/emit/sdk/js)
+- [Python](/docs/emit/sdk/python)
+- [Go](/docs/emit/sdk/go)
 
 <Tabs items={['TypeScript', 'Python', 'Go']}>
   <Tabs.Tab>
@@ -77,7 +77,7 @@ For the easiest integration experience, we provide official SDKs that handle the
         context.Background(),
         chirpier.Event{
               // The unique monitoring group identifier
-              GroupID: groupId`,
+              GroupID: groupId,
               // A unique stream name
               StreamName: "My measurement",
               // Example measurement value emitted
@@ -98,3 +98,15 @@ Our SDKs provide the following features:
 - Automatic retry mechanism with exponential backoff
 - Thread-safe operations
 - Periodic flushing of the event queue
+
+## Regional support
+
+Our SDKs support the following regions:
+
+- `us-west` (Oregon)
+- `eu-west` (Belgium)
+- `asia-southeast` (Singapore)
+
+## Integration token
+
+You can find your integration token in the [Integration](https://www.chirpier.co/teams/integration) page.

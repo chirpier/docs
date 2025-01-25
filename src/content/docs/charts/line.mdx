@@ -1,0 +1,40 @@
+import { Bleed } from "nextra/components";
+
+# Line chart
+
+A line chart is a chart that displays your stream data as a series of points connected by a line for a selected time window (minute, hour, or day).
+
+<div
+  style={{
+    marginTop: "25px",
+    marginBottom: "25px",
+  }}
+>
+  ![Line Chart](/line.png)
+</div>
+
+## Additional properties
+
+Here are the additional properties you can configure for your line chart:
+
+- The stream aggregation setting for your chart:
+  - Sum: Total of all values for a stream in a time window
+  - Count: Number of data points for a stream in a time window
+  - Average: Mean value for a stream in a time window
+  - Maximum: Highest value for a stream in a time window
+  - Minimum: Lowest value for a stream in a time window
+- The color of of the line
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "25px",
+    maxWidth: "500px",
+    border: "0.5px solid #e0e0e0",
+    borderRadius: "10px",
+  }}
+>
+  ![Line Chart Options](/line-options.png)
+</div>

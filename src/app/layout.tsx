@@ -75,6 +75,7 @@ export default async function RootLayout({ children }) {
       }
       logoLink="https://www.chirpier.co"
       projectLink={"https://github.com/chirpier/docs"}
+
     ></Navbar>
   );
 
@@ -84,8 +85,11 @@ export default async function RootLayout({ children }) {
       dir="ltr"
       suppressHydrationWarning
       className={`min-h-[100vh] w-full antialiased ${fontSans.variable}`}
-      style={{ fontFamily: "var(--font-sans), var(--font-mono)" }}
-      >
+      style={{
+        fontFamily: "var(--font-sans), var(--font-mono)",
+        backgroundColor: "white",
+      }}
+    >
       <Head />
       <body
         className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono antialiased`}
@@ -96,12 +100,12 @@ export default async function RootLayout({ children }) {
           footer={
             <Footer
               style={{
-                fontSize: "11px",
+                fontSize: "13px",
                 fontWeight: "300",
-                fontFamily: "var(--font-sans)"
+                fontFamily: "var(--font-sans)",
               }}
             >
-              {new Date().getFullYear()} © {" "}
+              {new Date().getFullYear()} ©{" "}
               <a href="https://www.chirpier.co" target="_blank">
                 Chirpier
               </a>

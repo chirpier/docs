@@ -21,7 +21,7 @@ Construct your on API request to
   - `value` (float): Numeric value to record as the measurement value
 
 ```bash
-curl -X POST https://eu-west.chirpier.co/v1.0/events \\
+curl -X POST https://{region}.chirpier.co/v1.0/events \\
 -H "Authorization: Bearer ${token}" \\
 -H "Content-Type: application/json" \\
 -d '[{
@@ -30,3 +30,15 @@ curl -X POST https://eu-west.chirpier.co/v1.0/events \\
     "value": 15.30
 }]'`
 ```
+
+## Regional support
+
+Our APIs support the following regions:
+
+- `us-west` (Oregon)
+- `eu-west` (Belgium)
+- `asia-southeast` (Singapore)
+
+## Integration token
+
+You can find your integration token in the [Integration](https://www.chirpier.co/teams/integration) page.

@@ -2,11 +2,23 @@ export const dynamic = "force-dynamic";
 
 # Policies
 
-Alert Policies are used to generate alerts to your team - if a data stream meets a set of conditions specified.
+Alert Policies are used to generate alerts to your team - if a stream value for a given time window meets the threshold for a condition specified.
+This guide shows you how to create a new alert policy in your [Policies page](https://www.chirpier.co/teams/policies).
 
-## Policy Configuration
+<div
+  style={{
+    marginTop: "25px",
+    marginBottom: "25px",
+    border: "0.5px solid #e0e0e0",
+    borderRadius: "10px",
+  }}
+>
+  ![Policies Page](/policies-page.png)
+</div>
 
-Create a new policy by clicking the **Create Policy** button in the [Policies](https://www.chirpier.co/auth) page.
+## Create a policy
+
+To create a new policy click **New Policy** on the [Policies page](https://www.chirpier.co/teams/policies)
 
 When creating a new policy, you have the following configuration options:
 
@@ -17,6 +29,20 @@ When creating a new policy, you have the following configuration options:
 - **Stream** - Select which data stream this policy monitors
 - **Name** - Give your policy a descriptive name
 - **Description** - Optionally add details about the policy's purpose
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "25px",
+    maxWidth: "500px",
+    border: "0.5px solid #e0e0e0",
+    borderRadius: "10px",
+  }}
+>
+  ![Policy Settings](/policy-basic.png)
+</div>
 
 ### Alert Parameters
 
@@ -36,14 +62,27 @@ When creating a new policy, you have the following configuration options:
   - Greater Than or Equal - Alert when value meets or exceeds threshold
   - Less Than or Equal - Alert when value meets or falls below threshold
 - **Threshold** - The numeric value to compare against for the policy
-
-### Alert Settings
-
 - **Severity** - Set the importance level of alerts:
   - Info - Low priority information
   - Warning - Potential issues
   - Error - Serious problems
   - Critical - Urgent issues requiring immediate attention
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "25px",
+    maxWidth: "500px",
+    border: "0.5px solid #e0e0e0",
+    borderRadius: "10px",
+  }}
+>
+  ![Policy Settings](/policy-config.png)
+</div>
+
+Once you've configured your policy - alerts will be generated if the stream value meets the threshold for the condition specified, and members in your team will be alerted via email.
 
 ### Example
 
@@ -64,4 +103,3 @@ This policy would:
 3. Notify team members immediately of potential server room cooling issues
 
 This allows for quick response to prevent equipment damage from overheating.
-

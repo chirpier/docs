@@ -2,6 +2,6 @@ export default {
   index: "",
   "get-started": "Get Started",
   emit: "Emit",
-  chart: "Charts",
+  charts: "Charts",
   monitor: "Monitor",
 };
