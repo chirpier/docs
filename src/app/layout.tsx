@@ -83,7 +83,7 @@ export default async function RootLayout({ children }) {
       suppressHydrationWarning
       className={`min-h-[100vh] w-full antialiased ${fontSans.variable}`}
     >
-      <Head faviconGlyph="✦" />
+      <Head />
       <body
         className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono antialiased`}
         style={{
