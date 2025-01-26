@@ -86,12 +86,11 @@ export default async function RootLayout({ children }) {
       className={`min-h-[100vh] w-full antialiased ${fontSans.variable}`}
       style={{
         fontFamily: "var(--font-sans), var(--font-mono)",
-        backgroundColor: "white",
       }}
     >
-      <Head />
+      <Head backgroundColor={{ light: "rgb(255, 255, 255)", dark: "rgb(255, 255, 255)" }} />
       <body
-        className={`${fontSans.variable} ${fontMono.variable} bg-white font-sans [&_pre]:font-mono antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} font-sans [&_pre]:font-mono antialiased`}
         style={{ fontFamily: "var(--font-sans), var(--font-mono)" }}
       >
         <Layout

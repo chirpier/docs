@@ -6,14 +6,9 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://docs.chirpier.co/</loc>
-  <lastmod>2025-01-25T20:06:27+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
   <loc>https://docs.chirpier.co/docs</loc>
   <lastmod>2025-01-25T20:06:27+00:00</lastmod>
-  <priority>0.80</priority>
+  <priority>1.00</priority>
 </url>
 <url>
   <loc>https://docs.chirpier.co/use-cases</loc>
