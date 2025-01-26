@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 # Bar chart
 
 A bar chart is a chart that displays your stream data as a series of bars for a selected time window (minute, hour, or day).
@@ -8,7 +10,7 @@ A bar chart is a chart that displays your stream data as a series of bars for a 
     marginBottom: "25px",
   }}
 >
-  ![Bar Chart](/bar.png)
+  <Image src="/bar.png" alt="Bar Chart" width={1000} height={400} />
 </div>
 
 ## Additional properties
@@ -34,5 +36,5 @@ Here are the additional properties you can configure for your bar chart:
     borderRadius: "10px",
   }}
 >
-  ![Bar Chart Options](/bar-options.png)
+  <Image src="/bar-options.png" alt="Bar Chart Options" width={1000} height={400} />
 </div>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const dynamic = "force-dynamic";
 
 # Policies
@@ -13,7 +15,7 @@ This guide shows you how to create a new alert policy in your [Policies page](ht
     borderRadius: "10px",
   }}
 >
-  ![Policies Page](/policies-page.png)
+  <Image src="/policies-page.png" alt="Policies Page" width={1000} height={400} />
 </div>
 
 ## Create a policy
@@ -41,7 +43,7 @@ When creating a new policy, you have the following configuration options:
     borderRadius: "10px",
   }}
 >
-  ![Policy Settings](/policy-basic.png)
+  <Image src="/policy-basic.png" alt="Policy Settings" width={1000} height={400} />
 </div>
 
 ### Alert Parameters

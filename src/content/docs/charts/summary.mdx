@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 # Summary view
 
 A summary view is a textual widget that displays a summary of your stream data.
@@ -8,7 +10,7 @@ A summary view is a textual widget that displays a summary of your stream data.
     marginBottom: "25px",
   }}
 >
-  ![Summary View](/summary.png)
+  <Image src="/summary.png" alt="Summary View" width={1000} height={400} />
 </div>
 
 ## Additional properties
@@ -31,6 +33,6 @@ Here are the additional properties you can configure for your summary view:
     borderRadius: "10px",
   }}
 >
-  ![Summary View Options](/summary-options.png)
+  <Image src="/summary-options.png" alt="Summary View Options" width={1000} height={400} />
 </div>
 

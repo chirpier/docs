@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 # Tracker chart
 
 A tracker chart for visualizing data related to monitoring.
@@ -8,7 +10,7 @@ A tracker chart for visualizing data related to monitoring.
     marginBottom: "25px",
   }}
 >
-  ![Tracker Chart](/tracker.png)
+  <Image src="/tracker.png" alt="Tracker Chart" width={1000} height={400} />
 </div>
 
 ## Additional properties
@@ -38,7 +40,7 @@ Here are the additional properties you can configure for your tracker chart:
     borderRadius: "10px",
   }}
 >
-  ![Tracker Chart Options](/tracker-options.png)
+  <Image src="/tracker-options.png" alt="Tracker Chart Options" width={1000} height={400} />
 </div>
 
 The tracker chart will then display a green or red indicator based on the condition and threshold.

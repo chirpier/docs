@@ -1,4 +1,4 @@
-import { Bleed } from "nextra/components";
+import Image from "next/image";
 
 # Line chart
 
@@ -10,7 +10,7 @@ A line chart is a chart that displays your stream data as a series of points con
     marginBottom: "25px",
   }}
 >
-  ![Line Chart](/line.png)
+  <Image src="/line.png" alt="Line Chart" width={1000} height={400} />
 </div>
 
 ## Additional properties
@@ -36,5 +36,5 @@ Here are the additional properties you can configure for your line chart:
     borderRadius: "10px",
   }}
 >
-  ![Line Chart Options](/line-options.png)
+  <Image src="/line-options.png" alt="Line Chart Options" width={1000} height={400} />
 </div>
