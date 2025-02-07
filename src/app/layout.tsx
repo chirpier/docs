@@ -5,14 +5,14 @@ import { getPageMap } from "nextra/page-map";
 import { Viewport } from "next";
 import "nextra-theme-docs/style.css";
 import Image from "next/image";
-import { JetBrains_Mono as FontMono, Poppins } from "next/font/google";
+import { JetBrains_Mono as FontMono, Inter } from "next/font/google";
 
 const fontMono = FontMono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
 
-const fontSans = Poppins({
+const fontSans = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
@@ -83,7 +83,7 @@ export default async function RootLayout({ children }) {
       lang="en"
       dir="ltr"
       suppressHydrationWarning
-      className={`min-h-[100vh] w-full antialiased ${fontSans.variable}`}
+      className={`min-h-[100vh] w-full antialiased ${fontSans.variable} font-sans`}
       style={{
         fontFamily: "var(--font-sans), var(--font-mono)",
       }}

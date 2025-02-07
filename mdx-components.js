@@ -11,7 +11,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "28px",
         lineHeight: "2.5rem",
         fontWeight: "600",
-        color: "#556668",
+        color: "black",
         marginBottom: "1.5rem",
         marginTop: "1.5rem",
       }}
@@ -28,7 +28,7 @@ export const useMDXComponents = (components) => ({
         fontWeight: "600",
         marginBottom: "1.25rem",
         marginTop: "1.25rem",
-        color: "#556668",
+        color: "black",
       }}
       {...props}
     >
@@ -41,7 +41,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "16px",
         lineHeight: "1.75rem",
         fontWeight: "500",
-        color: "#556668",
+        color: "black",
         marginBottom: "1rem",
         marginTop: "1rem",
       }}
@@ -56,7 +56,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "16px",
         lineHeight: "1.5rem",
         fontWeight: "500",
-        color: "#556668",
+        color: "black",
         marginBottom: "1rem",
         marginTop: "1rem",
       }}
@@ -71,7 +71,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "300",
-        color: "rgb(104, 121, 124)",
+        color: "black",
         marginBottom: "0.5rem",
         marginTop: "0.5rem",
       }}
@@ -86,7 +86,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "400",
-        color: "#4E6884",
+        color: "black",
         marginBottom: "0.5rem",
         marginTop: "0.5rem",
       }}
@@ -101,7 +101,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem", 
         fontWeight: "300",
-        color: "rgb(104, 121, 124)",
+        color: "black",
         listStyleType: "disc",
         listStylePosition: "inside",
         marginLeft: "1rem",
@@ -119,7 +119,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "300", 
-        color: "rgb(104, 121, 124)",
+        color: "black",
         listStyleType: "decimal",
         listStylePosition: "inside",
         marginLeft: "1rem",
@@ -137,7 +137,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "300",
-        color: "rgb(104, 121, 124)",
+        color: "black",
         marginBottom: "0.5rem",
         paddingLeft: "0.5rem",
         display: "list-item"
