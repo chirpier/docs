@@ -68,7 +68,7 @@ export const useMDXComponents = (components) => ({
   p: ({ children, ...props }) => (
     <p
       style={{
-        fontSize: "15px",
+        fontSize: "16px",
         lineHeight: "1.85rem",
         fontWeight: "300",
         color: "black",
