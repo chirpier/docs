@@ -10,7 +10,7 @@ export const useMDXComponents = (components) => ({
       style={{
         fontSize: "28px",
         lineHeight: "2.5rem",
-        fontWeight: "600",
+        fontWeight: "700",
         color: "black",
         marginBottom: "1.5rem",
         marginTop: "1.5rem",
@@ -38,9 +38,9 @@ export const useMDXComponents = (components) => ({
   h3: ({ children, ...props }) => (
     <h3
       style={{
-        fontSize: "16px",
-        lineHeight: "1.75rem",
-        fontWeight: "500",
+        fontSize: "18px",
+        lineHeight: "2rem",
+        fontWeight: "600",
         color: "black",
         marginBottom: "1rem",
         marginTop: "1rem",
