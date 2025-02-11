@@ -6,6 +6,8 @@ import { Viewport } from "next";
 import "nextra-theme-docs/style.css";
 import Image from "next/image";
 import { JetBrains_Mono as FontMono, Inter } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const fontMono = FontMono({
   subsets: ["latin"],
@@ -88,7 +90,12 @@ export default async function RootLayout({ children }) {
         fontFamily: "var(--font-sans), var(--font-mono)",
       }}
     >
-      <Head backgroundColor={{ light: "rgb(255, 255, 255)", dark: "rgb(255, 255, 255)" }} />
+      <Head
+        backgroundColor={{
+          light: "rgb(255, 255, 255)",
+          dark: "rgb(255, 255, 255)",
+        }}
+      />
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans [&_pre]:font-mono antialiased`}
         style={{ fontFamily: "var(--font-sans), var(--font-mono)" }}
@@ -122,6 +129,8 @@ export default async function RootLayout({ children }) {
           pageMap={await getPageMap()}
         >
           {children}
+          <SpeedInsights />
+          <Analytics />
         </Layout>
       </body>
     </html>

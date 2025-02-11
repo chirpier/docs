@@ -9,6 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "next": "^15.1.4",
     "nextra": "4.0.0-app-router.43",
     "nextra-theme-docs": "4.0.0-app-router.43",
