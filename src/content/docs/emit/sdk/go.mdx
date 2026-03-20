@@ -1,102 +1,59 @@
 # Go
 
-The [Chirpier SDK for Go](https://github.com/chirpier/chirpier-go) is a simple, lightweight, and efficient SDK to emit event data to Chirpier direct from your Go applications.
+The [Chirpier SDK for Go](https://github.com/chirpier/chirpier-go) emits flat numeric events to Chirpier and can also manage event definitions, policies, alerts, and connectors.
 
 ## Installation
-
-Install Chirpier SDK using `go get`:
 
 ```bash
 go get github.com/chirpier/chirpier-go
 ```
 
-## Getting Started
+## Quick Start
 
-To start using the SDK, you need to initialize it with your API key.
-
-Here's a quick example of how to use the Chirpier SDK:
+Use `NewClient(...)` for standalone clients.
 
 ```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "time"
-
-    "github.com/chirpier/chirpier-go"
-)
-
-func main() {
-    // Initialize the Chirpier client
-    err := chirpier.Initialize(chirpier.Options{
-        Key: "your-api-key",
-        Region: "us-west",
-    })
-    if err != nil {
-        fmt.Printf("Error initializing Chirpier: %v\n", err)
-        return
-    }
-
-    // Create and send an event
-    err = chirpier.Monitor(
-        context.Background(),
-        chirpier.Event{
-            GroupID:    "bfd9299d-817a-452f-bc53-6e154f2281fc",
-            StreamName: "My measurement",
-            Value:      1,
-        },
-    )
-    if err != nil {
-        fmt.Printf("Error monitoring event: %v\n", err)
-        return
-    }
-
-    // Create a context with timeout to ensure proper shutdown
-    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-    defer cancel()
-
-    // Wait for any pending events to be sent
-    <-ctx.Done()
+client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+if err != nil {
+    return err
 }
+defer client.Close(context.Background())
+
+err = client.Log(context.Background(), chirpier.Log{
+    AgentID: "openclaw.main",
+    Event:   "task.duration_ms",
+    Value:   420,
+})
+if err != nil {
+    return err
+}
+
+_ = client.Flush(context.Background())
 ```
 
 ## API Reference
 
-### Initialize
+### `NewClient(options)`
 
-Initialize the Chirpier client with your API key and region. Find your API key in the Chirpier Integration page.
+- `Key`: API key, must start with `chp_`
+- `APIEndpoint`: full ingestion endpoint override
+- `ServicerEndpoint`: control-plane endpoint override
 
-```go
-err := chirpier.Initialize(chirpier.Options{
-    Key: "your-api-key",
-    Region: "us-west",
-})
-```
+### `client.Log(ctx, log)`
 
-- `your-api-key` (str): Your Chirpier integration key
-- `region` (str): Your local region - options are `us-west`, `eu-west`, `asia-southeast`
+Use `chirpier.Log` with:
 
-### Event
+- `AgentID`
+- `Event`
+- `Value`
+- `OccurredAt`
+- `Meta`
 
-All events emitted to Chirpier must be of type `Event`.
+### Common tasks
 
-```go
-event := chirpier.Event{
-    GroupID:    "bfd9299d-817a-452f-bc53-6e154f2281fc",
-    StreamName: "My measurement",
-    Value:      1,
-}
-```
+- `client.ListEvents(ctx)` for event definitions
+- `client.CreatePolicy(ctx, payload)` for policies
+- `client.ListAlerts(ctx, status)` for alerts
+- `client.TestWebhook(ctx, webhookID)` for connector tests
 
-- `group_id` (str): UUID of the monitoring group
-- `stream_name` (str): Name of the measurement stream
-- `value` (float): Numeric value to record
-
-### Emit
-
-Send an event to Chirpier using the `Monitor` function.
-
-```go
-err = chirpier.Monitor(ctx, event)
-```
+See the repo README for the full API surface and more complete examples.

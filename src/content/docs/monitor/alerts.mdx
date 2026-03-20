@@ -4,8 +4,9 @@ export const dynamic = "force-dynamic";
 
 # Alerts
 
-Alerts are sent to members of your team when a policy is triggered.
-This guide shows you how to view alerts in your [Alerts page](https://www.chirpier.co/teams/alerts).
+Alerts are the records Chirpier creates when a policy triggers for an event definition.
+
+Use the [Alerts page](https://www.chirpier.co/teams/alerts) to review alert state, inspect delivery attempts, and move incidents through their lifecycle.
 
 <div
   style={{
@@ -18,22 +19,14 @@ This guide shows you how to view alerts in your [Alerts page](https://www.chirpi
   <Image src="/alerts-page.png" alt="Alerts Page" width={1000} height={400} />
 </div>
 
-## Alert page
+## Alerts inbox
 
-The alert page shows all the alerts that have been sent to your team. You can:
+The alerts inbox helps teams answer four questions quickly:
 
-- View all alerts in a table format showing:
-  - Policy name
-  - Alert status
-  - When the alert was triggered
-  - Alert period
-  - Alert condition
-  - Acknowledgment status
-- Search for specific alerts by policy name
-- Acknowledge alerts by clicking the checkbox icon
-- View alert details by clicking on an alert row
-- See your connection status (Connected/Connecting) in real-time
-- Access your policies page directly through the link
+- which policies are currently triggering
+- which alerts have already been acknowledged
+- whether the condition has recovered or still needs action
+- whether a connector delivery failed and needs follow-up
 
 <div
   style={{
@@ -46,13 +39,26 @@ The alert page shows all the alerts that have been sent to your team. You can:
     borderRadius: "10px",
   }}
 >
-  ![Alerts](/alert-view.png)
+  ![Alerts inbox](/alert-view.png)
 </div>
 
-Alerts can have different statuses:
+## Typical workflow
 
-- Triggered (unacknowledged) - red
-- Acknowledged - amber
-- Recovered - green
+From the alerts page, you can:
 
-You can manage your alert settings through the policies page where you can configure the conditions that trigger alerts.
+- scan alert title, severity, period, and trigger time
+- open an alert to inspect the underlying event definition and policy details
+- acknowledge an alert when someone is actively handling it
+- resolve an alert once the condition is no longer actionable
+- archive old or noisy alerts that should leave the active queue
+
+## Statuses
+
+Common alert states are:
+
+- **Triggered**: the policy condition is met and the alert needs attention
+- **Acknowledged**: someone has taken ownership of the alert
+- **Resolved**: the alert has been handled or the condition is no longer actionable
+- **Archived**: the alert is kept for history but removed from the active workflow
+
+Use [Policies](/docs/monitor/policies) to define what creates alerts in the first place.

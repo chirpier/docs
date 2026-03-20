@@ -1,71 +1,48 @@
 # Python
 
-The [Chirpier SDK for Python](https://github.com/chirpier/chirpier-py) is a simple, lightweight, and efficient SDK to emit event data to Chirpier direct from your Python applications.
+The [Chirpier SDK for Python](https://github.com/chirpier/chirpier-py) sends flat numeric events to Chirpier with batching and retries.
 
 ## Installation
-
-Install Chirpier SDK using pip:
 
 ```bash
 pip install chirpier
 ```
 
-## Getting Started
+## Quick Start
 
-To start using the SDK, you need to initialize it with your API key. 
-
-Here’s a quick example of how to use Chirpier SDK:
+Use `new_client(...)` for new integrations.
 
 ```python
-from chirpier import Chirpier, Event
+from chirpier import new_client, Log
 
-# Initialize the client
-Chirpier.initialize(api_key="your-api-key", region="us-west")
-
-# Monitor the event
-try:
-   Chirpier.monitor(Event(
-      group_id="bfd9299d-817a-452f-bc53-6e154f2281fc",
-      stream_name="My measurement",
-      value=1
-   ))
-except (ConnectionError, HTTPError) as e:
-   print(f"Failed to send event: {e}")
+client = new_client(api_key="chp_your_api_key")
+client.log(Log(event="task.duration_ms", value=420, agent_id="openclaw.main", meta={"task_name": "email_triage"}))
+client.flush()
+client.close()
 ```
 
 ## API Reference
 
-### Initialize
+### Config
 
-Initialize the Chirpier client with your API key and region. Find your API key in the Chirpier Integration page.
+- `api_key`: API key, must start with `chp_`
+- `api_endpoint`: full ingestion endpoint override
+- `servicer_endpoint`: control-plane endpoint override
+- `retries`, `timeout`, `batch_size`, `flush_delay`, `queue_size`, `log_level`: delivery tuning
 
-```python
-Chirpier.initialize(api_key="your-api-key", region="us-west")
-```
+### Log
 
-- `your-api-key` (str): Your Chirpier integration key
-- `region` (str): Your local region - options are `us-west`, `eu-west`, `asia-southeast`
+Use `Log(...)` with:
 
-### Event
+- `event`
+- `value`
+- optional `agent_id`, `occurred_at`, and `meta`
 
-All events emitted to Chirpier must have the following properties:
+### Common tasks
 
-```python
-event = Event(
-    group_id="bfd9299d-817a-452f-bc53-6e154f2281fc",
-    stream_name="My measurement",
-    value=1
-)
-```
+- `client.list_events()` for event definitions
+- `client.create_policy(payload)` for policies
+- `client.list_alerts(status)` for alerts
+- `client.test_webhook(webhook_id)` for connector tests
 
-- `group_id` (str): UUID of the monitoring group
-- `stream_name` (str): Name of the measurement stream
-- `value` (float): Numeric value to record
-
-### Emit
-
-Send an event to Chirpier using the `monitor` function.
-
-```python
-Chirpier.monitor(event)
-```
+See the repo README for the full helper list and migration notes.

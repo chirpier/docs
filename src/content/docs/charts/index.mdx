@@ -1,103 +1,12 @@
-import Image from "next/image";
-
 # Charts
 
-Charts in Chirpier help you visualize your data in seconds.
-This guide shows you how to create a new chart in your [Charts page](https://www.chirpier.co/teams/charts).
+Chirpier charts turn event definitions into hosted visualizations that can be used in the web app or embedded elsewhere.
 
-<div
-  style={{
-    marginTop: "25px",
-    marginBottom: "25px",
-    border: "0.5px solid #e0e0e0",
-    borderRadius: "10px",
-  }}
->
-  <Image src="/charts-page.png" alt="Charts Page" width={1000} height={400} />
-</div>
+Use this section to understand:
 
-## Create a chart
+- when to choose each chart type
+- how charts relate to event definitions and aggregates
+- how hosted embeds work
+- how React and framework-agnostic embed clients fit together
 
-To create a new chart:
-
-1. Click **New Chart** in the top right
-2. Choose a chart type:
-   - [Line chart](/docs/charts/line)
-   - [Bar chart](/docs/charts/bar)
-   - [Tracker chart](/docs/charts/tracker)
-   - [Summary view](/docs/charts/summary)
-3. Select your Stream from the dropdown
-
-<div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "25px",
-    maxWidth: "500px",
-    border: "0.5px solid #e0e0e0",
-    borderRadius: "10px",
-  }}
->
-  <Image src="/chart-type.png" alt="Chart Type" width={1000} height={400} />
-</div>
-
-## Chart properties
-
-After selecting a chart type, you can:
-
-- Give your chart a name
-- Choose a data fallback strategy for handling missing data in a time window:
-  - None: Leave gaps where data is missing
-  - Zero: Fill missing values with zero
-  - Last: Use the last known value
-  - Cumulative: Show cumulative total for the stream
-
-<div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "25px",
-    maxWidth: "500px",
-    border: "0.5px solid #e0e0e0",
-    borderRadius: "10px",
-  }}
->
-  <Image src="/chart-config.png" alt="Chart Properties" width={1000} height={400} />
-</div>
-
-## Share your chart
-
-You can share your chart with the public by:
-
-- Toggling **Sharable**
-- Copying the sharable chart URL
-- Optionally onfiguring a password for your shared chart
-
-<div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "25px",
-    marginBottom: "25px",
-    maxWidth: "500px",
-    border: "0.5px solid #e0e0e0",
-    borderRadius: "10px",
-  }}
->
-  <Image src="/chart-sharing.png" alt="Share Chart" width={1000} height={400} />
-</div>
-
-## Publish your chart
-
-Once your chart is configured - your chart will appear in the [Charts](https://www.chirpier.co/teams/charts) page. And will update in real-time as data is emitted to Chirpier.
-
-That's it!
-
-## React SDK
-
-We're working on our React SDK to allow you to embed your charts into your own application.
-
-Watch this space for updates.
+For embed usage, start with [Embed Charts](/docs/charts/embed-charts).

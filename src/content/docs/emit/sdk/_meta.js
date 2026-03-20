@@ -1,7 +1,6 @@
 export default {
-  'index': "SDK",
-  'js': "JavaScript",
-  'python': "Python",
-  'go': "Go",
+  index: "Overview",
+  js: "JavaScript",
+  python: "Python",
+  go: "Go",
 };
-

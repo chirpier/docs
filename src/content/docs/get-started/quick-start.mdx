@@ -1,9 +1,10 @@
 import { Steps } from "nextra/components";
+
 export const dynamic = "force-dynamic";
 
 # Quick Start
 
-With Chirpier, you can ingest data from anywhere, and create real-time charts and dashboards in seconds.
+Use this guide to go from account creation to a live chart and first alert.
 
 ## Steps
 
@@ -11,43 +12,33 @@ With Chirpier, you can ingest data from anywhere, and create real-time charts an
 
 ### Create an account
 
-Chirpier has a free tier for any proof of concept, so anyone can start building today. Create a free account [here](https://www.chirpier.co/auth)
-using a GitHub, GitLab, Google, or your email address.
+Create an account at [chirpier.co](https://www.chirpier.co/auth).
 
-### Find your integration token
+### Get your API key
 
-Navigate to the [Integration](https://www.chirpier.co/teams/integration) page to find your personal token.
-Copy your personal token, and use it to authenticate the events you send to the Chirpier service.
+Open [Integration Settings](https://www.chirpier.co/teams/integration) and copy the API key you will use to authenticate requests.
 
-### Emit
+### Send your first event
 
-Identify your monitoring groups - these are who you're monitoring. A group can be a specific team, a whole
-organisation, or a particular customer.
-All Chirpier teams have a default monitoring group, and you can create additional groups.
+Send a numeric event with:
 
-Once you've set up a monitoring group, you can start sending stream data for your group via our [SDK](/docs/emit/sdk) or [API](/docs/emit/api).
+- your API key
+- an `event` name
+- a numeric `value`
+- optional `agent_id`, `occurred_at`, and `meta`
 
-This is as simple as a few lines of code with:
+Use the [SDK overview](/docs/emit/sdk) to pick JavaScript, Go, or Python, or send data with the [API](/docs/emit/api).
 
-- Your personal token
-- Your **group ID**
-- Your **stream name**
-- The **value** of the stream
+### Create a chart
 
-### Chart
+Open the [Charts dashboard](https://www.chirpier.co/teams/charts) and create a chart from the event definition that Chirpier created for your event.
 
-Navigate to your [Charts dashboard](https://www.chirpier.co/teams/charts), and create a chart in your
-authenticated dashboard.
-Our mutli-tenanted architecture means only you and your team will see the data you&apos;ve sent us with your
-personal token.
+### Create a policy
 
-### Monitor
-
-Set up your [alert policies](/docs/monitor/policies) to monitor your data streams and trigger alerts when conditions are met.
+Create a policy to monitor the event and trigger alerts when the aggregate crosses your threshold.
 
 </Steps>
 
 > [!NOTE]
 >
-> More about Charts can be found
-> [here](/docs/charts/charts).
+> Continue with [See Data in the Web App](/docs/get-started/see-data) or read more about [Charts](/docs/charts).

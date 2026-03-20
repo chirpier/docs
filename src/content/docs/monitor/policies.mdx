@@ -4,8 +4,9 @@ export const dynamic = "force-dynamic";
 
 # Policies
 
-Alert Policies are used to generate alerts to your team, if a stream value for a given time window meets the threshold for a condition specified.
-This guide shows you how to create a new alert policy in your [Policies page](https://www.chirpier.co/teams/policies).
+Policies tell Chirpier how to evaluate an event definition over time and when to create an alert.
+
+Use the [Policies page](https://www.chirpier.co/teams/policies) when you want a charted event to become an operational signal.
 
 <div
   style={{
@@ -20,17 +21,14 @@ This guide shows you how to create a new alert policy in your [Policies page](ht
 
 ## Create a policy
 
-To create a new policy click **New Policy** on the [Policies page](https://www.chirpier.co/teams/policies)
+Click **New Policy** on the [Policies page](https://www.chirpier.co/teams/policies), then attach the policy to the event definition you want to monitor.
 
-When creating a new policy, you have the following configuration options:
+### Basic settings
 
-### Basic Settings
-
-- **Enabled** - Toggle to enable or disable the policy
-- **Group** - Select which group this policy belongs to
-- **Stream** - Select which data stream this policy monitors
-- **Name** - Give your policy a descriptive name
-- **Description** - Optionally add details about the policy's purpose
+- **Enabled**: turn evaluation on or off
+- **Event**: choose which event definition the policy watches
+- **Title**: give the policy a clear, human-readable name
+- **Description**: add optional context for responders
 
 <div
   style={{
@@ -46,29 +44,13 @@ When creating a new policy, you have the following configuration options:
   <Image src="/policy-basic.png" alt="Policy Settings" width={1000} height={400} />
 </div>
 
-### Alert Parameters
+### Evaluation settings
 
-- **Period** - Choose the monitoring time window for the policy:
-  - Minute - Monitor data over 1 minute interval
-  - Hour - Monitor data over 1 hour interval
-  - Day - Monitor data over 1 day interval
-- **Aggregate** - Select how to aggregate data points:
-  - Sum - Total of all values emitted in a given time window
-  - Count - Number of data points emitted in a given time window
-  - Average - Mean value emitted in a given time window
-  - Max - Maximum value emitted in a given time window
-  - Min - Minimum value emitted in a given time window
-- **Condition** - Set the threshold condition for the policy in a given time window:
-  - Greater Than - Alert when value exceeds threshold
-  - Less Than - Alert when value falls below threshold
-  - Greater Than or Equal - Alert when value meets or exceeds threshold
-  - Less Than or Equal - Alert when value meets or falls below threshold
-- **Threshold** - The numeric value to compare against for the policy
-- **Severity** - Set the importance level of alerts:
-  - Info - Low priority information
-  - Warning - Potential issues
-  - Error - Serious problems
-  - Critical - Urgent issues requiring immediate attention
+- **Period**: the time window Chirpier evaluates, such as minute, hour, or day
+- **Aggregate**: how values are combined in that window, such as sum, count, average, max, or min
+- **Condition**: the comparison Chirpier runs against the aggregate, such as greater than or less than
+- **Threshold**: the numeric value that determines whether the policy triggers
+- **Severity**: the urgency level applied to the resulting alert
 
 <div
   style={{
@@ -81,27 +63,29 @@ When creating a new policy, you have the following configuration options:
     borderRadius: "10px",
   }}
 >
-  ![Policy Settings](/policy-config.png)
+  ![Policy configuration](/policy-config.png)
 </div>
 
-Once you've configured your policy - alerts will be generated if the stream value meets the threshold for the condition specified, and members in your team will be alerted via email.
+Once the policy is saved, Chirpier continuously evaluates incoming rollups for that event definition and creates alerts when the rule is met.
 
-### Example
+## Example
 
-Let's say you want to monitor a temperature sensor in a server room. You could create a policy with these settings:
+Suppose you emit the event `server_room.temperature_c` from a sensor service.
 
-- **Name**: Server Room Temperature Alert
-- **Description**: Monitor server room temperature for overheating
+You might create a policy with:
+
+- **Title**: Server room overheating
 - **Period**: Minute
 - **Aggregate**: Average
 - **Condition**: Greater Than
 - **Threshold**: 30
 - **Severity**: Critical
 
-This policy would:
+That policy tells Chirpier to:
 
-1. Calculate the average temperature emitted to Chirpier every minute
-2. Trigger a critical alert if the average temperature exceeds 30°C
-3. Notify team members immediately of potential server room cooling issues
+1. average all `server_room.temperature_c` values in each minute window
+2. compare that result with `30`
+3. create a critical alert when the threshold is exceeded
+4. route alert deliveries to the configured connector
 
-This allows for quick response to prevent equipment damage from overheating.
+Pair this page with [Alerts](/docs/monitor/alerts) so responders know how to acknowledge, resolve, and archive the resulting alerts.

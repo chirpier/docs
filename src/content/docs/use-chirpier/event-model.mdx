@@ -1,0 +1,28 @@
+# Event Model
+
+Chirpier ingests flat numeric events.
+
+Each event can include:
+
+- `event`: the metric or signal name, such as `task.duration_ms`
+- `value`: the numeric value to record
+- `agent_id`: an optional producer identifier, such as `openclaw.main`
+- `occurred_at`: an optional timestamp for when the event happened
+- `meta`: optional JSON metadata for filtering, labeling, and debugging
+
+Example payload:
+
+```json
+{
+  "agent_id": "openclaw.main",
+  "event": "tool.errors.count",
+  "value": 1,
+  "occurred_at": "2026-03-05T14:30:00Z",
+  "meta": {
+    "tool_name": "browser.open",
+    "workflow": "triage"
+  }
+}
+```
+
+Use stable event names and consistent metadata keys. That makes charts, policies, and troubleshooting much easier later.

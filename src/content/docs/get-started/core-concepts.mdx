@@ -1,84 +1,31 @@
 # Core Concepts
 
-Familiarize yourself with Chirpier's core concepts and terminology to get a better understanding of how Chirpier works and how you can make the most of its features.
+Chirpier is built around a small set of concepts that map directly to the product workflow.
 
-## Groups
+## Events
 
-Groups are who you're monitoring. A group can be a specific team, a whole
-organisation, or a particular customer.
+An event is the numeric signal you send to Chirpier. It includes an event name, a value, and optional context such as `agent_id`, `occurred_at`, and `meta`.
 
-All accounts come with a Default Group for emitting data. Create a new group by navigating to the [Groups](https://www.chirpier.co/teams/groups) page.
+## Event Definitions
 
-You can send measurement stream data for your group via our [SDK](/docs/emit/sdk) or [API](/docs/emit/api).
-
-## Streams
-
-Streams are what you want to measure against a monitoring group. This can be anything,
-such as website clicks, completed orders, or measurements from IoT devices.
-
-Create a stream by navigating to the [Streams](https://www.chirpier.co/teams/streams) page.
-
-Once you've set up a monitoring stream, you can start emitting data via our [SDK](/docs/emit/sdk) or [API](/docs/emit/api).
+When Chirpier sees a new event name, it creates an event definition that becomes the anchor point for charts, policies, and rollups.
 
 ## Charts
 
-Once you've emitted data to Chirpier, you can create and publish Charts in our [Charts](https://www.chirpier.co/teams/charts) page. This is where the magic happens.
+Charts visualize an event definition over time using a chart type, a period, an aggregate, and optional filters.
 
-Chirpier Charts will update in any modern web browser, immediately as data is emitted to Chirpier. So there's no need for browser refreshes or waiting for data warehouse updates.
+## Policies
 
-Chirpier currently supports four real-time chart types for any stream:
-
-- [Summary](/docs/charts/summary): Display a summary of your data with a text-based visualization
-- [Tracker](/docs/charts/tracker): Show data in a column-based tracking view
-- [Bar](/docs/charts/bar): Visualize data using bar charts
-- [Line](/docs/charts/line): Plot data points on a line graph
-
-For each chart, you can configure:
-
-- Chart name
-- Data fallback strategy (none, zero, last, or cumulative) for handling missing data points
-- Aggregation methods (sum, count, average, max, min) for line and bar charts
-- Custom colors for visual styling
-- Sharing options with optional password protection
-
-Charts can be reordered in your dashboard, and will automatically update in real-time as new data arrives.
-
-> [!NOTE]
->
-> More about Charts can be found
-> [here](/docs/charts/charts).
-
-## Alert policies
-
-[Alert Policies](https://www.chirpier.co/teams/policies) allow you to define monitoring rules for your data streams. Each policy can be configured with:
-
-- Enable/disable toggle to activate or pause monitoring
-- Group and stream selection to specify what to monitor
-- Policy name and description for identification
-- Monitoring period (minute, hour, or day) for time-based analysis
-- Aggregation method (sum, count, average, max, min) for data processing
-- Condition operators (greater than, less than, equal to, etc.) for threshold checks
-- Threshold value to trigger alerts
-- Alert severity levels (info, warning, error, critical) for prioritization
-
-This gives you the ability to monitor when your stream has exceeded a certain threshold in a minute, hour, or day. E.g., if your stream has exceeded 100 clicks in a minute, or 1000 clicks in an hour.
-
-Once configured, policies will evaluate incoming data against these rules and trigger alerts when conditions are met.
-
-> [!NOTE]
->
-> More about Policies can be found
-> [here](/docs/monitor/policies).
+Policies describe the rule Chirpier evaluates for an event definition, such as whether the hourly sum is greater than a threshold.
 
 ## Alerts
 
-View your Alert notifications that have been triggered by your Policies in the [Alerts](https://www.chirpier.co/teams/alerts) page.
+Alerts are created when a policy triggers. Teams can acknowledge, resolve, archive, and inspect delivery attempts from the web app.
 
-> [!NOTE]
->
-> More about Alerts can be found
-> [here](/docs/monitor/alerts).
+## Connectors
 
-## Integration token
+Connectors route alert deliveries to external systems such as Slack or Telegram.
 
-Your Integration token authorizes requests to Chirpier and are personal to you. This is all you need to start emitting data to Chirpier. You can find your token in the [Integration](https://www.chirpier.co/teams/integration) page.
+## Embed Tokens
+
+Embed tokens are short-lived credentials used by the hosted chart embed runtime.
