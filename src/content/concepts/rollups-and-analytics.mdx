@@ -1,0 +1,102 @@
+# Rollups and Analytics
+
+Chirpier exposes two different ways to read an event.
+
+<PathGrid>
+  <PathCard
+    href="/api-reference/events"
+    title="Rollup Routes"
+    description="Use the event logs reference for exact `period`, `limit`, and `offset` behavior."
+    icon="compass"
+  />
+  <PathCard
+    href="/api-reference/analytics"
+    title="Analytics Routes"
+    description="Use the analytics reference for supported `view`, `period`, and `previous` combinations."
+    icon="rocket"
+  />
+</PathGrid>
+
+## Rollups
+
+Use event logs when you need the raw time-bucketed history for an event.
+
+Supported rollup periods:
+
+- `minute`
+- `hour`
+- `day`
+
+Endpoint:
+
+```text
+GET /v1.0/events/:eventID/logs?period=minute|hour|day&limit=&offset=
+```
+
+Rollups are best for:
+
+- charts
+- recent history inspection
+- building your own comparisons
+- validating monitor inputs
+
+## Analytics windows
+
+Use analytics windows when you need Chirpier to compare the current window to a previous one.
+
+The response schema stays the same for every analytics window. `current_*` always refers to the requested window, and `previous_*` always refers to the comparison window selected by the `previous` query parameter.
+
+Endpoint:
+
+```text
+GET /v1.0/events/:eventID/analytics?view=window&period=...&previous=...
+```
+
+Supported analytics periods:
+
+- `1h`
+- `1d`
+- `7d`
+- `1m`
+
+Supported comparison keys:
+
+- `previous_window`
+- `previous_1d`
+- `previous_7d`
+- `previous_1m`
+
+Supported window combinations:
+
+- `period=1h&previous=previous_window`
+- `period=1h&previous=previous_1d`
+- `period=1h&previous=previous_7d`
+- `period=1h&previous=previous_1m`
+- `period=1d&previous=previous_window`
+- `period=1d&previous=previous_7d`
+- `period=1d&previous=previous_1m`
+- `period=7d&previous=previous_window`
+- `period=7d&previous=previous_1m`
+- `period=1m&previous=previous_window`
+
+Use analytics windows for:
+
+- last hour vs previous hour
+- last hour vs same hour yesterday
+- last day vs same day last month
+- week-over-week or month-over-month summaries
+
+Analytics windows return a comparison summary rather than a time series. Typical response fields include:
+
+- `current_value`, `current_count`, `current_mean`, `current_stddev`
+- `previous_value`, `previous_count`, `previous_mean`, `previous_stddev`
+- `value_delta`, `count_delta`, `mean_delta`
+- `value_pct_change`, `count_pct_change`, `mean_pct_change`
+
+## Choosing between them
+
+Use rollups when you need the time series.
+
+Use analytics windows when you need a precomputed comparison summary.
+
+For route-level details, see [Event logs](/manage-resources/events) and [Analytics API](/api-reference/analytics).

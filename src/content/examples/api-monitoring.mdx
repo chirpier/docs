@@ -1,0 +1,18 @@
+# API Monitoring
+
+For API or service monitoring, keep events flat and specific.
+
+Examples:
+
+- `api.requests.count`
+- `api.errors.count`
+- `api.response.duration_ms`
+- `rate_limit.hit.count`
+
+Typical policies:
+
+- error-count hourly `sum`
+- response-time hourly `p95_est`
+- rate-limit hit hourly `sum`
+
+Use analytics windows when you need to compare the current hour or day to previous periods.

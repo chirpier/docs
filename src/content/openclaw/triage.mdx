@@ -1,0 +1,31 @@
+# Alert Triage
+
+Once OpenClaw alerts are live, responders need a clear triage flow.
+
+## Recommended triage loop
+
+1. open the triggered alert
+2. inspect the event definition and policy
+3. review recent rollups for the same signal
+4. check delivery attempts if the notification path looks wrong
+5. acknowledge the alert when someone owns it
+6. resolve or archive it when the issue is complete
+
+## OpenClaw-specific checks
+
+For common OpenClaw signals, ask:
+
+- `tool.errors.count`: which tool is failing, and is the failure isolated to one workflow?
+- `task.duration_ms`: is the latency spike global or only tied to one task name?
+- `tokens.used`: is the increase expected traffic or runaway usage?
+- `heartbeat.missed.count`: did the worker stop running, or did the emitter stop logging?
+
+## Delivery history
+
+Use delivery history when:
+
+- the alert triggered but nobody received it
+- you just tested a destination
+- you need to compare test sends with real sends
+
+Remember that test deliveries are hidden from the default view. Use `kind=test` when validating destination setup, `kind=alert` for normal incident review, and `kind=all` only when you need both views together.

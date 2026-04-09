@@ -1,0 +1,9 @@
+# Monitor Heartbeats
+
+Use `heartbeat.missed.count` to detect OpenClaw workers or scheduled tasks that stopped running when they should have emitted activity.
+
+Starter policy:
+
+- `heartbeat.missed.count` with `sum > 0` in `day`
+
+This is one of the cleanest ways to alert on silent failures without building separate liveness infrastructure first.

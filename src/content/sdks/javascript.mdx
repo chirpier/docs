@@ -1,0 +1,34 @@
+# JavaScript
+
+Package:
+
+```bash
+npm install @chirpier/chirpier-js
+```
+
+Recommended style:
+
+```ts
+import { createClient } from "@chirpier/chirpier-js";
+
+const client = createClient({ key: "chp_your_api_key" });
+
+await client.log({
+  agent: "openclaw.main",
+  event: "task.duration_ms",
+  value: 420,
+  meta: { task_name: "email_triage", result: "success" },
+});
+
+await client.flush();
+await client.shutdown();
+```
+
+The JavaScript SDK is a good default for:
+
+- Node services
+- background workers
+- agent runtimes
+- scripting and validation flows
+
+For shared control-plane helpers, see [Common Tasks](/sdks/common-tasks).

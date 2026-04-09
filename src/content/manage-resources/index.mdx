@@ -1,0 +1,39 @@
+# Manage Resources
+
+Chirpier's app and control-plane API revolve around the same set of resources.
+
+## Primary resources
+
+- Events are the definitions from your logging.
+- Policies define when a event should trigger.
+- Alerts capture triggered policy state.
+- Destinations route alerts to external systems.
+
+This section mirrors the actual product surfaces in the Chirpier dashboard.
+
+<PathGrid>
+  <PathCard
+    href="/manage-resources/events"
+    title="Events"
+    description="Read event definitions, inspect rollups, update metadata, and understand public sharing."
+    icon="rocket"
+  />
+  <PathCard
+    href="/manage-resources/policies"
+    title="Policies"
+    description="Choose aggregates, thresholds, periods, channels, and severity for your alert rules."
+    icon="compass"
+  />
+  <PathCard
+    href="/manage-resources/alerts"
+    title="Alerts"
+    description="Track status transitions, investigate triggered values, and inspect delivery history."
+    icon="claw"
+  />
+  <PathCard
+    href="/manage-resources/destinations"
+    title="Destinations"
+    description="Configure Slack, Discord, Telegram, email, and generic destination delivery targets."
+    icon="compass"
+  />
+</PathGrid>

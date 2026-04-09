@@ -1,0 +1,27 @@
+# Python
+
+Package:
+
+```bash
+pip install chirpier
+```
+
+Recommended style:
+
+```python
+from chirpier import new_client, Log
+
+client = new_client(api_key="chp_your_api_key")
+client.log(Log(event="task.duration_ms", value=420, agent="openclaw.main", meta={"task_name": "email_triage"}))
+client.flush()
+client.close()
+```
+
+The Python SDK is a good fit for:
+
+- automation jobs
+- data collection scripts
+- ML and agent workflows
+- monitoring adapters
+
+For shared control-plane helpers, see [Common Tasks](/sdks/common-tasks).

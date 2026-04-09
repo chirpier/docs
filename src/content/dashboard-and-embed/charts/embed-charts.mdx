@@ -1,0 +1,33 @@
+# Embed Charts
+
+Chirpier provides hosted event embeds for rendering public event charts outside the main web app.
+
+Typical flow:
+
+1. Choose the public `eventId` to embed.
+2. Optionally provide a `shareToken` if the embed should be scoped through a share link.
+3. Render the hosted runtime in an iframe with `@chirpier/charts` or `@chirpier/embed`.
+4. Configure the embedded experience with `state`, sizing, and theme options.
+5. React to rendered, resize, interaction, and error events in the host app.
+
+Prefer bare usage in code examples. Wrap the embed only when the host app needs its own card, title, placeholder, or branded empty state.
+
+Supported chart experiences:
+
+- `state.view: "timeseries"` with `state.variant: "line"`
+- `state.view: "timeseries"` with `state.variant: "bar"`
+- `state.view: "summary"`
+- `state.view: "tracker"`
+
+Core configuration options:
+
+- `state.range`: `1h`, `1d`, `1w`, `1m`
+- `state.aggregate`: `sum`, `average`
+- `state.compare`: compare current range to the previous period
+- `state.header`: show or hide the event header
+- `state.tracker.condition` and `state.tracker.threshold`: tracker rule settings
+- `theme`: `light`, `dark`, `system`
+- `width`, `height`, `minHeight`, `maxHeight`, `aspectRatio`
+- `autoResize` or `resizeMode`: `auto`, `fixed`, `fill`
+
+Use `@chirpier/charts` for React apps and `@chirpier/embed` for framework-agnostic usage.

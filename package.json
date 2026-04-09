@@ -1,5 +1,5 @@
 {
-  "name": "example-docs",
+  "name": "@chirpier/docs",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -9,11 +9,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@chirpier/charts": "^0.2.2",
+    "@chirpier/embed": "^0.2.2",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "next": "15.1.11",
-    "nextra": "4.0.0-app-router.43",
-    "nextra-theme-docs": "4.0.0-app-router.43",
+    "nextra": "^4.6.1",
+    "nextra-theme-docs": "^4.6.1",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },

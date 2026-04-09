@@ -1,0 +1,43 @@
+# Starter Dashboards
+
+The fastest way to make OpenClaw useful in Chirpier is to build one small dashboard that covers reliability, latency, cost, and liveness.
+
+## Recommended first dashboard
+
+Start with these charts:
+
+- `tool.errors.count` by hour with `sum`
+- `task.duration_ms` by hour with `average`
+- `task.duration_ms` by day with `p95_est`
+- `tokens.used` by hour with `sum`
+- `heartbeat.missed.count` by day with `sum`
+
+For v1, treat `meta` as inspection-only context. Prefer stable event naming and chart configuration choices rather than relying on `meta` as a first-class analytical filter.
+
+## Why this works
+
+This layout gives you a strong first pass across:
+
+- reliability: tool failures
+- latency: task duration
+- cost: token usage
+- liveness: missed heartbeats
+
+Build this before creating lots of policies. Good dashboards make alert tuning easier.
+
+## Useful follow-up dashboards
+
+- per-tool reliability dashboard
+- per-workflow latency dashboard
+- sentiment or market monitoring dashboard
+- destination health and alert activity dashboard
+
+## Period contract
+
+For backend rollups and alerting, use the canonical periods:
+
+- `minute`
+- `hour`
+- `day`
+
+Frontend date-range shortcuts like `30d` are chart-layer concepts, not replacements for the backend rollup period enum.

@@ -1,0 +1,62 @@
+# Policies
+
+Policies turn event events into alert conditions.
+
+<PathGrid>
+  <PathCard
+    href="/api-reference/policies-and-alerts"
+    title="Policies API"
+    description="See the exact policy routes, allowed enum values, request bodies, and lifecycle behavior."
+    icon="compass"
+  />
+  <PathCard
+    href="/manage-resources/alerts"
+    title="Alert Runtime"
+    description="Follow the path from a policy definition to triggered alerts, deliveries, and operator actions."
+    icon="claw"
+  />
+</PathGrid>
+
+## Core inputs
+
+- `event_id`
+- `title`
+- `channel`
+- `period`
+- `aggregate`
+- `condition`
+- `threshold`
+- `severity`
+- `enabled`
+
+## Aggregate selection
+
+Choose the aggregate based on the raw event shape.
+
+Common patterns:
+
+- `*.count`, `*.errors.count`, `*.used` -> usually `sum`
+- `*.duration_ms` -> usually `average`, `p95_est`, `p99_est`, or `max`
+- `*.score`, `*.price_usd` -> usually `average`, `min`, or `max`
+
+## Channel routing
+
+Policies route to logical channels such as:
+
+- `default`
+- `ops`
+- `market`
+- `sentiment`
+
+Destinations subscribe to one or more channels, and alert delivery matches on that channel.
+
+## Lifecycle
+
+Policies are created and updated through:
+
+- `POST /v1.0/policies`
+- `GET /v1.0/policies`
+- `GET /v1.0/policies/:policyID`
+- `PUT /v1.0/policies/:policyID`
+
+Triggered output appears in [Alerts](/manage-resources/alerts).

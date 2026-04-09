@@ -1,0 +1,43 @@
+# Export API Keys
+
+The cleanest OpenClaw setup is to provide Chirpier credentials through environment variables.
+
+Use:
+
+```bash
+export CHIRPIER_API_KEY=chp_your_api_key
+```
+
+That lets OpenClaw tasks, SDK examples, and `chirpier-skills` use the same runtime credential.
+
+## Why use an environment variable
+
+- avoids hard-coding the key in prompts or source files
+- works cleanly with OpenClaw task runners and shells
+- matches the default resolution path used by the SDKs
+- makes local testing and deployment more consistent
+
+## Typical usage
+
+In shell-based runs:
+
+```bash
+export CHIRPIER_API_KEY=chp_your_api_key
+openclaw run your-task
+```
+
+In code, prefer reading from the environment:
+
+```ts
+const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
+```
+
+```python
+client = new_client(api_key=os.environ["CHIRPIER_API_KEY"])
+```
+
+```go
+client, err := chirpier.NewClient(chirpier.Options{})
+```
+
+For team environments, treat `CHIRPIER_API_KEY` like any other production secret.

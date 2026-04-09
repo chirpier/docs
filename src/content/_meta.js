@@ -1,32 +1,12 @@
 export default {
-  "*": {
-    type: "page",
-  },
-  index: {
-    type: "page",
-    title: "Chirpier",
-    display: "hidden",
-  },
-  docs: {
-    title: "Docs",
-    theme: {
-      breadcrumb: true,
-      footer: true,
-      sidebar: true,
-      toc: true,
-      navbar: true,
-      pagination: true,
-    },
-  },
-  "use-cases": {
-    title: "Use Cases",
-    theme: {
-      breadcrumb: true,
-      footer: true,
-      sidebar: true,
-      toc: true,
-      navbar: true,
-      pagination: true,
-    },
-  },
+  index: "",
+  "get-started": "Get Started",
+  concepts: "Concepts",
+  "manage-resources": "Manage Resources",
+  "api-reference": "API Reference",
+  sdks: "SDKs",
+  "dashboard-and-embed": "Dashboard and Embed",
+  "agent-workflows": "Agentic Workflows",
+  openclaw: "OpenClaw Guides",
+  examples: "Examples",
 };

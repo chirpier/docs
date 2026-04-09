@@ -1,0 +1,53 @@
+import Image from "next/image";
+import DocsChartEmbed from "../../../components/DocsChartEmbed";
+
+# Tracker chart
+
+A tracker chart is a threshold-based monitoring view for a hosted event embed. Use it when you need to compare an aggregate against a rule and show pass/fail status.
+
+<DocsChartEmbed
+  eventId="caa491f4-a154-4e94-93da-5754776009b8"
+  shareToken="0868bcd5-b5c9-41b1-b700-1a87540908fc"
+  minHeight={140}
+  state={{
+    view: "tracker",
+    range: "1d",
+    aggregate: "average",
+    tracker: {
+      condition: "gte",
+      threshold: 5,
+    },
+  }}
+/>
+
+## Code
+
+```tsx
+<ChirpierChart
+  eventId="event_id"
+  shareToken="share_token"
+  state={{
+    view: "tracker",
+    range: "1d",
+    aggregate: "average",
+    tracker: {
+      condition: "gte",
+      threshold: 5,
+    },
+  }}
+/>
+```
+
+## Additional properties
+
+Configure a tracker embed by setting `state.view` to `tracker` and supplying a tracker rule.
+
+Supported options:
+
+- `state.range`: `1h`, `1d`, `1w`, `1m`
+- `state.aggregate`: `sum` or `average`
+- `state.header`: `false` to hide the hosted event header
+- `state.tracker.condition`: `gt`, `gte`, `lt`, `lte`, `eq`
+- `state.tracker.threshold`: numeric threshold to evaluate against
+- `theme`: `light`, `dark`, `system`
+- `autoResize` or `resizeMode`: control iframe sizing behavior

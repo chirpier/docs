@@ -1,0 +1,23 @@
+# Monitor Task Latency
+
+Use `task.duration_ms` to track how long OpenClaw tasks take end to end.
+
+Example payload:
+
+```json
+{
+  "agent": "openclaw.main",
+  "event": "task.duration_ms",
+  "value": 780,
+  "meta": {
+    "task_name": "daily_digest"
+  }
+}
+```
+
+Starter policies:
+
+- `task.duration_ms` with `average > 2000` in `hour`
+- `task.duration_ms` with `p95_est > 5000` in `day`
+
+Use `average`, `p95_est`, and `p99_est` for duration signals. Avoid count-style aggregates like `sum` when you are trying to reason about latency.

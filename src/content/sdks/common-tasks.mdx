@@ -1,0 +1,27 @@
+# Common Tasks
+
+All Chirpier SDKs expose helpers around the same resource model.
+
+## Typical helper tasks
+
+- list events
+- read one event definition
+- update event metadata
+- list policies
+- create a policy
+- list alerts
+- read alert deliveries
+- acknowledge, resolve, or archive an alert
+- test a destination
+- read event rollups
+
+## When to use SDK helpers
+
+Use the SDK helpers when you want one authenticated client for both:
+
+- Logging event data
+- Managing Chirpier resources
+
+Use raw HTTP when you need language-agnostic integrations, shell automation, or direct infrastructure-level control.
+
+For endpoint-by-endpoint behavior, see [API Reference](/api-reference).

@@ -1,0 +1,41 @@
+# Destinations for OpenClaw Alerts
+
+Once OpenClaw policies are triggering, route them to destinations so the right people or systems see them.
+
+Common choices:
+
+- Slack for team-facing alert triage
+- Discord for community or ops rooms
+- email for low-volume workflows
+- webhook destination for custom incident or automation pipelines
+- Telegram for lightweight mobile delivery
+
+Current baseline support is:
+
+- supported: `webhook`, `email`, `slack`, `discord`, `telegram`
+- not part of the v1 supported destination baseline: `sms`
+
+## Validation rules
+
+- Slack requires a valid Slack destination URL
+- Discord requires a valid Discord destination URL and a path containing `/webhooks/`
+- Telegram requires `credentials.bot_token` and `credentials.chat_id`
+- Email destinations use the `url` field as the destination email address
+- Generic webhook destinations require an absolute `url`
+
+For v1 routing, policies use logical channels like `default`, `ops`, `market`, and `sentiment`. Destinations subscribe to one or more channels, and alert delivery only targets destinations matching the policy channel.
+
+Recommended testing flow:
+
+1. create the destination
+2. send a test notification
+3. inspect delivery history with `kind=test`
+4. trigger a real alert and inspect `kind=alert`
+
+Test deliveries are hidden from the default delivery history view, so use `kind=test` immediately after destination setup.
+
+Delivery history supports:
+
+- `kind=alert`
+- `kind=test`
+- `kind=all`

@@ -1,0 +1,44 @@
+# Guided Validation
+
+Use this page for the first OpenClaw end-to-end pass.
+
+Guided mode means you explicitly tell OpenClaw to use `chirpier-skills`.
+
+## Goal
+
+Verify that OpenClaw can follow the Chirpier contract without inventing its own event taxonomy or policy semantics.
+
+## Recommended sequence
+
+1. export `CHIRPIER_API_KEY`
+2. explicitly tell OpenClaw to use `chirpier-skills`
+3. emit canonical events:
+   - `tool.errors.count`
+   - `task.duration_ms`
+   - `tokens.used`
+   - `heartbeat.missed.count`
+4. confirm event definitions appear in Chirpier
+5. create one valid policy and one intentionally invalid policy
+6. inspect `minute`, `hour`, and `day` rollups
+7. configure a destination and send a test notification
+8. inspect delivery history with `kind=test`
+9. trigger a real alert and inspect default delivery history
+
+## Good prompts
+
+- "Use chirpier-skills to send canonical OpenClaw task duration and tool error events to Chirpier."
+- "Use chirpier-skills to create a valid policy for OpenClaw tool failures in the last hour."
+- "Use chirpier-skills to set up a Slack destination, send a test notification, and inspect test delivery history."
+
+## Pass criteria
+
+- OpenClaw uses canonical event names from the docs and skills repo
+- OpenClaw uses `minute`, `hour`, or `day` periods only
+- OpenClaw chooses policy aggregates that match the raw event shape
+- OpenClaw uses analytics `previous` queries correctly when comparisons are needed
+- destination tests appear under `kind=test`
+- real alert deliveries appear under the default history view
+
+## After guided mode
+
+Once guided mode is stable, repeat the same scenarios in natural mode without explicitly naming the skills.

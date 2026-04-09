@@ -1,0 +1,54 @@
+# Alerts and Delivery
+
+Policies, alerts, and destinations are separate resources with different jobs.
+
+## Policies
+
+A policy defines when an event should trigger.
+
+Typical policy inputs:
+
+- `event_id`
+- `period`
+- `aggregate`
+- `condition`
+- `threshold`
+- `severity`
+- `channel`
+
+## Alerts
+
+An alert is the runtime result of a triggered policy.
+
+Alert lifecycle states:
+
+- `triggered`
+- `acknowledged`
+- `resolved`
+- `archived`
+
+The servicer API exposes lifecycle actions to acknowledge, resolve, and archive alerts.
+
+## Destinations and delivery history
+
+Destinations route alerts outward. Chirpier currently supports:
+
+- `destination`
+- `slack`
+- `discord`
+- `telegram`
+- `email`
+
+After testing or delivering alerts, inspect delivery attempts through:
+
+```text
+GET /v1.0/alerts/:alertID/deliveries?kind=alert|test|all
+```
+
+Delivery history semantics:
+
+- `alert`: real alert sends
+- `test`: destination test sends
+- `all`: both, mainly for debugging
+
+For the operational guides, continue with [Policies](/manage-resources/policies), [Alerts](/manage-resources/alerts), and [Destinations](/manage-resources/destinations).

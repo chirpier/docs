@@ -1,0 +1,28 @@
+# Public Event Pages
+
+Chirpier exposes hosted public event pages at `/events/:eventId?share=:shareToken` for shareable events.
+
+## Sharing model
+
+Public access uses both:
+
+- `event_id`
+- `share_token`
+
+That pair is required for hosted public reads.
+
+## What the hosted page supports
+
+- canonical range selection
+- compare mode
+- chart variants such as line and bar
+- summary and tracker views
+- embedded mode with header suppression
+
+## Why this matters for embeds
+
+Both `@chirpier/charts` and `@chirpier/embed` use the hosted public page as the runtime surface.
+
+Initial state is derived from canonical event-page URL params, and runtime updates use iframe reloads or `postMessage` depending on the interaction.
+
+For implementation details, continue with [React](/dashboard-and-embed/react) or [Framework-Agnostic](/dashboard-and-embed/framework-agnostic).

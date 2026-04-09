@@ -1,0 +1,52 @@
+# Alerts
+
+Alerts are runtime records created when policies trigger.
+
+<PathGrid>
+  <PathCard
+    href="/api-reference/policies-and-alerts"
+    title="Alerts API"
+    description="See the exact alert routes, status filtering, delivery queries, and transition responses."
+    icon="compass"
+  />
+  <PathCard
+    href="/manage-resources/destinations"
+    title="Destinations"
+    description="Configure where alerts are sent, run destination tests, and inspect delivery history correctly."
+    icon="rocket"
+  />
+</PathGrid>
+
+## Alert reads and lifecycle actions
+
+- `GET /v1.0/alerts`
+- `GET /v1.0/alerts/:alertID`
+- `GET /v1.0/alerts/:alertID/deliveries`
+- `POST /v1.0/alerts/:alertID/acknowledge`
+- `POST /v1.0/alerts/:alertID/resolve`
+- `POST /v1.0/alerts/:alertID/archive`
+
+## Statuses
+
+- `triggered`
+- `acknowledged`
+- `resolved`
+- `archived`
+
+## Delivery investigation
+
+Use delivery history to answer:
+
+- was the alert routed anywhere?
+- did the destination test succeed?
+- what HTTP status or error came back?
+
+Filter delivery reads with:
+
+- `kind=alert`
+- `kind=test`
+- `kind=all`
+
+Use `kind=test` immediately after testing a destination.
+
+For delivery target configuration, continue with [Destinations](/manage-resources/destinations).

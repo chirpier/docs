@@ -1,0 +1,42 @@
+# Policy Patterns
+
+Choose policy aggregates based on the raw event shape.
+
+## Count, error count, and usage events
+
+Usually use `sum`.
+
+Examples:
+
+- `tool.errors.count` with `sum > 5` in `hour`
+- `heartbeat.missed.count` with `sum > 0` in `day`
+- `tokens.used` with `sum > 50000` in `hour`
+
+## Duration events
+
+Usually use:
+
+- `average`
+- `p95_est`
+- `p99_est`
+- `max`
+
+Examples:
+
+- `task.duration_ms` with `average > 2000` in `hour`
+- `task.duration_ms` with `p95_est > 5000` in `day`
+
+## Value and gauge events
+
+Usually use:
+
+- `average`
+- `min`
+- `max`
+
+Examples:
+
+- `market.bitcoin.price_usd` with `max > 120000` in `hour`
+- `sentiment.bitcoin.reddit.score` with `average < -0.4` in `hour`
+
+When you need explicit comparisons, prefer analytics windows instead of inventing derived event names.

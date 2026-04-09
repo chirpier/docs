@@ -1,0 +1,59 @@
+import { Steps } from "nextra/components";
+
+export const dynamic = "force-dynamic";
+
+# Quick Start
+
+Use this guide to go from account creation to a live event, first policy, first destination test, and first shared chart.
+
+If you are using Chirpier with agent workflows, especially OpenClaw, continue with [Agentic Workflows](/agent-workflows) and then [OpenClaw Guides](/openclaw) after this flow.
+
+## Steps
+
+<Steps>
+
+### Create an account
+
+Create an account at [chirpier.co](https://www.chirpier.co/auth).
+
+### Get your workspace token
+
+Open the Integration page in Chirpier and copy the bearer token you will use for both logging and control-plane APIs.
+
+### Send your first event
+
+Send a numeric event with:
+
+- your API key
+- an `event` name
+- optional `agent`
+- a numeric `value`
+- optional `occurred_at`, and `meta`
+
+Use the [SDK overview](/sdks) to pick [JavaScript](/sdks/javascript), [Go](/sdks/go), or [Python](/sdks/python), or send data with the [Logs API](/api-reference/logs).
+
+### Confirm the event definition exists
+
+Once you've logged the event, Chirpier creates the event definition automatically. That event becomes the anchor for dashboard charts, policies, analytics, and public facing charts.
+
+### Inspect the event in the app
+
+Open the Chirpier dashboard and verify the event appears in the Events surface with the expected name, description, and rollup activity.
+
+### Create your first policy
+
+Create a policy for the event and choose the aggregate that matches the event shape.
+
+### Test a destination
+
+Create destination for alerts to Slack, Discord, Telegram, email, or generic destination destination and run a test send before relying on production delivery.
+
+### Share or embed the chart
+
+Once the event is public, use the hosted event page directly or embed it with the Chirpier chart clients.
+
+</Steps>
+
+> [!NOTE]
+>
+> Continue with [See Your Event in Chirpier](/get-started/see-data), [Manage Resources](/manage-resources), or [Visualize And Embed](/dashboard-and-embed).

@@ -1,0 +1,155 @@
+:root {
+  --chirpier-background: 36 36% 96%;
+  --chirpier-foreground: 20 16% 13%;
+  --chirpier-card: 40 30% 99%;
+  --chirpier-card-border: 30 18% 84%;
+  --chirpier-card-muted: 34 18% 90%;
+  --chirpier-muted-foreground: 24 10% 42%;
+  --chirpier-primary: 211 26% 41%;
+  --chirpier-accent: 202 33% 39%;
+  --chirpier-shadow-sm: 0 2px 4px hsl(20 18% 12% / 0.04);
+  --chirpier-shadow-md: 0 8px 24px hsl(20 18% 12% / 0.06);
+  --chirpier-shadow-lg: 0 24px 80px hsl(20 18% 12% / 0.1);
+  --nextra-primary-hue: 211;
+  --nextra-primary-saturation: 26%;
+  --nextra-primary-lightness: 41%;
+  --nextra-bg: 248 244 239;
+  --nextra-content-width: 92rem;
+  --nextra-navbar-height: 72px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: hsl(var(--chirpier-foreground));
+  background-color: hsl(var(--chirpier-background));
+  background-image:
+    radial-gradient(circle at top, hsl(211 26% 92%) 0%, transparent 36%),
+    linear-gradient(180deg, hsl(36 36% 96%), hsl(40 24% 97%));
+}
+
+::selection {
+  background: hsl(var(--chirpier-primary) / 0.18);
+}
+
+.nextra-navbar {
+  backdrop-filter: none;
+}
+
+.nextra-navbar-blur {
+  background:
+    linear-gradient(180deg, hsl(40 30% 99% / 0.9), hsl(36 28% 97% / 0.78)) !important;
+  border-bottom-color: hsl(var(--chirpier-card-border) / 0.85) !important;
+  box-shadow: var(--chirpier-shadow-sm);
+  backdrop-filter: blur(14px);
+}
+
+.nextra-sidebar,
+.nextra-mobile-nav,
+.nextra-toc > div {
+  background: linear-gradient(180deg, hsl(40 30% 99% / 0.82), hsl(36 24% 97% / 0.7));
+}
+
+.nextra-sidebar {
+  border-inline-end: 1px solid hsl(var(--chirpier-card-border) / 0.85);
+}
+
+.nextra-sidebar-container a,
+.nextra-toc a,
+article.nextra-body-typesetting-article a {
+  color: hsl(var(--chirpier-primary));
+}
+
+.nextra-sidebar-container a:hover,
+.nextra-toc a:hover,
+article.nextra-body-typesetting-article a:hover {
+  color: hsl(var(--chirpier-accent));
+}
+
+.nextra-sidebar-container [data-selected],
+.nextra-sidebar-container [aria-current="page"] {
+  background: hsl(var(--chirpier-primary) / 0.08);
+  border-radius: 0.9rem;
+}
+
+.nextra-toc {
+  padding-top: 0.5rem;
+}
+
+.nextra-toc > div {
+  border: 1px solid hsl(var(--chirpier-card-border) / 0.9);
+  border-radius: 1.25rem;
+  box-shadow: var(--chirpier-shadow-sm);
+  padding: 1rem;
+}
+
+.nextra-sidebar-footer {
+  border-top-color: hsl(var(--chirpier-card-border) / 0.9) !important;
+}
+
+article.nextra-body-typesetting-article {
+  color: hsl(var(--chirpier-foreground));
+}
+
+article.nextra-body-typesetting-article h1,
+article.nextra-body-typesetting-article h2,
+article.nextra-body-typesetting-article h3,
+article.nextra-body-typesetting-article h4,
+article.nextra-body-typesetting-article h5,
+article.nextra-body-typesetting-article h6 {
+  font-family: var(--font-mono), monospace;
+  letter-spacing: -0.02em;
+  color: hsl(var(--chirpier-foreground));
+}
+
+article.nextra-body-typesetting-article p,
+article.nextra-body-typesetting-article li,
+article.nextra-body-typesetting-article td,
+article.nextra-body-typesetting-article th {
+  color: hsl(var(--chirpier-foreground));
+}
+
+article.nextra-body-typesetting-article p,
+article.nextra-body-typesetting-article li {
+  line-height: 1.85rem;
+}
+
+article.nextra-body-typesetting-article code,
+article.nextra-body-typesetting-article pre,
+.nextra-code {
+  font-family: var(--font-mono), monospace;
+}
+
+article.nextra-body-typesetting-article pre,
+article.nextra-body-typesetting-article .nextra-code,
+article.nextra-body-typesetting-article blockquote,
+article.nextra-body-typesetting-article table,
+.nextra-card {
+  border-radius: 1.25rem;
+  border-color: hsl(var(--chirpier-card-border) / 0.9) !important;
+  box-shadow: var(--chirpier-shadow-sm);
+}
+
+article.nextra-body-typesetting-article pre,
+article.nextra-body-typesetting-article table,
+.nextra-card {
+  background: linear-gradient(180deg, hsl(40 30% 99%), hsl(40 24% 98%));
+}
+
+article.nextra-body-typesetting-article blockquote {
+  background: hsl(var(--chirpier-primary) / 0.04);
+}
+
+article.nextra-body-typesetting-article hr {
+  border-color: hsl(var(--chirpier-card-border) / 0.9);
+}
+
+article.nextra-body-typesetting-article strong {
+  font-weight: 600;
+}
+
+article.nextra-body-typesetting-article :is(h2, h3, h4) {
+  scroll-margin-top: calc(var(--nextra-navbar-height) + 1rem);
+}

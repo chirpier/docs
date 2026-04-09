@@ -1,0 +1,60 @@
+# Sentiment Workflows
+
+OpenClaw is a good fit for market-intelligence and research loops where you log text, score it, then emit aggregate signals to Chirpier.
+
+## Example: monitor Bitcoin sentiment on Reddit
+
+For this workflow, an OpenClaw task typically:
+
+1. searches Reddit for posts matching `bitcoin OR btc`
+2. scores posts or comments with a sentiment model
+3. emits aggregate sentiment events every few minutes
+4. charts the trend in Chirpier and alerts on negative shifts
+
+For Bitcoin sentiment on Reddit, useful events are:
+
+- `sentiment.bitcoin.reddit.score`
+- `sentiment.bitcoin.reddit.positive.count`
+- `sentiment.bitcoin.reddit.negative.count`
+- `sentiment.bitcoin.reddit.post_volume.count`
+
+Example payload:
+
+```json
+{
+  "agent": "openclaw.sentiment-watcher",
+  "event": "sentiment.bitcoin.reddit.score",
+  "value": -0.62,
+  "meta": {
+    "source": "reddit",
+    "query": "bitcoin OR btc"
+  }
+}
+```
+
+You can also emit the negative post count in the same run:
+
+```json
+{
+  "agent": "openclaw.sentiment-watcher",
+  "event": "sentiment.bitcoin.reddit.negative.count",
+  "value": 143,
+  "meta": {
+    "source": "reddit"
+  }
+}
+```
+
+Starter policies:
+
+- `sentiment.bitcoin.reddit.score` with `average < -0.4` in `hour`
+- `sentiment.bitcoin.reddit.negative.count` with `sum > 100` in `hour`
+- `sentiment.bitcoin.reddit.post_volume.count` with `sum > 500` in `day`
+
+Emit aggregate scores and counts, not raw text. Keep the source and query in `meta`.
+
+Useful charts for this workflow are:
+
+- average Reddit sentiment by hour
+- negative post count by hour
+- post volume by day

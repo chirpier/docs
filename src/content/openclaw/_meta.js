@@ -1,0 +1,18 @@
+export default {
+  index: "Overview",
+  quickstart: "OpenClaw Quickstart",
+  keys: "Export API Keys",
+  skills: "Use chirpier-skills",
+  instrument: "Instrument OpenClaw",
+  taxonomy: "Canonical Event Names",
+  dashboards: "Starter Dashboards",
+  "tool-errors": "Monitor Tool Errors",
+  "task-latency": "Monitor Task Latency",
+  "token-usage": "Monitor Token Usage",
+  heartbeats: "Monitor Heartbeats",
+  triage: "Alert Triage",
+  sentiment: "Sentiment Workflows",
+  destinations: "Destinations for OpenClaw Alerts",
+  "guided-validation": "Guided Validation",
+  checklist: "Operational Checklist",
+};

@@ -1,0 +1,34 @@
+# SDKs
+
+Chirpier exposes the same product model across JavaScript, Python, and Go.
+
+All three SDKs share these important behaviors:
+
+- same bearer token for logs and control-plane APIs
+- unknown events auto-create event definitions
+- helper methods for events, policies, alerts, deliveries, and destination tests
+
+## Choose your SDK
+
+<PathGrid>
+  <PathCard
+    href="/sdks/javascript"
+    title="JavaScript"
+    description="Use `@chirpier/chirpier-js` in Node.js, services, scripts, and agent runtimes."
+    icon="rocket"
+  />
+  <PathCard
+    href="/sdks/python"
+    title="Python"
+    description="Use `chirpier` in data workflows, automation jobs, and Python-based agents."
+    icon="compass"
+  />
+  <PathCard
+    href="/sdks/go"
+    title="Go"
+    description="Use `github.com/chirpier/chirpier-go` in backend services and concurrent workers."
+    icon="claw"
+  />
+</PathGrid>
+
+If you only need raw HTTP calls, use [API Reference](/api-reference).

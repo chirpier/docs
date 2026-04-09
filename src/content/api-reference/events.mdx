@@ -1,0 +1,142 @@
+# Events API
+
+The events APIs manage event definitions and time-bucketed reads.
+
+<PathGrid>
+  <PathCard
+    href="/manage-resources/events"
+    title="Manage Events"
+    description="Start with the resource guide if you want the product model, operational usage, and workflow context first."
+    icon="rocket"
+  />
+  <PathCard
+    href="/concepts/rollups-and-analytics"
+    title="Rollups and Analytics"
+    description="Read the higher-level explanation of when to use event logs versus analytics windows."
+    icon="claw"
+  />
+</PathGrid>
+
+## Routes
+
+- `POST /v1.0/events`
+- `GET /v1.0/events`
+- `GET /v1.0/events/:eventID`
+- `PUT /v1.0/events/:eventID`
+- `GET /v1.0/events/:eventID/logs?period=minute|hour|day&limit=&offset=`
+
+## Event object
+
+- `event_id`
+- `event`
+- `agent`
+- `description`
+- `unit`
+- `timezone`
+- `public`
+- `share_token`
+
+Example:
+
+```json
+{
+  "event_id": "34c57199-4c6d-4eb8-ae17-c386e17c7b95",
+  "event": "task.duration_ms",
+  "agent": "openclaw.main",
+  "public": true,
+  "share_token": "9b6c19d6-f70d-4f4a-b64d-e7bc6c8185a1",
+  "description": "Task runtime for the main OpenClaw worker",
+  "unit": "ms",
+  "timezone": "America/Los_Angeles",
+  "created_at": "2026-04-08T18:25:43Z"
+}
+```
+
+## Create event
+
+Use `POST /v1.0/events` to create or seed an event definition explicitly.
+
+Example request body:
+
+```json
+{
+  "event": "task.duration_ms",
+  "agent": "openclaw.main",
+  "description": "Task runtime for the main OpenClaw worker",
+  "unit": "ms",
+  "timezone": "America/Los_Angeles",
+  "public": true
+}
+```
+
+The server fills in `event_id`, `user_id`, `share_token`, and `created_at`.
+
+## List and read events
+
+- `GET /v1.0/events` returns all event definitions for the current bearer token
+- `GET /v1.0/events/:eventID` returns one event definition
+
+`eventID` must be a UUID or the API returns `400`.
+
+## Update event
+
+Use `PUT /v1.0/events/:eventID` with the same object shape as create.
+
+Common editable fields:
+
+- `description`
+- `unit`
+- `timezone`
+- `public`
+- `agent`
+
+The route path controls `event_id`; do not rely on the request body to choose the resource.
+
+## Rollup behavior
+
+Rollup reads return bucketed history with fields such as:
+
+- `count`
+- `value`
+- `squares`
+- `min`
+- `max`
+
+Example rollup item:
+
+```json
+{
+  "event_id": "34c57199-4c6d-4eb8-ae17-c386e17c7b95",
+  "agent": "openclaw.main",
+  "event": "task.duration_ms",
+  "period": "hour",
+  "occurred_at": "2026-04-08T18:00:00Z",
+  "count": 14,
+  "value": 6400,
+  "squares": 3056000,
+  "min": 210,
+  "max": 920
+}
+```
+
+Query parameters:
+
+- `period`: required. One of `minute`, `hour`, or `day`.
+- `limit`: optional integer. Defaults to `100`.
+- `offset`: optional integer. Defaults to `0`.
+
+Use `minute`, `hour`, or `day` exactly. Other values return `400`.
+
+## Example requests
+
+```bash
+curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  "https://api.chirpier.co/v1.0/events"
+```
+
+```bash
+curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  "https://api.chirpier.co/v1.0/events/$EVENT_ID/logs?period=hour&limit=24"
+```
+
+For comparison queries, use [Analytics API](/api-reference/analytics).

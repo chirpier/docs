@@ -1,0 +1,33 @@
+# Framework-Agnostic
+
+Use `@chirpier/embed` when you need the hosted Chirpier runtime outside React.
+
+## Example
+
+```ts
+import { mountChirpierChart } from "@chirpier/embed";
+
+const chart = mountChirpierChart("#chart-root", {
+  eventId: "your-event-id",
+  state: {
+    range: "1m",
+    compare: true,
+    view: "timeseries",
+    variant: "bar",
+  },
+  autoResize: true,
+});
+
+chart.updateState({ range: "1w", compare: false, view: "summary" });
+chart.updateTheme("light");
+```
+
+## Good fit
+
+Use this package when:
+
+- you are embedding in plain JavaScript
+- you want to wrap Chirpier in another frontend framework
+- you need lower-level runtime control over theme and state updates
+
+For chart variant guidance, see [Charts](/charts).

@@ -1,0 +1,74 @@
+# API Reference
+
+Chirpier exposes two public HTTP surfaces:
+
+- logs APIs for event logging
+- control-plane APIs for reading and managing resources
+
+## Authentication
+
+Send:
+
+```text
+Authorization: Bearer <token>
+```
+
+The same bearer token works for both logs and control-plane APIs.
+
+## Base URLs
+
+- Logs: `https://logs.chirpier.co`
+- Resources: use your Chirpier app or API host for `/v1.0/events`, `/v1.0/policies`, `/v1.0/alerts`, and `/v1.0/destinations`
+
+## Error shape
+
+Most validation failures return a JSON body like:
+
+```json
+{
+  "error": "invalid eventID"
+}
+```
+
+Unauthorized requests return `401` when the bearer token is missing or invalid.
+
+## API families
+
+<PathGrid>
+  <PathCard
+    href="/api-reference/logs"
+    title="Logs API"
+    description="Write flat numeric events to Chirpier through `POST /v1.0/logs`."
+    icon="rocket"
+  />
+  <PathCard
+    href="/api-reference/events"
+    title="Events API"
+    description="Read and update event definitions, then inspect rollups for minute, hour, and day history."
+    icon="compass"
+  />
+  <PathCard
+    href="/api-reference/policies-and-alerts"
+    title="Policies and Alerts API"
+    description="Create alert rules, read runtime alert state, inspect deliveries, and trigger lifecycle transitions."
+    icon="compass"
+  />
+  <PathCard
+    href="/api-reference/destinations"
+    title="Destinations API"
+    description="Configure Slack, Discord, Telegram, email, and webhook delivery targets, then test them."
+    icon="rocket"
+  />
+  <PathCard
+    href="/api-reference/analytics"
+    title="Analytics API"
+    description="Read window comparisons using `view=window` and explicit `previous` values."
+    icon="claw"
+  />
+  <PathCard
+    href="/api-reference/schemas"
+    title="Schemas"
+    description="See the shared request and response object shapes used across the public API."
+    icon="claw"
+  />
+</PathGrid>

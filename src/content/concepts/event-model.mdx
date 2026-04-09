@@ -1,0 +1,70 @@
+# Event Model
+
+Chirpier is built around flat numeric events.
+
+## Events are the schema
+
+Each log you send contains:
+
+- `event`: the event name
+- `agent`: optional producer identity
+- `value`: the numeric value
+- `occurred_at`: optional event timestamp
+- `meta`: optional JSON context
+
+The event name should represent the raw event itself, not a query or comparison.
+
+Good examples:
+
+- `tool.errors.count`
+- `task.duration_ms`
+- `tokens.used`
+- `market.bitcoin.price_usd`
+
+Avoid names like:
+
+- `tool.errors.last_hour`
+- `price_change_pct_1h`
+- `reddit_sentiment_today`
+
+Those belong in rollups, policies, or analytics queries.
+
+## Event definitions
+
+When Chirpier receives an unknown event, it creates an event definition automatically. That definition becomes the anchor for:
+
+- dashboard views
+- rollup reads
+- analytics comparisons
+- policy creation
+- public sharing and embeds
+
+Useful event-definition fields include:
+
+- `description`
+- `unit`
+- `timezone`
+- `public`
+- `share_token`
+
+## Agent and metadata
+
+`agent` is part of the event identity that teams see operationally, but v1 keeps analytics and alerting centered on the flat event definition model.
+
+Use `meta` for inspection context such as:
+
+- `tool_name`
+- `task_name`
+- `workflow`
+- `source`
+- `query`
+
+Do not rely on `meta` as a first-class analytical grouping key in v1.
+
+## Timezone and public sharing
+
+- Day-level behavior follows the event definition timezone.
+- Local-day alerting should set `timezone` intentionally.
+- Public event access uses both `event_id` and `share_token`.
+
+For the control plane APIs built around this model, continue with [Events](/manage-resources/events).

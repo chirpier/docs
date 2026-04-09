@@ -1,0 +1,43 @@
+# React
+
+Use `@chirpier/charts` when you want a React wrapper around the hosted Chirpier event runtime.
+
+## Install
+
+```bash
+npm install @chirpier/charts
+```
+
+## Example
+
+```tsx
+import { ChirpierChart } from "@chirpier/charts";
+
+export function RevenueWidget() {
+  return (
+    <ChirpierChart
+      eventId="your-event-id"
+      shareToken="your-share-token"
+      range="1d"
+      compare
+      header={false}
+      view="timeseries"
+      variant="line"
+      autoResize
+      minHeight={320}
+    />
+  );
+}
+```
+
+Use bare `<ChirpierChart />` markup by default. Wrap it only when your app needs host-specific layout such as a card, title, placeholder copy, or custom empty state.
+
+## Good fit
+
+Use this package when:
+
+- your app is already React-based
+- you want hosted charts without rebuilding chart logic locally
+- you want canonical Chirpier page behavior in-product
+
+For lower-level control outside React, use [Framework-Agnostic](/dashboard-and-embed/framework-agnostic).

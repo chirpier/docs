@@ -1,0 +1,32 @@
+# Monitor Tool Errors
+
+Tool reliability is often the first OpenClaw signal worth monitoring.
+
+Recommended events:
+
+- emit `tool.calls.count` for every tool invocation
+- emit `tool.errors.count` for every failed invocation
+
+Starter policy:
+
+- `tool.errors.count` with `sum > 5` in `hour`
+
+Useful chart ideas:
+
+- tool errors over time
+- errors by `meta.tool_name`
+- calls versus errors to spot failure-rate spikes
+
+Example payload:
+
+```json
+{
+  "agent": "openclaw.main",
+  "event": "tool.errors.count",
+  "value": 1,
+  "meta": {
+    "tool_name": "browser.open",
+    "workflow": "triage"
+  }
+}
+```

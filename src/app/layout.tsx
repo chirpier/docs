@@ -4,21 +4,30 @@ import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import { Viewport } from "next";
 import "nextra-theme-docs/style.css";
+import "./globals.css";
 import Image from "next/image";
-import { JetBrains_Mono as FontMono, Inter } from "next/font/google";
+import { Fira_Code as FontMono, Lora, Nunito_Sans } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 
 const fontMono = FontMono({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   variable: "--font-mono",
 });
 
-const fontSans = Inter({
+const fontSans = Nunito_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-sans",
+});
+
+const fontDisplay = Lora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-display",
 });
 
 export const viewport: Viewport = {
@@ -30,24 +39,65 @@ export async function generateStaticParams() {
 }
 
 export const metadata = {
-  metadataBase: new URL("https://docs.chirpier.co/docs"),
+  metadataBase: new URL("https://docs.chirpier.co"),
   title: {
+    default: "Chirpier Docs",
     template: "%s - Chirpier",
   },
-  description: "Chirpier - the easiest way to visualize your data in real-time",
-  applicationName: "Chirpier",
+  description:
+    "Documentation for Chirpier, including product guides, OpenClaw integration, SDK usage, charts, alerts, and practical use cases.",
+  applicationName: "Chirpier Docs",
+  keywords: [
+    "Chirpier",
+    "OpenClaw",
+    "docs",
+    "monitoring",
+    "alerts",
+    "charts",
+    "telemetry",
+    "SDK",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   appleWebApp: {
-    title: "Chirpier",
+    title: "Chirpier Docs",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://docs.chirpier.co/",
+    siteName: "Chirpier Docs",
+    title: "Chirpier Docs",
+    description:
+      "Product docs and OpenClaw integration guides for Chirpier.",
+    images: [
+      {
+        url: "/icon.png",
+        width: 512,
+        height: 512,
+        alt: "Chirpier Docs",
+      },
+    ],
   },
   other: {
     "msapplication-TileImage": "/favicon.ico",
-    "msapplication-TileColor": "#fff",
+    "msapplication-TileColor": "#16324a",
   },
   twitter: {
-    site: "https://www.chirpier.co",
+    card: "summary",
+    site: "@chirpier",
+    title: "Chirpier Docs",
+    description:
+      "Product docs and OpenClaw integration guides for Chirpier.",
+    images: ["/icon.png"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "960x960" },
+    ],
+    apple: "/favicon/android-chrome-192x192.png",
+    shortcut: "/favicon.ico",
   },
 };
 
@@ -65,8 +115,10 @@ export default async function RootLayout({ children }) {
               userSelect: "none",
               display: "flex",
               alignItems: "center",
-              color: "#4E6884",
+              color: "black",
               fontSize: "16px",
+              letterSpacing: "-0.01em",
+              fontFamily: "Fira Code"
             }}
             title={`Chirpier`}
           >
@@ -82,14 +134,14 @@ export default async function RootLayout({ children }) {
 
   return (
     <html
-      lang="en"
-      dir="ltr"
-      suppressHydrationWarning
-      className={`min-h-[100vh] w-full antialiased ${fontSans.variable} font-sans`}
-      style={{
-        fontFamily: "var(--font-sans), var(--font-mono)",
-      }}
-    >
+        lang="en"
+        dir="ltr"
+        suppressHydrationWarning
+        className={`min-h-[100vh] w-full antialiased ${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable} font-sans`}
+        style={{
+          fontFamily: "var(--font-sans), sans-serif",
+        }}
+      >
       <Head
         backgroundColor={{
           light: "rgb(255, 255, 255)",
@@ -97,8 +149,8 @@ export default async function RootLayout({ children }) {
         }}
       />
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans [&_pre]:font-mono antialiased`}
-        style={{ fontFamily: "var(--font-sans), var(--font-mono)" }}
+        className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable} font-sans [&_pre]:font-mono antialiased`}
+        style={{ fontFamily: "var(--font-sans), sans-serif" }}
       >
         <Layout
           navbar={navbar}
@@ -125,7 +177,7 @@ export default async function RootLayout({ children }) {
             content: "Feedback",
             labels: "feedback",
           }}
-          sidebar={{ defaultMenuCollapseLevel: 2 }}
+          sidebar={{ defaultMenuCollapseLevel: 2, toggleButton: false }}
           pageMap={await getPageMap()}
         >
           {children}

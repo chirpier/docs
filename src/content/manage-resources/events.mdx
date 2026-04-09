@@ -1,0 +1,62 @@
+# Events
+
+Events are the first resource most teams encounter in Chirpier.
+
+<PathGrid>
+  <PathCard
+    href="/api-reference/events"
+    title="Events API"
+    description="See the exact routes, request bodies, rollup query parameters, and response shapes for event definitions."
+    icon="compass"
+  />
+  <PathCard
+    href="/api-reference/analytics"
+    title="Analytics API"
+    description="Use the route-level reference for window comparisons, supported periods, and response fields."
+    icon="rocket"
+  />
+</PathGrid>
+
+## How events are created
+
+When you send a log to `POST /v1.0/logs`, Chirpier creates the event definition automatically if it does not exist yet.
+
+Then you can manage that event through the servicer API:
+
+- `POST /v1.0/events`
+- `GET /v1.0/events`
+- `GET /v1.0/events/:eventID`
+- `PUT /v1.0/events/:eventID`
+- `GET /v1.0/events/:eventID/logs`
+- `GET /v1.0/events/:eventID/analytics`
+
+## Important fields
+
+- `event`: event name
+- `agent`: optional producer identity
+- `description`: human-friendly context
+- `unit`: display unit for charts and summaries
+- `timezone`: important for day rollups and day-based policies
+- `public`: whether the event can be shared publicly
+- `share_token`: required for hosted public access
+
+## Reading event history
+
+Use rollups for minute, hour, or day history.
+
+Use analytics windows when you need explicit comparisons like:
+
+- current hour vs previous hour
+- current day vs same day last week
+
+## Product guidance
+
+In the Chirpier app, events are the pivot point for:
+
+- event pages
+- chart views
+- policy creation
+- public event pages
+- embeds
+
+For the API details, see [Events API](/api-reference/events).

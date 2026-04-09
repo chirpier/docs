@@ -1,0 +1,31 @@
+# Charts
+
+Chirpier charts are hosted event embeds that render the public event page at `/events/:eventId`.
+
+The chart surface currently supports four chart experiences:
+
+- [Line chart](/dashboard-and-embed/charts/line): timeseries data rendered as a line
+- [Bar chart](/dashboard-and-embed/charts/bar): timeseries data rendered as bars
+- [Summary view](/dashboard-and-embed/charts/summary): headline metrics for an event
+- [Tracker chart](/dashboard-and-embed/charts/tracker): threshold-based monitoring against an aggregate
+
+All embeds are configured with an `eventId` plus optional `state`:
+
+- `range`: `1h`, `1d`, `1w`, `1m`
+- `aggregate`: `sum`, `average`
+- `variant`: `line`, `bar`
+- `compare`: show previous-period comparison
+- `header`: show or hide the hosted event header
+- `view`: `all`, `summary`, `timeseries`, `tracker`
+- `tracker.condition`: `gt`, `gte`, `lt`, `lte`, `eq`
+- `tracker.threshold`: numeric threshold used by tracker mode
+
+Embed clients also support:
+
+- `shareToken` for share-scoped access when needed
+- sizing options like `width`, `height`, `minHeight`, `maxHeight`, and `aspectRatio`
+- `autoResize` or `resizeMode` for iframe sizing behavior
+- `theme`: `light`, `dark`, `system`
+- lifecycle hooks such as `onRendered`, `onResize`, `onError`, and `onInteraction`
+
+For embed usage, start with [Embed Charts](/dashboard-and-embed/charts/embed-charts).
