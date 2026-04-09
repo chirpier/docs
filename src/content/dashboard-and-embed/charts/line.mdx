@@ -1,4 +1,3 @@
-import Image from "next/image";
 import DocsChartEmbed from "../../../components/DocsChartEmbed";
 
 # Line chart
@@ -12,7 +11,7 @@ A line chart is the default timeseries variant for a hosted event embed. Use it 
     view: "timeseries",
     variant: "bar",
     range: "1w",
-    aggregate: "average",
+    aggregate: "sum",
     compare: false,
   }}
 />
@@ -27,7 +26,7 @@ A line chart is the default timeseries variant for a hosted event embed. Use it 
     view: "timeseries",
     variant: "bar",
     range: "1w",
-    aggregate: "average",
+    aggregate: "sum",
     compare: true,
   }}
 />
