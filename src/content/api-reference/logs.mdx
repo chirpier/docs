@@ -1,0 +1,99 @@
+# Logs API
+
+Use the logs endpoint to send flat numeric events.
+
+## Endpoint
+
+```text
+POST /v1.0/logs
+```
+
+Hosted default:
+
+```text
+https://logs.chirpier.co/v1.0/logs
+```
+
+## Request body
+
+Send an array of logs.
+
+Each log object supports:
+
+- `log_id`
+- `agent`
+- `event`
+- `value`
+- `occurred_at`
+- `meta`
+
+Example:
+
+```json
+[
+  {
+    "event": "task.duration_ms",
+    "agent": "openclaw.main",
+    "value": 420,
+    "occurred_at": "2026-04-08T18:25:43Z",
+    "meta": {
+      "task_name": "email_triage",
+      "result": "success"
+    }
+  },
+  {
+    "event": "tool.errors.count",
+    "agent": "openclaw.main",
+    "value": 1,
+    "meta": {
+      "tool_name": "crm.lookup"
+    }
+  }
+]
+```
+
+## Field notes
+
+- `log_id`: optional UUID. If omitted, Chirpier generates a UUIDv7.
+- `agent`: optional producer identity.
+- `event`: required flat event name.
+- `value`: required numeric value.
+- `occurred_at`: optional timestamp. Defaults to `now`.
+- `meta`: optional JSON object or JSON value up to 1KB.
+
+## Validation notes
+
+- maximum 100 logs per request
+- `event` is required
+- `occurred_at` must be within the last 30 days and no more than 1 day in the future
+- `meta` must be valid JSON
+- object-shaped `meta` values can have at most 10 top-level keys
+- blank `log_id` values are replaced with generated UUIDs
+- `value` is numeric
+
+Unknown events are auto-created as event definitions.
+
+## Example request
+
+```bash
+curl -X POST "https://logs.chirpier.co/v1.0/logs" \
+  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "event": "task.duration_ms",
+      "agent": "openclaw.main",
+      "value": 420,
+      "meta": {"task_name": "email_triage"}
+    }
+  ]'
+```
+
+## Responses
+
+- `200 OK` with an empty body when the batch was accepted
+- `400 Bad Request` for validation failures
+- `401 Unauthorized` for invalid bearer tokens
+- `503 Service Unavailable` if the publisher queue is overloaded
+
+Use one of the SDKs when you want batching, retry handling, and a single client for both logs and control-plane APIs.

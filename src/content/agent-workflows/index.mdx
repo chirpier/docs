@@ -1,0 +1,53 @@
+# Agentic Workflows
+
+Chirpier is well suited to agentic systems because it keeps the model flat and operational.
+
+This section explains the generic agent model first. Use it to define event names, policy shapes, and triage flows that apply across agent systems.
+
+## Use this section when you want to
+
+- instrument tool calls, failures, latency, token usage, or heartbeats
+- keep event naming consistent across agents
+- build starter dashboards for agent operations
+- create policies that map cleanly to agent workloads
+- validate destinations and alert triage flows
+
+<PathGrid>
+  <PathCard
+    href="/agent-workflows/event-taxonomy"
+    title="Event Taxonomy"
+    description="Use canonical event names and keep time-window logic in queries instead of event names."
+    icon="rocket"
+  />
+  <PathCard
+    href="/agent-workflows/monitor-patterns"
+    title="Policy Patterns"
+    description="Pick aggregates and thresholds that match the raw event shape of agent workflows."
+    icon="compass"
+  />
+  <PathCard
+    href="/agent-workflows/chirpier-skills"
+    title="chirpier-skills"
+    description="Use the operational guide that teaches agents how to apply Chirpier's event, policy, destination, and triage contract correctly."
+    icon="rocket"
+  />
+  <PathCard
+    href="/agent-workflows/destinations-and-triage"
+    title="Destinations and Triage"
+    description="Test destinations, inspect delivery history, and handle alert lifecycle actions correctly."
+    icon="claw"
+  />
+  <PathCard
+    href="/openclaw"
+    title="OpenClaw Guides"
+    description="Use the OpenClaw-specific setup, `chirpier-skills`, and workflow playbooks once the generic model is clear."
+    icon="compass"
+  />
+</PathGrid>
+
+## How this fits with OpenClaw
+
+- Start here for reusable guidance across agent systems.
+- Use [chirpier-skills](/agent-workflows/chirpier-skills) as the operational guide once the generic model is clear.
+- Move to [OpenClaw Guides](/openclaw) when you want the concrete OpenClaw path.
+- Use [Examples](/examples/agent-monitoring) once the instrumentation model is in place.

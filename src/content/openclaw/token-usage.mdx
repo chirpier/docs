@@ -1,0 +1,26 @@
+# Monitor Token Usage
+
+Use `tokens.used` when you want a direct operational signal for model cost and throughput.
+
+Example payload:
+
+```json
+{
+  "agent": "openclaw.main",
+  "event": "tokens.used",
+  "value": 1530,
+  "meta": {
+    "workflow": "email_triage"
+  }
+}
+```
+
+Starter policy:
+
+- `tokens.used` with `sum > 50000` in `hour`
+
+Useful charts:
+
+- token usage by hour
+- token usage by workflow
+- token usage versus task count

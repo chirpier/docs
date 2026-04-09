@@ -1,0 +1,19 @@
+# Share Tokens
+
+The current embed clients accept an optional `shareToken`, not a separate embed-token bootstrap flow.
+
+When present, the token is passed to the hosted event page as `?share=<token>`.
+
+When you have multiple embeds, prefer grouping them under one `CHIRPIER_EMBEDS_JSON` value and resolving the specific entry you need per page.
+
+```bash
+CHIRPIER_EMBEDS_JSON='{"revenue":{"eventId":"evt_revenue","shareToken":"shr_revenue"},"signups":{"eventId":"evt_signups","shareToken":"shr_signups"}}'
+```
+
+Document these guarantees clearly if your app issues share tokens dynamically:
+
+- who can mint a token
+- how long it remains valid
+- what event or share scope it grants access to
+- how to rotate or invalidate tokens when needed
+- whether embeds can also be accessed without a token for fully public events

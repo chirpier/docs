@@ -1,0 +1,77 @@
+# React Usage
+
+Use `@chirpier/charts` when you want a React component wrapper around the hosted embed runtime.
+
+```tsx
+import { ChirpierChart } from "@chirpier/charts";
+
+export function RevenueWidget() {
+  return (
+    <ChirpierChart
+      eventId="your-event-id"
+      shareToken="your-share-token"
+      view="timeseries"
+      variant="line"
+      range="1d"
+      compare
+      header={false}
+      autoResize
+      minHeight={320}
+      theme="light"
+      loadingFallback={<div>Loading chart...</div>}
+    />
+  );
+}
+```
+
+The React component is the easiest path when your app already manages layout and lifecycle in React.
+
+`ChirpierChart` supports these main props:
+
+- `eventId`: required hosted event identifier
+- `shareToken`: optional share-scoped access token appended as `?share=...`
+- `range`, `aggregate`, `variant`, `compare`, `header`, `view`, `tracker`: top-level aliases for the most common `state` fields
+- `state`: canonical embed state for advanced configuration or shared helpers
+- `width`, `height`, `minHeight`, `maxHeight`, `aspectRatio`: sizing controls
+- `autoResize` or `resizeMode`: `auto`, `fixed`, or `fill`
+- `theme`: `light`, `dark`, or `system`
+- `loadingFallback` and `errorFallback`: optional React-only host fallbacks
+- `className` and `style`: iframe styling hooks
+- `onRendered`, `onResize`, `onError`, `onInteraction`: lifecycle hooks
+
+The component also exposes a ref with `refresh()`, `resize()`, `updateState()`, `updateTheme()`, and `getIframe()`.
+
+Host-specific layout such as titles, cards, placeholders, and branded error states should stay outside the component.
+
+## Multiple Embeds
+
+For multiple embeds, prefer a single `CHIRPIER_EMBEDS_JSON` env var and resolve the entry your page needs.
+
+```bash
+CHIRPIER_EMBEDS_JSON='{"revenue":{"eventId":"evt_revenue","shareToken":"shr_revenue"},"signups":{"eventId":"evt_signups","shareToken":"shr_signups"}}'
+```
+
+```tsx
+import { ChirpierChart } from "@chirpier/charts";
+
+const embeds = JSON.parse(process.env.CHIRPIER_EMBEDS_JSON ?? "{}");
+const revenue = embeds.revenue;
+
+export function RevenueWidget() {
+  return (
+    <ChirpierChart
+      eventId={revenue.eventId}
+      shareToken={revenue.shareToken}
+      view="timeseries"
+      variant="line"
+      range="1d"
+      compare
+      header={false}
+      autoResize
+      minHeight={320}
+    />
+  );
+}
+```
+
+If `shareToken` is sensitive, keep `CHIRPIER_EMBEDS_JSON` server-side and pass only the embed your page needs into the client.

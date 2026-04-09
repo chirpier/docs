@@ -1,0 +1,47 @@
+import Image from "next/image";
+import DocsChartEmbed from "../../../components/DocsChartEmbed";
+
+# Bar chart
+
+A bar chart is the alternate timeseries variant for a hosted event embed. Use it when discrete bucket-by-bucket comparison matters more than a continuous trend line.
+
+<DocsChartEmbed
+  eventId="caa491f4-a154-4e94-93da-5754776009b8"
+  shareToken="0868bcd5-b5c9-41b1-b700-1a87540908fc"
+  state={{
+    view: "timeseries",
+    variant: "bar",
+    range: "1w",
+    aggregate: "average",
+    compare: false,
+  }}
+/>
+
+## Code
+
+```tsx
+<ChirpierChart
+  eventId="event_id"
+  shareToken="share_token"
+  state={{
+    view: "timeseries",
+    variant: "bar",
+    range: "1w",
+    aggregate: "average",
+    compare: true,
+  }}
+/>
+```
+
+## Additional properties
+
+Configure a bar chart by setting `state.view` to `timeseries` and `state.variant` to `bar`.
+
+Supported options:
+
+- `state.range`: `1h`, `1d`, `1w`, `1m`
+- `state.aggregate`: `sum` or `average`
+- `state.compare`: `true` to show previous-period comparison
+- `state.header`: `false` to hide the hosted event header
+- `theme`: `light`, `dark`, `system`
+- `autoResize` or `resizeMode`: control iframe sizing behavior

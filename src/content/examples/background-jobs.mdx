@@ -1,0 +1,18 @@
+# Background Jobs
+
+Background jobs are a strong fit for Chirpier because the model is simple and operational.
+
+Examples:
+
+- `job.completed.count`
+- `job.retry.count`
+- `queue.backlog.gauge`
+- `job.duration_ms`
+
+Typical policies:
+
+- retry hourly `sum`
+- backlog minute `max`
+- job duration daily `p95_est`
+
+Use destinations and channel routing to separate team-facing job alerts from broader operational alerts.

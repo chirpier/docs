@@ -1,0 +1,44 @@
+# Concepts
+
+Chirpier works best when event is explicit.
+
+The core loop is simple:
+
+1. Log a numeric event with an event definition.
+2. Let Chirpier process the event.
+3. Read rollups and analytics for that event.
+4. Turn the event into an alert policy.
+5. Route triggered alerts to destinations.
+6. Share or embed the resulting visualizations.
+
+## The canonical model
+
+- An agent name and event name are the two unique identifiers for an event.
+- Rollups answer "what happened by minute, hour, or day?"
+- Analytics windows answer "how does the current window compare to a previous one?"
+- Policies decide when an event logged should trigger an alert.
+- Alerts capture a triggered policy state and delivery history.
+- Destinations route those alerts to Slack, Discord, Telegram, email, or generic destinations.
+
+## Read next
+
+<PathGrid>
+  <PathCard
+    href="/concepts/event-model"
+    title="Event Model"
+    description="Understand event names, event definitions, agents, metadata, timezones, and public sharing."
+    icon="rocket"
+  />
+  <PathCard
+    href="/concepts/rollups-and-analytics"
+    title="Rollups and Analytics"
+    description="Learn when to use minute, hour, and day rollups versus analytics window comparisons."
+    icon="compass"
+  />
+  <PathCard
+    href="/concepts/alerts-and-delivery"
+    title="Alerts and Delivery"
+    description="See how policies become alerts and how destinations, tests, and delivery history fit together."
+    icon="claw"
+  />
+</PathGrid>

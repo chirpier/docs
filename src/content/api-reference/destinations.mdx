@@ -1,0 +1,112 @@
+# Destinations API
+
+Chirpier still uses `/destinations` in the HTTP route names, but conceptually these are reusable alert destinations.
+
+<PathGrid>
+  <PathCard
+    href="/manage-resources/destinations"
+    title="Manage Destinations"
+    description="Start with the resource guide for destination strategy, example configs, and delivery workflow context."
+    icon="rocket"
+  />
+  <PathCard
+    href="/manage-resources/alerts"
+    title="Alert Deliveries"
+    description="Pair destination setup with the alert guide when you need delivery-history and triage context."
+    icon="claw"
+  />
+</PathGrid>
+
+## Routes
+
+- `POST /v1.0/destinations`
+- `GET /v1.0/destinations`
+- `GET /v1.0/destinations/:destinationID`
+- `PUT /v1.0/destinations/:destinationID`
+- `POST /v1.0/destinations/:destinationID/test`
+
+## Destination object
+
+```json
+{
+  "destination_id": "5e9d6fd1-727a-46f6-a377-6c8ef407efdc",
+  "channel": "slack",
+  "url": "https://hooks.slack.com/services/...",
+  "credentials": null,
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true,
+  "created_at": "2026-04-08T18:30:00Z",
+  "updated_at": "2026-04-08T18:30:00Z",
+  "last_delivered_at": null,
+  "last_error": null
+}
+```
+
+## Supported destination channels
+
+- `email`
+- `webhook`
+- `slack`
+- `discord`
+- `telegram`
+
+## Scope rules
+
+Destinations can be constrained by:
+
+- `scope`
+- `policy_ids`
+
+That scope is matched during alert delivery.
+
+Current matching logic:
+
+- `scope="all"` matches every alert for the workspace
+- otherwise, a destination only matches when the alert `policy_id` is included in `policy_ids`
+
+## Create destination
+
+Slack example:
+
+```json
+{
+  "channel": "slack",
+  "url": "https://hooks.slack.com/services/T000/B000/secret",
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
+}
+```
+
+Telegram example:
+
+```json
+{
+  "channel": "telegram",
+  "credentials": {
+    "bot_token": "123456:telegram-bot-token",
+    "chat_id": "987654321"
+  },
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
+}
+```
+
+If the destination configuration is invalid, the API returns `400`.
+
+## Read, update, and test
+
+- `GET /v1.0/destinations` returns all destinations for the current user
+- `GET /v1.0/destinations/:destinationID` reads one destination
+- `PUT /v1.0/destinations/:destinationID` updates an existing destination
+- `POST /v1.0/destinations/:destinationID/test` sends a test notification and returns `200` with an empty body on success
+
+Testing returns:
+
+- `200 OK` when the test send succeeds
+- `404 Not Found` if the destination is missing
+- `502 Bad Gateway` if the downstream provider rejects the test send
+
+Pair destination tests with `GET /v1.0/alerts/:alertID/deliveries?kind=test` when debugging delivery behavior.

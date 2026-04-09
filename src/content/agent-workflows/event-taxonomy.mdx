@@ -1,0 +1,45 @@
+# Event Taxonomy
+
+The agent name, event name combination are the unique keys.
+
+## Naming rule
+
+Use:
+
+```text
+domain.subject.measure[.suffix]
+```
+
+Examples:
+
+- `tool.errors.count`
+- `tool.calls.count`
+- `task.duration_ms`
+- `tokens.used`
+- `heartbeat.missed.count`
+- `market.bitcoin.price_usd`
+- `sentiment.bitcoin.reddit.score`
+
+## What not to do
+
+Do not encode time windows into the event name.
+
+Avoid:
+
+- `market.bitcoin.price_change_pct_1h`
+- `tool.errors.last_hour`
+- `reddit_sentiment_today`
+
+Those should be expressed in rollups, analytics windows, or monitor logic.
+
+## Metadata guidance
+
+Keep inspection context in `meta`:
+
+- `tool_name`
+- `task_name`
+- `workflow`
+- `source`
+- `query`
+
+Do not depend on `meta` as a first-class analytical filter in v1.

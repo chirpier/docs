@@ -1,0 +1,52 @@
+# chirpier-skills
+
+`chirpier-skills` is the agent-oriented operational guide for using Chirpier correctly.
+
+It is especially useful for OpenClaw, but the model applies to other agent systems too.
+
+## Use chirpier-skills when you want to
+
+- keep event names canonical across agent tasks
+- create policies that match the raw stream shape
+- validate destinations before relying on real alerts
+- triage delivery history correctly
+- keep agent prompts aligned with the actual Chirpier API contract
+
+## What chirpier-skills is
+
+Think of `chirpier-skills` as the workflow layer on top of Chirpier's APIs and SDKs.
+
+- The [API Reference](/api-reference) defines the HTTP contract.
+- [SDKs](/sdks) define the language clients.
+- `chirpier-skills` teaches agents how to use those surfaces correctly.
+
+## What it enforces
+
+- event names are the schema
+- policies should use aggregates that match the raw stream shape
+- analytics comparisons should use `previous`, not invented event names
+- destinations should always be tested before production rollout
+- alert triage should interpret delivery history with `kind=alert`, `kind=test`, and `kind=all` correctly
+
+## Current terminology
+
+Use the current Chirpier product language:
+
+- `policy`, not `monitor`
+- `destination`, not `connector`
+- `event logs` or `rollups`, not ad hoc time-window streams
+
+Older material may still mention `monitor` or `connector`, but the current docs and API use `policy` and `destination`.
+
+## Read in this order
+
+1. [Event Taxonomy](/agent-workflows/event-taxonomy)
+2. [Policy Patterns](/agent-workflows/monitor-patterns)
+3. [Destinations and Triage](/agent-workflows/destinations-and-triage)
+4. [OpenClaw Guides](/openclaw)
+
+## Best fit with OpenClaw
+
+Use [OpenClaw Guides](/openclaw) when you want the concrete installation path, guided validation flow, and workload-specific playbooks.
+
+Use this page and the rest of [Agentic Workflows](/agent-workflows) when you want the reusable Chirpier model first.

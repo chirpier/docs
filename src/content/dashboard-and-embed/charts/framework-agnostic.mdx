@@ -1,0 +1,39 @@
+# Framework-Agnostic Usage
+
+Use `@chirpier/embed` when you want to mount a chart outside React.
+
+```ts
+import { mountChirpierChart } from "@chirpier/embed";
+
+const chart = mountChirpierChart("#chart-root", {
+  eventId: "your-event-id",
+  autoResize: true,
+  state: {
+    view: "timeseries",
+    variant: "bar",
+    range: "1m",
+    compare: true,
+  },
+});
+
+chart.updateState({ range: "1w", view: "summary" });
+chart.updateTheme("light");
+```
+
+This is the better fit for vanilla JS, Web Components, or wrappers built for other frameworks.
+
+`mountChirpierChart()` accepts:
+
+- `eventId`: required hosted event identifier
+- `shareToken`: optional share-scoped access token
+- `state`: chart/view configuration
+- `width`, `height`, `minHeight`, `maxHeight`, `aspectRatio`: sizing controls
+- `autoResize` or `resizeMode`: `auto`, `fixed`, or `fill`
+- `theme`: `light`, `dark`, or `system`
+- `baseUrl`: optional override for the hosted Chirpier origin
+- `className` and `style`: iframe styling hooks
+- `onRendered`, `onResize`, `onError`, `onInteraction`: lifecycle hooks
+
+The returned instance exposes `iframe`, `update()`, `updateState()`, `updateTheme()`, and `destroy()`.
+
+For multiple embeds, prefer resolving `eventId` and `shareToken` from a single server-side `CHIRPIER_EMBEDS_JSON` value rather than scattering many independent env vars.

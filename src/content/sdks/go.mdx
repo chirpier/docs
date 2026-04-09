@@ -1,0 +1,32 @@
+# Go
+
+Package:
+
+```bash
+go get github.com/chirpier/chirpier-go
+```
+
+Recommended style:
+
+```go
+client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+if err != nil {
+    return err
+}
+defer client.Close(context.Background())
+
+_ = client.Log(context.Background(), chirpier.Log{
+    Agent: "openclaw.main",
+    Event: "task.duration_ms",
+    Value: 420,
+})
+```
+
+The Go SDK is a good fit for:
+
+- backend services
+- ingestion adapters
+- concurrent workers
+- low-overhead operational tooling
+
+For shared control-plane helpers, see [Common Tasks](/sdks/common-tasks).

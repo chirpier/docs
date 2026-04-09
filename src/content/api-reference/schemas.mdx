@@ -1,0 +1,380 @@
+# Schemas
+
+This page collects the shared object shapes used by the Chirpier public API.
+
+## Log
+
+```yaml
+Log:
+  type: object
+  required:
+    - event
+    - value
+  properties:
+    log_id:
+      type: string
+      format: uuid
+    agent:
+      type: string
+    event:
+      type: string
+    value:
+      type: number
+    occurred_at:
+      type: string
+      format: date-time
+    meta:
+      type: object
+      additionalProperties: true
+```
+
+## Event
+
+```yaml
+Event:
+  type: object
+  required:
+    - event_id
+    - event
+    - public
+    - share_token
+  properties:
+    event_id:
+      type: string
+      format: uuid
+    agent:
+      type: string
+      nullable: true
+    event:
+      type: string
+    public:
+      type: boolean
+    share_token:
+      type: string
+      format: uuid
+    description:
+      type: string
+      nullable: true
+    unit:
+      type: string
+      nullable: true
+    timezone:
+      type: string
+      nullable: true
+    created_at:
+      type: string
+      format: date-time
+      nullable: true
+```
+
+## EventLog
+
+```yaml
+EventLog:
+  type: object
+  required:
+    - event_id
+    - event
+    - period
+    - occurred_at
+    - count
+    - value
+    - squares
+    - min
+    - max
+  properties:
+    event_id:
+      type: string
+      format: uuid
+    agent:
+      type: string
+    event:
+      type: string
+    period:
+      type: string
+      enum: [minute, hour, day]
+    occurred_at:
+      type: string
+      format: date-time
+    count:
+      type: integer
+    value:
+      type: number
+    squares:
+      type: number
+    min:
+      type: number
+    max:
+      type: number
+```
+
+## AnalyticsWindowResponse
+
+```yaml
+AnalyticsWindowResponse:
+  type: object
+  required:
+    - event_id
+    - view
+    - period
+    - previous
+    - data
+  properties:
+    event_id:
+      type: string
+      format: uuid
+    view:
+      type: string
+      enum: [window]
+    period:
+      type: string
+      enum: [1h, 1d, 7d, 1m]
+    previous:
+      type: string
+      enum: [previous_window, previous_1d, previous_7d, previous_1m]
+    data:
+      type: object
+      properties:
+        current_value: { type: number }
+        current_count: { type: integer }
+        previous_value: { type: number }
+        previous_count: { type: integer }
+        value_delta: { type: number }
+        count_delta: { type: integer }
+        value_pct_change: { type: number }
+        count_pct_change: { type: number }
+        current_mean: { type: number }
+        previous_mean: { type: number }
+        mean_pct_change: { type: number }
+        mean_delta: { type: number }
+        current_stddev: { type: number }
+        previous_stddev: { type: number }
+```
+
+## Policy
+
+```yaml
+Policy:
+  type: object
+  required:
+    - policy_id
+    - event_id
+    - title
+    - channel
+    - period
+    - aggregate
+    - condition
+    - threshold
+    - severity
+    - enabled
+  properties:
+    policy_id:
+      type: string
+      format: uuid
+    event_id:
+      type: string
+      format: uuid
+    title:
+      type: string
+    description:
+      type: string
+      nullable: true
+    channel:
+      type: string
+    period:
+      type: string
+      enum: [minute, hour, day]
+    aggregate:
+      type: string
+      enum: [sum, count, average, min, max, p95_est, p99_est]
+    condition:
+      type: string
+      enum: [gt, lt, eq, gte, lte]
+    threshold:
+      type: number
+    severity:
+      type: string
+      enum: [info, warning, error, critical]
+    enabled:
+      type: boolean
+```
+
+## Alert
+
+```yaml
+Alert:
+  type: object
+  required:
+    - alert_id
+    - policy_id
+    - event_id
+    - event
+    - title
+    - channel
+    - period
+    - aggregate
+    - condition
+    - threshold
+    - severity
+    - status
+    - value
+    - count
+    - min
+    - max
+  properties:
+    alert_id:
+      type: string
+      format: uuid
+    policy_id:
+      type: string
+      format: uuid
+    event_id:
+      type: string
+      format: uuid
+    agent:
+      type: string
+      nullable: true
+    event:
+      type: string
+    title:
+      type: string
+    channel:
+      type: string
+    period:
+      type: string
+      enum: [minute, hour, day]
+    aggregate:
+      type: string
+      enum: [sum, count, average, min, max, p95_est, p99_est]
+    condition:
+      type: string
+      enum: [gt, lt, eq, gte, lte]
+    threshold:
+      type: number
+    severity:
+      type: string
+      enum: [info, warning, error, critical]
+    status:
+      type: string
+      enum: [triggered, acknowledged, resolved, archived]
+    value:
+      type: number
+    count:
+      type: integer
+    min:
+      type: number
+    max:
+      type: number
+    triggered_at:
+      type: string
+      format: date-time
+      nullable: true
+    acknowledged_at:
+      type: string
+      format: date-time
+      nullable: true
+    resolved_at:
+      type: string
+      format: date-time
+      nullable: true
+    alerted_at:
+      type: string
+      format: date-time
+      nullable: true
+```
+
+## Destination
+
+```yaml
+Destination:
+  type: object
+  required:
+    - destination_id
+    - channel
+    - scope
+    - enabled
+  properties:
+    destination_id:
+      type: string
+      format: uuid
+    channel:
+      type: string
+      enum: [email, webhook, slack, telegram, discord]
+    url:
+      type: string
+      nullable: true
+    credentials:
+      type: object
+      nullable: true
+      additionalProperties: true
+    scope:
+      type: string
+    policy_ids:
+      type: array
+      items:
+        type: string
+        format: uuid
+    enabled:
+      type: boolean
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+    last_delivered_at:
+      type: string
+      format: date-time
+      nullable: true
+    last_error:
+      type: string
+      nullable: true
+```
+
+## AlertDeliveryAttempt
+
+```yaml
+AlertDeliveryAttempt:
+  type: object
+  required:
+    - attempt_id
+    - alert_id
+    - channel
+    - target
+    - status
+    - created_at
+  properties:
+    attempt_id:
+      type: string
+      format: uuid
+    alert_id:
+      type: string
+      format: uuid
+    destination_id:
+      type: string
+      format: uuid
+      nullable: true
+    channel:
+      type: string
+    target:
+      type: string
+    status:
+      type: string
+    response_status:
+      type: integer
+      nullable: true
+    error_message:
+      type: string
+      nullable: true
+    delivery_context:
+      nullable: true
+    created_at:
+      type: string
+      format: date-time
+```
+
+## Notes
+
+- UUID path parameters return `400` when malformed.
+- Most create and update routes bind directly to the resource object shape documented here.
+- Server-managed fields such as `user_id`, generated IDs, and timestamps should be treated as response fields even if the internal Go struct contains them.

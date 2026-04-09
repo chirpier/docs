@@ -1,0 +1,89 @@
+export const dynamic = "force-dynamic";
+
+# Analytics API
+
+Use the analytics endpoint when you need a precomputed window comparison for a single event definition.
+
+Endpoint:
+
+```text
+GET /v1.0/events/:eventID/analytics
+```
+
+Required query parameters:
+
+- `view=window`
+- `period=1h|1d|7d|1m`
+- `previous=previous_window|previous_1d|previous_7d|previous_1m`
+
+## Supported window combinations
+
+- `period=1h&previous=previous_window`
+- `period=1h&previous=previous_1d`
+- `period=1h&previous=previous_7d`
+- `period=1h&previous=previous_1m`
+- `period=1d&previous=previous_window`
+- `period=1d&previous=previous_7d`
+- `period=1d&previous=previous_1m`
+- `period=7d&previous=previous_window`
+- `period=7d&previous=previous_1m`
+- `period=1m&previous=previous_window`
+
+If a combination is not supported, the API returns `400`.
+
+## Example request
+
+```bash
+curl -G https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  --data-urlencode "view=window" \
+  --data-urlencode "period=1h" \
+  --data-urlencode "previous=previous_7d"
+```
+
+## Example response
+
+```json
+{
+  "event_id": "f6d2cf72-9f46-4f19-84fb-ff8f8e97d095",
+  "view": "window",
+  "period": "1h",
+  "previous": "previous_7d",
+  "data": {
+    "current_value": 1280,
+    "current_count": 64,
+    "previous_value": 910,
+    "previous_count": 52,
+    "value_delta": 370,
+    "count_delta": 12,
+    "value_pct_change": 40.65934065934066,
+    "count_pct_change": 23.076923076923077,
+    "current_mean": 20,
+    "previous_mean": 17.5,
+    "mean_pct_change": 14.285714285714285,
+    "mean_delta": 2.5,
+    "current_stddev": 6.1,
+    "previous_stddev": 5.4
+  }
+}
+```
+
+## Response fields
+
+- `current_*`: values for the requested window ending now
+- `previous_*`: values for the comparison window selected by `previous`
+- `*_delta`: absolute change between the two windows
+- `*_pct_change`: percentage change relative to the previous window
+- `current_mean` / `previous_mean`: average value per sample in each window
+- `current_stddev` / `previous_stddev`: estimated spread from aggregated squares
+
+The response field names do not change by comparison type. For example, `period=1h&previous=previous_7d` still returns `previous_value`, not `last_week_value`.
+
+## Notes
+
+- use `previous`, not `compare`
+- analytics windows are separate from rollup periods like `minute`, `hour`, and `day`
+- day and larger windows respect the event definition `timezone`
+- public event sharing uses `event_id` together with `share_token`, but analytics reads still use the authenticated control-plane API
+
+Use [API Reference](/api-reference) for the broader control-plane contract, [Event Taxonomy](/agent-workflows/event-taxonomy) for generic naming guidance, [chirpier-skills](/agent-workflows/chirpier-skills) for the agent workflow layer, and [Canonical Event Names](/openclaw/taxonomy) for the OpenClaw-specific path.

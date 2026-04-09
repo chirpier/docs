@@ -1,5 +1,5 @@
 {
-  "name": "example-docs",
+  "name": "@chirpier/docs",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -9,6 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@chirpier/charts": "file:../charts",
+    "@chirpier/embed": "file:../charts/embed",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "next": "^15.1.4",

@@ -1,0 +1,34 @@
+# Destinations and Triage
+
+Agent workflows are only useful if alert delivery and triage are part of the loop.
+
+## Destination testing
+
+After creating a destination, send a test notification:
+
+```text
+POST /v1.0/destinations/:destinationID/test
+```
+
+Then inspect test delivery history with:
+
+```text
+GET /v1.0/alerts/:alertID/deliveries?kind=test
+```
+
+## Recommended triage flow
+
+1. Read the current alert.
+2. Inspect real delivery attempts with default delivery history.
+3. If debugging destination setup, switch to `kind=test`.
+4. Acknowledge, resolve, or archive only after validating the event behavior.
+
+## Destination types
+
+- Slack for team channels
+- Discord for chat-driven workflows
+- Telegram for mobile/direct alerts
+- Generic destinations for automation and relays
+- Email for default operator coverage
+
+The detailed source material still lives in `chirpier-skills`, but `docs` is the canonical public explanation of the workflow.

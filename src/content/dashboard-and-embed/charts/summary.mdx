@@ -1,0 +1,47 @@
+import Image from "next/image";
+import DocsChartEmbed from "../../../components/DocsChartEmbed";
+
+# Summary view
+
+A summary view renders headline metrics for a public event embed. Use it when you want a compact snapshot instead of a time-series chart.
+
+<DocsChartEmbed
+  eventId="caa491f4-a154-4e94-93da-5754776009b8"
+  shareToken="0868bcd5-b5c9-41b1-b700-1a87540908fc"
+  state={{
+    view: "summary",
+    range: "1w",
+    aggregate: "sum",
+    compare: true,
+    header: false,
+  }}
+/>
+
+## Code
+
+```tsx
+<ChirpierChart
+  eventId="event_id"
+  shareToken="share_token"
+  state={{
+    view: "summary",
+    range: "1w",
+    aggregate: "sum",
+    compare: true,
+    header: false,
+  }}
+/>
+```
+
+## Additional properties
+
+Configure a summary embed by setting `state.view` to `summary`.
+
+Supported options:
+
+- `state.range`: `1h`, `1d`, `1w`, `1m`
+- `state.aggregate`: `sum` or `average`
+- `state.compare`: `true` to show previous-period comparison alongside the summary
+- `state.header`: `false` to hide the hosted event header
+- `theme`: `light`, `dark`, `system`
+- `autoResize` or `resizeMode`: control iframe sizing behavior

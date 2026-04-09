@@ -1,0 +1,87 @@
+# Use chirpier-skills
+
+`chirpier-skills` is the recommended way to make Chirpier feel native inside OpenClaw.
+
+It gives OpenClaw an opinionated workflow for:
+
+- canonical event names
+- valid policy patterns
+- destination setup and testing
+- alert triage and delivery inspection
+
+## Install the skills
+
+```bash
+# Install all skills
+npx skills @chirpier/chirpier-skills
+
+# Or install individual skills
+npx skills @chirpier/chirpier-skills/chirpier
+npx skills @chirpier/chirpier-skills/chirpier-monitoring
+npx skills @chirpier/chirpier-skills/chirpier-destinations
+npx skills @chirpier/chirpier-skills/chirpier-alert-triage
+```
+
+## Recommended starting path
+
+1. export `CHIRPIER_API_KEY`
+2. start with the `chirpier` skill
+3. read the event taxonomy
+4. pick a playbook
+5. emit events first, then create policies
+6. test destinations before relying on real alert delivery
+
+## Which skill to use
+
+- `chirpier`: default starting point for sending events, reading event definitions, creating policies, inspecting alerts, and testing destinations
+- `chirpier-monitoring`: best for market monitoring, sentiment workflows, tool failures, and latency tracking
+- `chirpier-destinations`: focused on Slack, Discord, Telegram, email, and generic destination setup
+- `chirpier-alert-triage`: focused on reading active alerts, checking deliveries, acknowledging, resolving, and archiving
+
+## What to tell OpenClaw
+
+These are good prompts or task instructions for an OpenClaw workflow that has `chirpier-skills` available:
+
+- "Send OpenClaw task duration and error events to Chirpier"
+- "Create a policy for OpenClaw tool failures in the last hour"
+- "Analyze Reddit sentiment about Bitcoin and alert if sentiment drops"
+- "Set up a Slack destination for Chirpier alerts"
+- "Test my Telegram destination and inspect delivery history"
+
+## Why this helps
+
+Without skills, each OpenClaw workflow may invent its own event names and policy patterns.
+
+With `chirpier-skills`, OpenClaw gets consistent guidance:
+
+- event names are the schema
+- use canonical OpenClaw events first
+- do not encode time windows into event names
+- use rollups and policies for hourly or daily logic
+- use analytics `previous` windows for explicit comparison queries
+- treat `meta` as inspection context in v1
+
+## Contract source of truth
+
+`chirpier-skills` should follow the contract defined in the docs site.
+
+- use `docs` as the normative source for periods, event grammar, analytics window conventions, and delivery-history kinds
+- treat `chirpier-skills` as the operational layer OpenClaw follows when applying that contract
+
+For testing, start with guided mode first:
+
+1. explicitly tell OpenClaw to use `chirpier-skills`
+2. verify it emits canonical event names and valid policies
+3. then repeat in natural mode and confirm it still follows the same contract
+
+## Recommended docs flow
+
+For the best OpenClaw integration path, read these pages in order:
+
+1. [Export API Keys](/openclaw/keys)
+2. [Agentic Workflows: chirpier-skills](/agent-workflows/chirpier-skills)
+3. [Use chirpier-skills](/openclaw/skills)
+4. [Instrument OpenClaw](/openclaw/instrument)
+5. [Canonical Event Names](/openclaw/taxonomy)
+6. [Monitor Tool Errors](/openclaw/tool-errors)
+7. [Destinations for OpenClaw Alerts](/openclaw/destinations)

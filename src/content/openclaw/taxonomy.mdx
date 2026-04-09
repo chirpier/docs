@@ -1,0 +1,59 @@
+# Canonical Event Names
+
+For OpenClaw, event names should follow:
+
+`domain.subject.measure[.suffix]`
+
+Event names are raw event identities.
+
+- use event names for stable events
+- use rollups and policies for hourly or daily logic
+- do not encode time windows into event names
+- treat `meta` as inspection-only context in v1
+
+Core agent-monitoring events:
+
+- `tool.errors.count`
+- `tool.calls.count`
+- `task.duration_ms`
+- `tokens.used`
+- `heartbeat.missed.count`
+
+Market and sentiment events:
+
+- `market.bitcoin.price_usd`
+- `market.bitcoin.volume_usd`
+- `market.bitcoin.sentiment_score`
+- `sentiment.bitcoin.reddit.score`
+- `sentiment.bitcoin.reddit.positive.count`
+- `sentiment.bitcoin.reddit.negative.count`
+- `sentiment.bitcoin.reddit.post_volume.count`
+
+Do not encode time windows into event names. Bad examples:
+
+- `tool.errors.last_hour`
+- `reddit_sentiment_today`
+- `market.bitcoin.price_change_pct_1h`
+
+Use `meta` for inspection context like `tool_name`, `task_name`, `workflow`, `source`, or `query`, not for alert semantics in v1.
+
+## Recommended aggregates by event shape
+
+These are operator conventions for policies and charts, not event-definition metadata stored in Ingres.
+
+- `*.errors.count`, `*.count`, `*.used` -> usually `sum`; sometimes `count` when you need sample volume
+- `*.duration_ms` -> usually `average`, `p95_est`, `p99_est`, or `max`
+- `*.score`, `*.price_usd` -> usually `average`, `min`, or `max`
+- `*.gauge` -> usually `average`, `min`, or `max`
+- unknown suffix -> start with `sum` only if the event is intentionally additive
+
+## Analytics windows
+
+When you need explicit comparisons, use the analytics window API rather than inventing derived event names:
+
+- `period=1h&previous=previous_window`
+- `period=1h&previous=previous_7d`
+- `period=1h&previous=previous_1m`
+- `period=1d&previous=previous_1m`
+- `period=7d&previous=previous_1m`
+- `period=1m&previous=previous_window`

@@ -1,0 +1,164 @@
+# Policies and Alerts API
+
+These APIs cover both monitor definition and runtime alert handling.
+
+<PathGrid>
+  <PathCard
+    href="/manage-resources/policies"
+    title="Manage Policies"
+    description="Start with the resource guide for aggregate choice, channel strategy, and monitor design patterns."
+    icon="rocket"
+  />
+  <PathCard
+    href="/manage-resources/alerts"
+    title="Manage Alerts"
+    description="Use the resource guide for operator workflows, status handling, and delivery investigation."
+    icon="claw"
+  />
+</PathGrid>
+
+## Policy routes
+
+- `POST /v1.0/policies`
+- `GET /v1.0/policies`
+- `GET /v1.0/policies/:policyID`
+- `PUT /v1.0/policies/:policyID`
+
+## Policy object
+
+```json
+{
+  "policy_id": "58d3d98b-4dad-498c-a074-1e2f7f6bc5b0",
+  "event_id": "34c57199-4c6d-4eb8-ae17-c386e17c7b95",
+  "title": "Task duration too high",
+  "description": "Alert when average task latency rises above 2s",
+  "channel": "ops",
+  "period": "hour",
+  "aggregate": "average",
+  "condition": "gt",
+  "threshold": 2000,
+  "severity": "warning",
+  "enabled": true
+}
+```
+
+Allowed enum values:
+
+- `period`: `minute`, `hour`, `day`
+- `aggregate`: `sum`, `count`, `average`, `min`, `max`, `p95_est`, `p99_est`
+- `condition`: `gt`, `lt`, `eq`, `gte`, `lte`
+- `severity`: `info`, `warning`, `error`, `critical`
+
+## Create and update policies
+
+Example request:
+
+```bash
+curl -X POST "https://api.chirpier.co/v1.0/policies" \
+  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event_id": "'$EVENT_ID'",
+    "title": "Task duration too high",
+    "channel": "ops",
+    "period": "hour",
+    "aggregate": "average",
+    "condition": "gt",
+    "threshold": 2000,
+    "severity": "warning",
+    "enabled": true
+  }'
+```
+
+`GET /v1.0/policies` returns all policies for the current user.
+
+`GET /v1.0/policies/:policyID` and `PUT /v1.0/policies/:policyID` require `policyID` to be a UUID.
+
+## Alert routes
+
+- `GET /v1.0/alerts`
+- `GET /v1.0/alerts/:alertID`
+- `GET /v1.0/alerts/:alertID/deliveries?kind=alert|test|all&limit=&offset=`
+- `POST /v1.0/alerts/:alertID/acknowledge`
+- `POST /v1.0/alerts/:alertID/resolve`
+- `POST /v1.0/alerts/:alertID/archive`
+
+## Alert object
+
+Alerts are runtime policy results. A response typically includes:
+
+- policy identity: `alert_id`, `policy_id`, `event_id`
+- stream context: `agent`, `event`, `title`, `channel`
+- monitor rule: `period`, `aggregate`, `condition`, `threshold`, `severity`
+- evaluation result: `value`, `count`, `min`, `max`
+- lifecycle state: `status`, `triggered_at`, `acknowledged_at`, `resolved_at`, `alerted_at`
+
+Example:
+
+```json
+{
+  "alert_id": "414d5d9c-b8c0-4e8b-bf3a-0d4e3e616604",
+  "policy_id": "58d3d98b-4dad-498c-a074-1e2f7f6bc5b0",
+  "event_id": "34c57199-4c6d-4eb8-ae17-c386e17c7b95",
+  "event": "task.duration_ms",
+  "title": "Task duration too high",
+  "channel": "ops",
+  "period": "hour",
+  "aggregate": "average",
+  "condition": "gt",
+  "threshold": 2000,
+  "severity": "warning",
+  "status": "triggered",
+  "value": 2410,
+  "count": 18,
+  "min": 810,
+  "max": 4100,
+  "triggered_at": "2026-04-08T18:30:00Z"
+}
+```
+
+## Read alerts
+
+`GET /v1.0/alerts` supports an optional `status` filter:
+
+- `triggered`
+- `acknowledged`
+- `resolved`
+- `archived`
+
+## Read alert deliveries
+
+Query parameters:
+
+- `kind`: optional. One of `alert`, `test`, or `all`.
+- `limit`: optional integer. Defaults to `100`.
+- `offset`: optional integer. Defaults to `0`.
+
+Example delivery attempt:
+
+```json
+{
+  "attempt_id": "72aa8ea6-aabd-4f75-b7f6-df31d7a0f41f",
+  "alert_id": "414d5d9c-b8c0-4e8b-bf3a-0d4e3e616604",
+  "destination_id": "5e9d6fd1-727a-46f6-a377-6c8ef407efdc",
+  "channel": "slack",
+  "target": "https://hooks.slack.com/services/...",
+  "status": "delivered",
+  "response_status": 200,
+  "created_at": "2026-04-08T18:30:03Z"
+}
+```
+
+## Lifecycle actions
+
+Use the three action routes with an empty body:
+
+- `POST /v1.0/alerts/:alertID/acknowledge`
+- `POST /v1.0/alerts/:alertID/resolve`
+- `POST /v1.0/alerts/:alertID/archive`
+
+Responses:
+
+- `200 OK` with the updated alert
+- `404 Not Found` if the alert does not exist
+- `409 Conflict` if the requested transition is invalid

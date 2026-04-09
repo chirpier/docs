@@ -1,0 +1,17 @@
+# Agent Monitoring
+
+Recommended events:
+
+- `tool.errors.count`
+- `tool.calls.count`
+- `task.duration_ms`
+- `tokens.used`
+- `heartbeat.missed.count`
+
+Recommended first policies:
+
+- `tool.errors.count` with hourly `sum`
+- `task.duration_ms` with hourly `average` or daily `p95_est`
+- `heartbeat.missed.count` with daily `sum`
+
+This pattern is the best starting point for OpenClaw and similar agent systems.

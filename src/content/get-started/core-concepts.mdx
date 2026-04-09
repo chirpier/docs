@@ -1,0 +1,39 @@
+# Core Concepts
+
+Chirpier is built around a small set of concepts that map directly to the product workflow and public API contract.
+
+## Event Logs
+
+An event log is the numeric signal you send to Chirpier. It includes an event name, a value, and optional context such as `agent`, `occurred_at`, and `meta`.
+
+## Events
+
+When Chirpier sees a new unique event, it creates an event definition that becomes the anchor point for charts, policies, and rollups.
+
+Useful event metadata includes `description`, `unit`, `timezone`, `public``.
+
+## Rollups and Analytics
+
+Rollups answer the time-bucketed question for `minute`, `hour`, or `day`. Analytics windows answer the comparison question for windows like `1h`, `1d`, `7d`, and `1m`.
+
+## Charts
+
+Charts visualize an event definition over time using hosted Chirpier views, chart variants, and canonical page state.
+
+## Policies
+
+Policies describe the rule Chirpier evaluates for an event definition, such as whether the hourly sum is greater than a threshold.
+
+## Alerts
+
+Alerts are created when a policy triggers. Teams can acknowledge, resolve, archive, and inspect delivery attempts from the web app.
+
+## Destinations
+
+Destinations route alert deliveries to external systems such as Slack or Telegram.
+
+## Public Sharing and Embeds
+
+Public events have a public facing dashboard with a `share_token`. Hosted embeds build on that same public event surface.
+
+For the expanded model, see [Concepts](/concepts).

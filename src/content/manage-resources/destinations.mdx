@@ -1,0 +1,69 @@
+# Destinations
+
+Destinations are reusable outbound delivery targets for Chirpier alerts.
+
+<PathGrid>
+  <PathCard
+    href="/api-reference/destinations"
+    title="Destinations API"
+    description="See the exact destination routes, supported channels, scope rules, and test-send behavior."
+    icon="compass"
+  />
+  <PathCard
+    href="/api-reference/policies-and-alerts"
+    title="Alert Deliveries"
+    description="Read the delivery-history and alert transition reference alongside destination setup."
+    icon="claw"
+  />
+</PathGrid>
+
+## Supported types
+
+- `email`
+- `webhook`
+- `slack`
+- `discord`
+- `telegram`
+
+## Routing model
+
+Destinations can be filtered by:
+
+- `policy_ids`
+
+This lets you create broad workspace-level routes or tighter routes for specific events and agent workflows.
+
+## Common examples
+
+Slack destination:
+
+```json
+{
+  "url": "https://hooks.slack.com/services/T000/B000/secret",
+  "channel": "slack",
+  "enabled": true
+}
+```
+
+Telegram bot:
+
+```json
+{
+  "type": "telegram",
+  "enabled": true,
+  "credentials": {
+    "bot_token": "123456:telegram-bot-token",
+    "chat_id": "987654321"
+  }
+}
+```
+
+## Destination APIs
+
+- `POST /v1.0/destinations`
+- `GET /v1.0/destinations`
+- `GET /v1.0/destinations/:destinationID`
+- `PUT /v1.0/destinations/:destinationID`
+- `POST /v1.0/destinations/:destinationID/test`
+
+Testing a destination creates test delivery history, which you can inspect from the related alert context with `kind=test`.

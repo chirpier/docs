@@ -1,0 +1,43 @@
+# OpenClaw Quickstart
+
+This is the fastest path to get Chirpier working with OpenClaw.
+
+## Recommended path
+
+1. create or copy a Chirpier API key from the web app
+2. export that key into the OpenClaw runtime as `CHIRPIER_API_KEY`
+3. install or load `chirpier-skills`
+4. start with the `chirpier` skill
+5. emit one canonical OpenClaw event
+6. confirm the event definition appears in Chirpier
+7. create one chart and one policy
+
+For v1, Chirpier standardizes backend rollup periods on:
+
+- `minute`
+- `hour`
+- `day`
+
+Use those values in event-log and alerting APIs. UI shortcuts like `30d` belong to chart/embed filtering, not the backend period contract.
+
+If you want the opinionated OpenClaw workflow, use `chirpier-skills`. If you want the thinnest possible setup, emit the same events directly with the SDK.
+
+Minimal JavaScript example:
+
+```ts
+import { createClient } from "@chirpier/chirpier-js";
+
+const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
+
+await client.log({
+  agent: "openclaw.main",
+  event: "tool.errors.count",
+  value: 1,
+  meta: { tool_name: "browser.open", workflow: "triage" },
+});
+
+await client.flush();
+await client.shutdown();
+```
+
+Then continue with [Use chirpier-skills](/openclaw/skills) and [Canonical Event Names](/openclaw/taxonomy).
