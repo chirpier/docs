@@ -2,6 +2,13 @@
 
 Choose policy aggregates based on the raw event shape.
 
+| Stream shape | Example | Good aggregates | Avoid |
+| --- | --- | --- | --- |
+| count increment | `tool.errors.count` | `sum`, `count` | `average` |
+| latency sample | `task.duration_ms` | `average`, `p95_est`, `p99_est` | `sum` |
+| additive usage | `tokens.used` | `sum` | `average` |
+| binary signal | `heartbeat.missed.count` | `sum`, `count` | `average` |
+
 ## Count, error count, and usage events
 
 Usually use `sum`.

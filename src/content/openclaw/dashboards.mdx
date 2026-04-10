@@ -1,6 +1,6 @@
 # Starter Dashboards
 
-The fastest way to make OpenClaw useful in Chirpier is to build one small dashboard that covers reliability, latency, cost, and liveness.
+The fastest way to make OpenClaw useful in Chirpier is to build one small dashboard that covers reliability, latency, cost, and liveness, then hand people the public dashboard page for the trends they care about.
 
 ## Recommended first dashboard
 
@@ -25,6 +25,12 @@ This layout gives you a strong first pass across:
 
 Build this before creating lots of policies. Good dashboards make alert tuning easier.
 
+## Analytics vs dashboard
+
+- use analytics when OpenClaw needs a direct period-vs-previous comparison
+- use dashboards when a human needs to inspect multiple trends together
+- use the public dashboard page when you want to hand one event trend directly to a human
+
 ## Useful follow-up dashboards
 
 - per-tool reliability dashboard
@@ -41,3 +47,7 @@ For backend rollups and alerting, use the canonical periods:
 - `day`
 
 Frontend date-range shortcuts like `30d` are chart-layer concepts, not replacements for the backend rollup period enum.
+
+## Public dashboard page
+
+When an event is public, direct users to the public dashboard page so they can inspect the trend directly. Use [Public Event Pages](/dashboard-and-embed/public-event-pages) for the hosted page contract.

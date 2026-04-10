@@ -41,14 +41,14 @@ Common patterns:
 
 ## Channel routing
 
-Policies route to logical channels such as:
+The policy `channel` field is the routing namespace for alerts. Typical values are:
 
 - `default`
 - `ops`
 - `market`
 - `sentiment`
 
-Destinations subscribe to one or more channels, and alert delivery matches on that channel.
+Keep this separate from destination provider type. Destination transport uses values like `slack`, `discord`, `telegram`, `webhook`, or `email` in the destination `channel` field.
 
 ## Lifecycle
 

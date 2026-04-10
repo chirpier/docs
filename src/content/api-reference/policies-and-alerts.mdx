@@ -1,3 +1,5 @@
+import { Tabs } from "nextra/components";
+
 # Policies and Alerts API
 
 These APIs cover both monitor definition and runtime alert handling.
@@ -6,7 +8,7 @@ These APIs cover both monitor definition and runtime alert handling.
   <PathCard
     href="/manage-resources/policies"
     title="Manage Policies"
-    description="Start with the resource guide for aggregate choice, channel strategy, and monitor design patterns."
+    description="Start with the resource guide for aggregate choice, policy channel strategy, and policy design patterns."
     icon="rocket"
   />
   <PathCard
@@ -51,7 +53,8 @@ Allowed enum values:
 
 ## Create and update policies
 
-Example request:
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
 
 ```bash
 curl -X POST "https://api.chirpier.co/v1.0/policies" \
@@ -68,7 +71,76 @@ curl -X POST "https://api.chirpier.co/v1.0/policies" \
     "severity": "warning",
     "enabled": true
   }'
+
+curl -X PUT "https://api.chirpier.co/v1.0/policies/$POLICY_ID" \
+  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Task duration still too high"}'
 ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const policy = await client.createPolicy({
+  event_id: EVENT_ID,
+  title: "Task duration too high",
+  channel: "ops",
+  period: "hour",
+  aggregate: "average",
+  condition: "gt",
+  threshold: 2000,
+  severity: "warning",
+  enabled: true,
+});
+
+const updated = await client.updatePolicy(policy.policy_id, {
+  title: "Task duration still too high",
+});
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+policy = client.create_policy(
+    {
+        "event_id": EVENT_ID,
+        "title": "Task duration too high",
+        "channel": "ops",
+        "period": "hour",
+        "aggregate": "average",
+        "condition": "gt",
+        "threshold": 2000,
+        "severity": "warning",
+        "enabled": True,
+    }
+)
+
+updated = client.update_policy(policy["policy_id"], {"title": "Task duration still too high"})
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+policy, err := client.CreatePolicy(ctx, chirpier.Policy{
+    EventID:   EVENT_ID,
+    Title:     "Task duration too high",
+    Channel:   "ops",
+    Period:    "hour",
+    Aggregate: "average",
+    Condition: "gt",
+    Threshold: 2000,
+    Severity:  "warning",
+    Enabled:   true,
+})
+
+updated, err := client.UpdatePolicy(ctx, policy.PolicyID, chirpier.Policy{Title: "Task duration still too high"})
+```
+
+  </Tabs.Tab>
+</Tabs>
 
 `GET /v1.0/policies` returns all policies for the current user.
 
@@ -88,7 +160,7 @@ curl -X POST "https://api.chirpier.co/v1.0/policies" \
 Alerts are runtime policy results. A response typically includes:
 
 - policy identity: `alert_id`, `policy_id`, `event_id`
-- stream context: `agent`, `event`, `title`, `channel`
+- stream context: `agent`, `event`, `title`, `channel` where `channel` is the policy routing namespace
 - monitor rule: `period`, `aggregate`, `condition`, `threshold`, `severity`
 - evaluation result: `value`, `count`, `min`, `max`
 - lifecycle state: `status`, `triggered_at`, `acknowledged_at`, `resolved_at`, `alerted_at`
@@ -148,6 +220,45 @@ Example delivery attempt:
   "created_at": "2026-04-08T18:30:03Z"
 }
 ```
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -G "https://api.chirpier.co/v1.0/alerts/$ALERT_ID/deliveries" \
+  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  --data-urlencode "kind=alert" \
+  --data-urlencode "limit=20" \
+  --data-urlencode "offset=0"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const deliveries = await client.getAlertDeliveries(ALERT_ID, {
+  kind: "alert",
+  limit: 20,
+  offset: 0,
+});
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+deliveries = client.get_alert_deliveries(ALERT_ID, kind="alert", limit=20, offset=0)
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+deliveries, err := client.GetAlertDeliveries(ctx, ALERT_ID, 20, 0, "alert")
+```
+
+  </Tabs.Tab>
+</Tabs>
 
 ## Lifecycle actions
 

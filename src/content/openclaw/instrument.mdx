@@ -1,16 +1,20 @@
+import { Tabs } from "nextra/components";
+
 # Instrument OpenClaw
 
 The simplest OpenClaw integration pattern is:
 
 1. emit canonical events from your OpenClaw runtime
 2. confirm the event definitions appear in Chirpier
-3. chart the most important signals
+3. use analytics or charts on those stable event definitions
 4. create policies for reliability, latency, and cost
 5. route alerts to Slack, Discord, Telegram, email, or webhook destinations
 
 Start with a single `agent`, such as `openclaw.main`, and keep workflow-specific detail in `meta`.
 
-If you are using `chirpier-skills`, export `CHIRPIER_API_KEY` first and start with the `chirpier` skill so OpenClaw follows the canonical naming and policy patterns.
+The stable event definition identity is the combination of `agent` and `event`.
+
+If you are using `chirpier-skills`, export `CHIRPIER_API_KEY` first and start with the `chirpier` skill so OpenClaw follows the canonical naming, analytics, and policy patterns.
 
 ## Recommended starter events
 
@@ -22,58 +26,8 @@ Use canonical event names so your charts and policies stay consistent across tas
 - `tokens.used`
 - `heartbeat.missed.count`
 
-## JavaScript example
-
-```ts
-import { createClient } from "@chirpier/chirpier-js";
-
-const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
-
-await client.log({
-  agent: "openclaw.main",
-  event: "task.duration_ms",
-  value: 420,
-  meta: { task_name: "email_triage", workflow: "ops" },
-});
-
-await client.flush();
-await client.shutdown();
-```
-
-## Python example
-
-```python
-from chirpier import new_client, Log
-
-client = new_client(api_key="chp_your_api_key")
-client.log(
-    Log(
-        agent="openclaw.main",
-        event="task.duration_ms",
-        value=420,
-        meta={"task_name": "email_triage"},
-    )
-)
-client.flush()
-client.close()
-```
-
-## Go example
-
-```go
-client, _ := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
-defer client.Close(context.Background())
-
-_ = client.Log(context.Background(), chirpier.Log{
-    Agent: "openclaw.main",
-    Event:   "tokens.used",
-    Value:   1530,
-})
-
-_ = client.Flush(context.Background())
-```
-
-## Raw logging example
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
 
 ```bash
 curl -X POST \
@@ -96,6 +50,64 @@ curl -X POST \
   ]'
 ```
 
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+import { createClient } from "@chirpier/chirpier-js";
+
+const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
+
+await client.log({
+  agent: "openclaw.main",
+  event: "task.duration_ms",
+  value: 420,
+  meta: { task_name: "email_triage", workflow: "ops" },
+});
+
+await client.flush();
+await client.shutdown();
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+from chirpier import Log, new_client
+
+client = new_client(api_key="chp_your_api_key")
+client.log(
+    Log(
+        agent="openclaw.main",
+        event="task.duration_ms",
+        value=420,
+        meta={"task_name": "email_triage"},
+    )
+)
+client.flush()
+client.close()
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+ctx := context.Background()
+client, _ := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+defer client.Close(ctx)
+
+_ = client.Log(ctx, chirpier.Log{
+    Agent: "openclaw.main",
+    Event: "tokens.used",
+    Value: 1530,
+})
+
+_ = client.Flush(ctx)
+```
+
+  </Tabs.Tab>
+</Tabs>
+
 ## First charts to build
 
 After the events are flowing, create charts for:
@@ -105,4 +117,4 @@ After the events are flowing, create charts for:
 - token usage by hour
 - missed heartbeats by day
 
-The key design rule is that event names are the schema. Once you choose a stable event name, reuse it everywhere.
+The key design rule is that event definitions are keyed by `agent + event`. Once you choose a stable producer and event name, reuse that pair everywhere.

@@ -21,6 +21,31 @@ await client.log({
 });
 
 await client.flush();
+
+const events = await client.listEvents();
+const taskDuration = events.find(
+  (eventDef) => eventDef.agent === "openclaw.main" && eventDef.event === "task.duration_ms",
+);
+
+if (taskDuration) {
+  await client.getEventAnalytics(taskDuration.event_id, {
+    view: "window",
+    period: "1h",
+    previous: "previous_window",
+  });
+
+  const destination = await client.createDestination({
+    channel: "slack",
+    url: "https://hooks.slack.com/services/T000/B000/secret",
+    scope: "all",
+    policy_ids: [],
+    enabled: true,
+  });
+
+  const test = await client.testDestination(destination.destination_id);
+  await client.getAlertDeliveries(test.alert_id, { kind: "test" });
+}
+
 await client.shutdown();
 ```
 

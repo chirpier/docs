@@ -10,7 +10,7 @@ After creating a destination, send a test notification:
 POST /v1.0/destinations/:destinationID/test
 ```
 
-Then inspect test delivery history with:
+The test response returns the synthetic test `alert_id`. Then inspect test delivery history with:
 
 ```text
 GET /v1.0/alerts/:alertID/deliveries?kind=test

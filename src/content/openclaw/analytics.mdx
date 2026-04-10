@@ -1,0 +1,92 @@
+import { Tabs } from "nextra/components";
+
+# Analytics Comparisons
+
+Use the analytics endpoint when OpenClaw needs a direct comparison between the current window and a previous window for one event definition.
+
+## When to use analytics
+
+Use analytics when the task is:
+
+- compare the last hour with the previous hour
+- compare the last hour with the same hour yesterday
+- compare the last day with the same day last month
+- inspect percent change or delta before deciding whether to alert
+
+Do not invent new event names for these comparisons. Keep the stable `agent + event` identity and query analytics on the existing event definition.
+
+## Endpoint
+
+```text
+GET /v1.0/events/:eventID/analytics
+```
+
+Use:
+
+- `view=window`
+- `period=1h|1d|7d|1m`
+- `previous=previous_window|previous_1d|previous_7d|previous_1m`
+
+## OpenClaw examples
+
+- `tool.errors.count` last hour vs previous hour
+- `task.duration_ms` last hour vs same hour yesterday
+- `tokens.used` last day vs previous day
+
+Example request:
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -G https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  --data-urlencode "view=window" \
+  --data-urlencode "period=1h" \
+  --data-urlencode "previous=previous_window"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const analytics = await client.getEventAnalytics(EVENT_ID, {
+  view: "window",
+  period: "1h",
+  previous: "previous_window",
+});
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+analytics = client.get_event_analytics(
+    EVENT_ID,
+    view="window",
+    period="1h",
+    previous="previous_window",
+)
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+analytics, err := client.GetEventAnalytics(ctx, EVENT_ID, chirpier.AnalyticsWindowQuery{
+    View:     "window",
+    Period:   "1h",
+    Previous: "previous_window",
+})
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Analytics vs policies
+
+- use analytics when you need comparison data
+- use policies when you need threshold-based alerting
+- use dashboards or the public dashboard page when a human needs to inspect trends directly
+
+For the generic contract, see [Analytics API](/api-reference/analytics). For the OpenClaw workflow layer, continue with [Starter Dashboards](/openclaw/dashboards) and [Destinations for OpenClaw Alerts](/openclaw/destinations).

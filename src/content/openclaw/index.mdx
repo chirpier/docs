@@ -1,8 +1,8 @@
 # OpenClaw
 
-Use Chirpier with OpenClaw when you want a fast path from agent events to charts and alerts.
+Use Chirpier with OpenClaw when you want a fast path from agent events to comparisons, alerts, and public dashboard pages.
 
-This section is the OpenClaw-specific companion to [Agentic Workflows](/agent-workflows). Read the generic agent guidance first if you want the reusable Chirpier model, then use this section for the concrete OpenClaw setup and playbooks.
+This section is the OpenClaw-specific companion to [Agentic Workflows](/agent-workflows). Read the generic agent guidance first if you want the reusable Chirpier model, then use this section for the concrete OpenClaw setup and operating loop.
 
 <PathGrid>
   <PathCard
@@ -14,7 +14,7 @@ This section is the OpenClaw-specific companion to [Agentic Workflows](/agent-wo
   <PathCard
     href="/openclaw/skills"
     title="chirpier-skills"
-    description="Use the opinionated OpenClaw workflow for naming, policies, destinations, and alert handling."
+    description="Use the opinionated OpenClaw workflow for logging, analytics comparisons, destinations, and alert handling."
     icon="claw"
   />
   <PathCard
@@ -28,15 +28,17 @@ This section is the OpenClaw-specific companion to [Agentic Workflows](/agent-wo
 Use it when you want to:
 
 - instrument tool calls, failures, latency, token usage, and heartbeats
-- keep event naming consistent across agents and workflows
-- build starter dashboards for agent operations
-- create alert policies that map cleanly to OpenClaw workloads
+- keep the `agent + event` identity stable across agents and workflows
+- run analytics comparisons on recent windows
+- create policies and destinations that notify OpenClaw when thresholds are exceeded
+- direct humans to the public dashboard page so they can inspect trends
 
 Typical OpenClaw workflows in Chirpier include:
 
-- agent operations: tool failures, task latency, token usage, and heartbeat gaps
-- market monitoring: Bitcoin price, volume, and derived market signals
-- sentiment workflows: Reddit or social sentiment scored into aggregate event events
+- log canonical OpenClaw events
+- compare recent windows with the analytics API
+- create policies and destinations for alerting
+- share the public dashboard page for human trend inspection
 
 This section is the source of truth for OpenClaw + Chirpier integration. Use Cases should only show scenario ideas and point back here for the real setup details.
 
@@ -46,9 +48,11 @@ Recommended reading order:
 2. [Export API Keys](/openclaw/keys)
 3. [Use chirpier-skills](/openclaw/skills)
 4. [Instrument OpenClaw](/openclaw/instrument)
-5. [Canonical Event Names](/openclaw/taxonomy)
-6. [Starter Dashboards](/openclaw/dashboards)
-7. [Destinations for OpenClaw Alerts](/openclaw/destinations)
-8. [Alert Triage](/openclaw/triage)
+5. [Analytics Comparisons](/openclaw/analytics)
+6. [End-To-End Walkthrough](/openclaw/walkthrough)
+7. [Canonical Event Names](/openclaw/taxonomy)
+8. [Starter Dashboards](/openclaw/dashboards)
+9. [Destinations for OpenClaw Alerts](/openclaw/destinations)
+10. [Alert Triage](/openclaw/triage)
 
 If you want scenario-driven examples, use the OpenClaw pages in [Use Cases](/use-cases/examples/openclaw-agent-ops).

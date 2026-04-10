@@ -285,6 +285,8 @@ Alert:
 
 ## Destination
 
+The destination provider type is currently represented by the destination `channel` field in the public API.
+
 ```yaml
 Destination:
   type: object
@@ -329,6 +331,26 @@ Destination:
     last_error:
       type: string
       nullable: true
+```
+
+## DestinationTestResult
+
+```yaml
+DestinationTestResult:
+  type: object
+  required:
+    - alert_id
+    - destination_id
+    - status
+  properties:
+    alert_id:
+      type: string
+      format: uuid
+    destination_id:
+      type: string
+      format: uuid
+    status:
+      type: string
 ```
 
 ## AlertDeliveryAttempt

@@ -14,6 +14,33 @@ from chirpier import new_client, Log
 client = new_client(api_key="chp_your_api_key")
 client.log(Log(event="task.duration_ms", value=420, agent="openclaw.main", meta={"task_name": "email_triage"}))
 client.flush()
+
+events = client.list_events()
+task_duration = next(
+    (event_def for event_def in events if event_def.get("agent") == "openclaw.main" and event_def.get("event") == "task.duration_ms"),
+    None,
+)
+
+if task_duration:
+    client.get_event_analytics(
+        task_duration["event_id"],
+        view="window",
+        period="1h",
+        previous="previous_window",
+    )
+
+    destination = client.create_destination(
+        {
+            "channel": "slack",
+            "url": "https://hooks.slack.com/services/T000/B000/secret",
+            "scope": "all",
+            "policy_ids": [],
+            "enabled": True,
+        }
+    )
+    test_result = client.test_destination(destination["destination_id"])
+    client.get_alert_deliveries(test_result["alert_id"], kind="test")
+
 client.close()
 ```
 

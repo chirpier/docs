@@ -1,0 +1,229 @@
+import { Tabs } from "nextra/components";
+
+# End-To-End Walkthrough
+
+Use this walkthrough for one complete OpenClaw-to-Chirpier pass.
+
+## Goal
+
+Verify the full loop:
+
+1. log events
+2. compare recent windows with analytics
+3. create a policy and destination
+4. inspect test and real delivery behavior
+5. hand a human the public dashboard page
+
+## Sequence
+
+1. Export `CHIRPIER_API_KEY`.
+2. Emit one canonical event such as `tool.errors.count` from `openclaw.main`.
+3. Confirm the event definition appears in Chirpier.
+4. Run an analytics comparison:
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -G https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  --data-urlencode "view=window" \
+  --data-urlencode "period=1h" \
+  --data-urlencode "previous=previous_window"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+await client.getEventAnalytics(EVENT_ID, {
+  view: "window",
+  period: "1h",
+  previous: "previous_window",
+});
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+client.get_event_analytics(EVENT_ID, view="window", period="1h", previous="previous_window")
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+_, err := client.GetEventAnalytics(ctx, EVENT_ID, chirpier.AnalyticsWindowQuery{
+    View:     "window",
+    Period:   "1h",
+    Previous: "previous_window",
+})
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+5. Create one policy for the event.
+6. Create one destination.
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -X POST "https://api.chirpier.co/v1.0/destinations" \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "channel": "slack",
+    "url": "https://hooks.slack.com/services/T000/B000/secret",
+    "scope": "all",
+    "policy_ids": [],
+    "enabled": true
+  }'
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const destination = await client.createDestination({
+  channel: "slack",
+  url: "https://hooks.slack.com/services/T000/B000/secret",
+  scope: "all",
+  policy_ids: [],
+  enabled: true,
+});
+
+const DESTINATION_ID = destination.destination_id;
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+destination = client.create_destination(
+    {
+        "channel": "slack",
+        "url": "https://hooks.slack.com/services/T000/B000/secret",
+        "scope": "all",
+        "policy_ids": [],
+        "enabled": True,
+    }
+)
+
+DESTINATION_ID = destination["destination_id"]
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+destination, err := client.CreateDestination(ctx, chirpier.Destination{
+    Channel:   "slack",
+    URL:       "https://hooks.slack.com/services/T000/B000/secret",
+    Scope:     "all",
+    PolicyIDs: []string{},
+    Enabled:   true,
+})
+
+DESTINATION_ID := destination.DestinationID
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+7. Send a destination test and capture the returned test `alert_id`:
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+TEST_ALERT_ID=$(curl -s -X POST \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  https://api.chirpier.co/v1.0/destinations/$DESTINATION_ID/test | jq -r '.alert_id')
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const test = await client.testDestination(DESTINATION_ID);
+const TEST_ALERT_ID = test.alert_id;
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+test = client.test_destination(DESTINATION_ID)
+TEST_ALERT_ID = test["alert_id"]
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+test, err := client.TestDestination(ctx, DESTINATION_ID)
+TEST_ALERT_ID := test.AlertID
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+8. Inspect the test delivery history:
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -G https://api.chirpier.co/v1.0/alerts/$TEST_ALERT_ID/deliveries \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  --data-urlencode "kind=test"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const deliveries = await client.getAlertDeliveries(TEST_ALERT_ID, { kind: "test" });
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+deliveries = client.get_alert_deliveries(TEST_ALERT_ID, kind="test")
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+deliveries, err := client.GetAlertDeliveries(ctx, TEST_ALERT_ID, 0, 0, "test")
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+9. Trigger a real alert by exceeding the policy threshold.
+10. Inspect the default delivery history view for the real alert.
+11. Make the event public.
+12. Direct the user to the public dashboard page for the event.
+
+## What success looks like
+
+- the event definition is stable under `agent + event`
+- analytics returns the expected current and previous window values
+- the policy triggers on the intended threshold
+- the destination test returns an `alert_id`
+- `kind=test` shows the destination test delivery for that `alert_id`
+- the real alert appears in the default delivery history view
+- the public dashboard page works for human trend inspection
+
+## Related pages
+
+- [Instrument OpenClaw](/openclaw/instrument)
+- [Analytics Comparisons](/openclaw/analytics)
+- [Destinations for OpenClaw Alerts](/openclaw/destinations)
+- [Starter Dashboards](/openclaw/dashboards)

@@ -6,7 +6,7 @@ Destinations are reusable outbound delivery targets for Chirpier alerts.
   <PathCard
     href="/api-reference/destinations"
     title="Destinations API"
-    description="See the exact destination routes, supported channels, scope rules, and test-send behavior."
+    description="See the exact destination routes, provider types carried in the channel field, scope rules, and test-send behavior."
     icon="compass"
   />
   <PathCard
@@ -17,7 +17,9 @@ Destinations are reusable outbound delivery targets for Chirpier alerts.
   />
 </PathGrid>
 
-## Supported types
+## Supported provider types
+
+The current API carries the provider type in the destination `channel` field.
 
 - `email`
 - `webhook`
@@ -49,7 +51,7 @@ Telegram bot:
 
 ```json
 {
-  "type": "telegram",
+  "channel": "telegram",
   "enabled": true,
   "credentials": {
     "bot_token": "123456:telegram-bot-token",

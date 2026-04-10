@@ -1,3 +1,5 @@
+import { Tabs } from "nextra/components";
+
 # Logs API
 
 Use the logs endpoint to send flat numeric events.
@@ -63,7 +65,7 @@ Example:
 
 ## Validation notes
 
-- maximum 100 logs per request
+- hard API maximum: 250 logs per request
 - `event` is required
 - `occurred_at` must be within the last 30 days and no more than 1 day in the future
 - `meta` must be valid JSON
@@ -74,6 +76,9 @@ Example:
 Unknown events are auto-created as event definitions.
 
 ## Example request
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
 
 ```bash
 curl -X POST "https://logs.chirpier.co/v1.0/logs" \
@@ -88,6 +93,73 @@ curl -X POST "https://logs.chirpier.co/v1.0/logs" \
     }
   ]'
 ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+import { createClient } from "@chirpier/chirpier-js";
+
+const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
+
+await client.log({
+  agent: "openclaw.main",
+  event: "task.duration_ms",
+  value: 420,
+  meta: { task_name: "email_triage" },
+});
+
+await client.flush();
+await client.shutdown();
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+from chirpier import Log, new_client
+
+client = new_client(api_key="chp_your_api_key")
+client.log(
+    Log(
+        agent="openclaw.main",
+        event="task.duration_ms",
+        value=420,
+        meta={"task_name": "email_triage"},
+    )
+)
+client.flush()
+client.close()
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+ctx := context.Background()
+
+client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+if err != nil {
+    return err
+}
+defer client.Close(ctx)
+
+if err := client.Log(ctx, chirpier.Log{
+    Agent: "openclaw.main",
+    Event: "task.duration_ms",
+    Value: 420,
+    Meta: map[string]any{"task_name": "email_triage"},
+}); err != nil {
+    return err
+}
+
+if err := client.Flush(ctx); err != nil {
+    return err
+}
+```
+
+  </Tabs.Tab>
+</Tabs>
 
 ## Responses
 

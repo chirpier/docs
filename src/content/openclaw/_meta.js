@@ -4,6 +4,8 @@ export default {
   keys: "Export API Keys",
   skills: "Use chirpier-skills",
   instrument: "Instrument OpenClaw",
+  analytics: "Analytics Comparisons",
+  walkthrough: "End-To-End Walkthrough",
   taxonomy: "Canonical Event Names",
   dashboards: "Starter Dashboards",
   "tool-errors": "Monitor Tool Errors",

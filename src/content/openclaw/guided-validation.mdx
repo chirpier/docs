@@ -18,26 +18,32 @@ Verify that OpenClaw can follow the Chirpier contract without inventing its own 
    - `tokens.used`
    - `heartbeat.missed.count`
 4. confirm event definitions appear in Chirpier
-5. create one valid policy and one intentionally invalid policy
-6. inspect `minute`, `hour`, and `day` rollups
-7. configure a destination and send a test notification
-8. inspect delivery history with `kind=test`
-9. trigger a real alert and inspect default delivery history
+5. run one analytics comparison with `GET /v1.0/events/:eventID/analytics`
+6. create one valid policy and one intentionally invalid policy
+7. inspect `minute`, `hour`, and `day` rollups
+8. configure a destination and send a test notification
+9. inspect delivery history with `kind=test`
+10. trigger a real alert and inspect default delivery history
+11. direct a human to the public dashboard page for one public event
 
 ## Good prompts
 
 - "Use chirpier-skills to send canonical OpenClaw task duration and tool error events to Chirpier."
+- "Use chirpier-skills to compare the last hour of OpenClaw tool errors with the previous hour using Chirpier analytics."
 - "Use chirpier-skills to create a valid policy for OpenClaw tool failures in the last hour."
 - "Use chirpier-skills to set up a Slack destination, send a test notification, and inspect test delivery history."
+- "Use chirpier-skills to show me the public dashboard page for OpenClaw task latency."
 
 ## Pass criteria
 
 - OpenClaw uses canonical event names from the docs and skills repo
+- OpenClaw preserves the stable `agent + event` identity
 - OpenClaw uses `minute`, `hour`, or `day` periods only
 - OpenClaw chooses policy aggregates that match the raw event shape
 - OpenClaw uses analytics `previous` queries correctly when comparisons are needed
 - destination tests appear under `kind=test`
 - real alert deliveries appear under the default history view
+- OpenClaw can direct a human to the public dashboard page for a public event
 
 ## After guided mode
 

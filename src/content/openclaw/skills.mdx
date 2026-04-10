@@ -5,9 +5,11 @@
 It gives OpenClaw an opinionated workflow for:
 
 - canonical event names
+- analytics comparisons
 - valid policy patterns
 - destination setup and testing
 - alert triage and delivery inspection
+- public dashboard page handoff
 
 ## Install the skills
 
@@ -26,27 +28,37 @@ npx skills @chirpier/chirpier-skills/chirpier-alert-triage
 
 1. export `CHIRPIER_API_KEY`
 2. start with the `chirpier` skill
-3. read the event taxonomy
-4. pick a playbook
-5. emit events first, then create policies
-6. test destinations before relying on real alert delivery
+3. emit events first and confirm the event definition appears
+4. use the matching Chirpier SDK for the runtime when possible
+5. run analytics comparisons when the task is periodic comparison rather than thresholding
+6. create policies and destinations when threshold-based alerting matters
+7. direct humans to the public dashboard page when they need to inspect trends
 
 ## Which skill to use
 
-- `chirpier`: default starting point for sending events, reading event definitions, creating policies, inspecting alerts, and testing destinations
-- `chirpier-monitoring`: best for market monitoring, sentiment workflows, tool failures, and latency tracking
+- `chirpier`: default starting point for logging, reading event definitions, running first-pass analytics comparisons, and creating first policies
+- `chirpier-monitoring`: best for recurring comparisons, dashboards, public dashboard pages, market monitoring, sentiment workflows, tool failures, and latency tracking
 - `chirpier-destinations`: focused on Slack, Discord, Telegram, email, and generic destination setup
 - `chirpier-alert-triage`: focused on reading active alerts, checking deliveries, acknowledging, resolving, and archiving
+
+## OpenClaw task mapping
+
+| OpenClaw task | Skill |
+| --- | --- |
+| log events, confirm event definition, first analytics check, first policy | `chirpier` |
+| recurring comparisons, charts, public dashboard page handoff | `chirpier-monitoring` |
+| create or test destinations | `chirpier-destinations` |
+| investigate an already-triggered alert | `chirpier-alert-triage` |
 
 ## What to tell OpenClaw
 
 These are good prompts or task instructions for an OpenClaw workflow that has `chirpier-skills` available:
 
 - "Send OpenClaw task duration and error events to Chirpier"
+- "Compare the last hour of OpenClaw tool errors with the previous hour using Chirpier analytics"
 - "Create a policy for OpenClaw tool failures in the last hour"
-- "Analyze Reddit sentiment about Bitcoin and alert if sentiment drops"
 - "Set up a Slack destination for Chirpier alerts"
-- "Test my Telegram destination and inspect delivery history"
+- "Show me the public dashboard page for OpenClaw task latency trends"
 
 ## Why this helps
 
@@ -55,17 +67,25 @@ Without skills, each OpenClaw workflow may invent its own event names and policy
 With `chirpier-skills`, OpenClaw gets consistent guidance:
 
 - event names are the schema
+- the stable event identity is `agent + event`
 - use canonical OpenClaw events first
 - do not encode time windows into event names
 - use rollups and policies for hourly or daily logic
 - use analytics `previous` windows for explicit comparison queries
 - treat `meta` as inspection context in v1
 
+The skills also now align with the Chirpier SDKs for:
+
+- event lookup by stable `agent + event`
+- analytics queries
+- policy creation
+- destination tests returning a synthetic test `alert_id`
+
 ## Contract source of truth
 
 `chirpier-skills` should follow the contract defined in the docs site.
 
-- use `docs` as the normative source for periods, event grammar, analytics window conventions, and delivery-history kinds
+- use `docs` as the normative source for event identity, periods, analytics window conventions, destination terminology, public dashboard pages, and delivery-history kinds
 - treat `chirpier-skills` as the operational layer OpenClaw follows when applying that contract
 
 For testing, start with guided mode first:
@@ -82,6 +102,8 @@ For the best OpenClaw integration path, read these pages in order:
 2. [Agentic Workflows: chirpier-skills](/agent-workflows/chirpier-skills)
 3. [Use chirpier-skills](/openclaw/skills)
 4. [Instrument OpenClaw](/openclaw/instrument)
-5. [Canonical Event Names](/openclaw/taxonomy)
-6. [Monitor Tool Errors](/openclaw/tool-errors)
-7. [Destinations for OpenClaw Alerts](/openclaw/destinations)
+5. [Analytics Comparisons](/openclaw/analytics)
+6. [End-To-End Walkthrough](/openclaw/walkthrough)
+7. [Canonical Event Names](/openclaw/taxonomy)
+8. [Starter Dashboards](/openclaw/dashboards)
+9. [Destinations for OpenClaw Alerts](/openclaw/destinations)

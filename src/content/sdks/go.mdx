@@ -20,6 +20,29 @@ _ = client.Log(context.Background(), chirpier.Log{
     Event: "task.duration_ms",
     Value: 420,
 })
+
+_ = client.Flush(context.Background())
+
+events, _ := client.ListEvents(context.Background())
+for _, eventDef := range events {
+    if eventDef.Agent == "openclaw.main" && eventDef.Event == "task.duration_ms" {
+        _, _ = client.GetEventAnalytics(context.Background(), eventDef.EventID, chirpier.AnalyticsWindowQuery{
+            View:     "window",
+            Period:   "1h",
+            Previous: "previous_window",
+        })
+
+        destination, _ := client.CreateDestination(context.Background(), chirpier.Destination{
+            Channel: "slack",
+            URL:     "https://hooks.slack.com/services/T000/B000/secret",
+            Scope:   "all",
+            PolicyIDs: []string{},
+            Enabled: true,
+        })
+        test, _ := client.TestDestination(context.Background(), destination.DestinationID)
+        _, _ = client.GetAlertDeliveries(context.Background(), test.AlertID, 0, 0, "test")
+    }
+}
 ```
 
 The Go SDK is a good fit for:

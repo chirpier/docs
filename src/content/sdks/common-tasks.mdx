@@ -6,6 +6,7 @@ All Chirpier SDKs expose helpers around the same resource model.
 
 - list events
 - read one event definition
+- read one analytics comparison
 - update event metadata
 - list policies
 - create a policy
@@ -14,6 +15,7 @@ All Chirpier SDKs expose helpers around the same resource model.
 - acknowledge, resolve, or archive an alert
 - test a destination
 - read event rollups
+- create, read, list, and update destinations
 
 ## When to use SDK helpers
 
@@ -21,6 +23,15 @@ Use the SDK helpers when you want one authenticated client for both:
 
 - Logging event data
 - Managing Chirpier resources
+
+This includes the common OpenClaw loop:
+
+- send logs
+- list events and resolve `event_id`
+- query analytics windows
+- create policies
+- create destinations
+- test destinations and inspect test deliveries
 
 Use raw HTTP when you need language-agnostic integrations, shell automation, or direct infrastructure-level control.
 

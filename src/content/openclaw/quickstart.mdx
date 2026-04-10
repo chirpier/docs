@@ -1,3 +1,5 @@
+import { Tabs } from "nextra/components";
+
 # OpenClaw Quickstart
 
 This is the fastest path to get Chirpier working with OpenClaw.
@@ -22,7 +24,20 @@ Use those values in event-log and alerting APIs. UI shortcuts like `30d` belong 
 
 If you want the opinionated OpenClaw workflow, use `chirpier-skills`. If you want the thinnest possible setup, emit the same events directly with the SDK.
 
-Minimal JavaScript example:
+Minimal example:
+
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -X POST "https://logs.chirpier.co/v1.0/logs" \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '[{"agent":"openclaw.main","event":"tool.errors.count","value":1,"meta":{"tool_name":"browser.open","workflow":"triage"}}]'
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
 
 ```ts
 import { createClient } from "@chirpier/chirpier-js";
@@ -37,7 +52,80 @@ await client.log({
 });
 
 await client.flush();
+
+const events = await client.listEvents();
+const toolErrors = events.find(
+  (eventDef) => eventDef.agent === "openclaw.main" && eventDef.event === "tool.errors.count",
+);
+
+if (toolErrors) {
+  await client.getEventAnalytics(toolErrors.event_id, {
+    view: "window",
+    period: "1h",
+    previous: "previous_window",
+  });
+
+  await client.createPolicy({
+    event_id: toolErrors.event_id,
+    title: "OpenClaw tool errors spike",
+    channel: "ops",
+    period: "hour",
+    aggregate: "sum",
+    condition: "gt",
+    threshold: 5,
+    severity: "warning",
+    enabled: true,
+  });
+}
+
 await client.shutdown();
 ```
 
-Then continue with [Use chirpier-skills](/openclaw/skills) and [Canonical Event Names](/openclaw/taxonomy).
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+from chirpier import Log, new_client
+
+client = new_client(api_key="chp_your_api_key")
+client.log(Log(agent="openclaw.main", event="tool.errors.count", value=1, meta={"tool_name": "browser.open", "workflow": "triage"}))
+client.flush()
+
+events = client.list_events()
+tool_errors = next(
+    (event_def for event_def in events if event_def.get("agent") == "openclaw.main" and event_def.get("event") == "tool.errors.count"),
+    None,
+)
+
+if tool_errors:
+    client.get_event_analytics(tool_errors["event_id"], view="window", period="1h", previous="previous_window")
+
+client.close()
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+ctx := context.Background()
+client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+if err != nil {
+    return err
+}
+defer client.Close(ctx)
+
+_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "tool.errors.count", Value: 1, Meta: map[string]any{"tool_name": "browser.open", "workflow": "triage"}})
+_ = client.Flush(ctx)
+
+events, _ := client.ListEvents(ctx)
+for _, eventDef := range events {
+    if eventDef.Agent == "openclaw.main" && eventDef.Event == "tool.errors.count" {
+        _, _ = client.GetEventAnalytics(ctx, eventDef.EventID, chirpier.AnalyticsWindowQuery{View: "window", Period: "1h", Previous: "previous_window"})
+    }
+}
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+Then continue with [Use chirpier-skills](/openclaw/skills), [Analytics Comparisons](/openclaw/analytics), and [Canonical Event Names](/openclaw/taxonomy).

@@ -1,3 +1,5 @@
+import { Tabs } from "nextra/components";
+
 # Events API
 
 The events APIs manage event definitions and time-bucketed reads.
@@ -58,16 +60,71 @@ Use `POST /v1.0/events` to create or seed an event definition explicitly.
 
 Example request body:
 
-```json
-{
-  "event": "task.duration_ms",
-  "agent": "openclaw.main",
-  "description": "Task runtime for the main OpenClaw worker",
-  "unit": "ms",
-  "timezone": "America/Los_Angeles",
-  "public": true
-}
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -X POST "https://api.chirpier.co/v1.0/events" \
+  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event": "task.duration_ms",
+    "agent": "openclaw.main",
+    "description": "Task runtime for the main OpenClaw worker",
+    "unit": "ms",
+    "timezone": "America/Los_Angeles",
+    "public": true
+  }'
 ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const eventDefinition = await client.createEvent({
+  event: "task.duration_ms",
+  agent: "openclaw.main",
+  description: "Task runtime for the main OpenClaw worker",
+  unit: "ms",
+  timezone: "America/Los_Angeles",
+  public: true,
+});
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+event_definition = client.create_event(
+    {
+        "event": "task.duration_ms",
+        "agent": "openclaw.main",
+        "description": "Task runtime for the main OpenClaw worker",
+        "unit": "ms",
+        "timezone": "America/Los_Angeles",
+        "public": True,
+    }
+)
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+public := true
+
+eventDefinition, err := client.CreateEvent(ctx, chirpier.CreateEventPayload{
+    Event:       "task.duration_ms",
+    Agent:       "openclaw.main",
+    Description: "Task runtime for the main OpenClaw worker",
+    Unit:        "ms",
+    Timezone:    "America/Los_Angeles",
+    Public:      &public,
+})
+```
+
+  </Tabs.Tab>
+</Tabs>
 
 The server fills in `event_id`, `user_id`, `share_token`, and `created_at`.
 
@@ -129,14 +186,42 @@ Use `minute`, `hour`, or `day` exactly. Other values return `400`.
 
 ## Example requests
 
-```bash
-curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
-  "https://api.chirpier.co/v1.0/events"
-```
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
 
 ```bash
 curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+  "https://api.chirpier.co/v1.0/events"
+
+curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
   "https://api.chirpier.co/v1.0/events/$EVENT_ID/logs?period=hour&limit=24"
 ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```ts
+const events = await client.listEvents();
+const rollups = await client.getEventLogs(EVENT_ID, { period: "hour", limit: 24 });
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+events = client.list_events()
+rollups = client.get_event_logs(EVENT_ID, period="hour", limit=24)
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+events, err := client.ListEvents(ctx)
+rollups, err := client.GetEventLogs(ctx, EVENT_ID, "hour", 24, 0)
+```
+
+  </Tabs.Tab>
+</Tabs>
 
 For comparison queries, use [Analytics API](/api-reference/analytics).

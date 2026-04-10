@@ -7,10 +7,13 @@ It is especially useful for OpenClaw, but the model applies to other agent syste
 ## Use chirpier-skills when you want to
 
 - keep event names canonical across agent tasks
+- preserve the stable `agent + event` event-definition identity
+- compare recent windows through analytics instead of inventing derived streams
 - create policies that match the raw stream shape
 - validate destinations before relying on real alerts
 - triage delivery history correctly
 - keep agent prompts aligned with the actual Chirpier API contract
+- direct humans to the public dashboard page for trend inspection when needed
 
 ## What chirpier-skills is
 
@@ -23,6 +26,7 @@ Think of `chirpier-skills` as the workflow layer on top of Chirpier's APIs and S
 ## What it enforces
 
 - event names are the schema
+- event definitions are keyed by `agent + event`
 - policies should use aggregates that match the raw stream shape
 - analytics comparisons should use `previous`, not invented event names
 - destinations should always be tested before production rollout

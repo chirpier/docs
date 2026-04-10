@@ -1,3 +1,5 @@
+import { Tabs } from "nextra/components";
+
 # Export API Keys
 
 The cleanest OpenClaw setup is to provide Chirpier credentials through environment variables.
@@ -28,16 +30,35 @@ openclaw run your-task
 
 In code, prefer reading from the environment:
 
+<Tabs items={["Raw API", "JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```bash
+curl -H "Authorization: Bearer $CHIRPIER_API_KEY" https://api.chirpier.co/v1.0/events
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
 ```ts
 const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
 ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
 
 ```python
 client = new_client(api_key=os.environ["CHIRPIER_API_KEY"])
 ```
 
+  </Tabs.Tab>
+  <Tabs.Tab>
+
 ```go
 client, err := chirpier.NewClient(chirpier.Options{})
 ```
+
+  </Tabs.Tab>
+</Tabs>
 
 For team environments, treat `CHIRPIER_API_KEY` like any other production secret.
