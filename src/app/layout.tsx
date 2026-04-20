@@ -96,7 +96,7 @@ export const metadata = {
       { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.png", type: "image/png", sizes: "960x960" },
     ],
-    apple: "/favicon/android-chrome-192x192.png",
+    apple: "/android-chrome-192x192.png",
     shortcut: "/favicon.ico",
   },
 };
