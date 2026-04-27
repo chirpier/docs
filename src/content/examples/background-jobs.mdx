@@ -1,18 +1,85 @@
+import { Tabs } from "nextra/components";
+
 # Background Jobs
 
-Background jobs are a strong fit for Chirpier because the model is simple and operational.
+Background jobs are a strong fit for Chirpier because the model is simple and operational. Each job run produces a small number of flat events that map directly to the signals you care about.
 
-Examples:
+## Recommended events
 
-- `job.completed.count`
-- `job.retry.count`
-- `queue.backlog.gauge`
-- `job.duration_ms`
+| Event | Value | Why |
+|-------|-------|-----|
+| `job.completed.count` | `1` per completion | Track throughput and spot processing stalls |
+| `job.retry.count` | `1` per retry | Catch jobs that are failing and retrying repeatedly |
+| `queue.backlog.gauge` | Current queue depth | Monitor queue pressure in real time |
+| `job.duration_ms` | Duration in ms | Detect slow jobs before they block the queue |
 
-Typical policies:
+## Logging events
 
-- retry hourly `sum`
-- backlog minute `max`
-- job duration daily `p95_est`
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
 
-Use destinations and channel routing to separate team-facing job alerts from broader operational alerts.
+```ts
+await client.log({ agent: "worker.billing", event: "job.completed.count", value: 1,
+  meta: { job_type: "invoice_generate", queue: "billing" } });
+
+await client.log({ agent: "worker.billing", event: "job.duration_ms", value: 3200,
+  meta: { job_type: "invoice_generate" } });
+
+await client.log({ agent: "worker.billing", event: "queue.backlog.gauge", value: 42,
+  meta: { queue: "billing" } });
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+client.log(Log(agent="worker.billing", event="job.completed.count", value=1,
+    meta={"job_type": "invoice_generate", "queue": "billing"}))
+
+client.log(Log(agent="worker.billing", event="job.duration_ms", value=3200,
+    meta={"job_type": "invoice_generate"}))
+
+client.log(Log(agent="worker.billing", event="queue.backlog.gauge", value=42,
+    meta={"queue": "billing"}))
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+_ = client.Log(ctx, chirpier.Log{Agent: "worker.billing", Event: "job.completed.count", Value: 1,
+    Meta: map[string]any{"job_type": "invoice_generate", "queue": "billing"}})
+
+_ = client.Log(ctx, chirpier.Log{Agent: "worker.billing", Event: "job.duration_ms", Value: 3200,
+    Meta: map[string]any{"job_type": "invoice_generate"}})
+
+_ = client.Log(ctx, chirpier.Log{Agent: "worker.billing", Event: "queue.backlog.gauge", Value: 42,
+    Meta: map[string]any{"queue": "billing"}})
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Recommended first policies
+
+| Event | Period | Aggregate | Condition | Threshold | Why |
+|-------|--------|-----------|-----------|-----------|-----|
+| `job.retry.count` | `hour` | `sum` | `gt` | `20` | Jobs failing and retrying too often |
+| `queue.backlog.gauge` | `minute` | `max` | `gt` | `500` | Queue building up faster than workers can drain |
+| `job.duration_ms` | `day` | `p95_est` | `gt` | `30000` | Slow jobs that might block the queue |
+| `job.completed.count` | `hour` | `sum` | `lt` | `10` | Processing stall — too few completions |
+
+## Using comparisons
+
+Compare this hour's retry count to the same hour yesterday to see if retries are normal or elevated:
+
+```ts
+const analytics = await client.getEventAnalytics(retryEventID, {
+  view: "window", period: "1h", previous: "previous_1d",
+});
+// value_pct_change of +300% means retries are 3x higher than usual
+```
+
+## Destination routing
+
+Use destination `policy_ids` to separate job alerts by team. For example, route billing job alerts to a `#billing-ops` Slack channel and general infrastructure alerts to `#platform-ops`.

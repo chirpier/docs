@@ -2,6 +2,12 @@
 
 Use `@chirpier/embed` when you need the hosted Chirpier runtime outside React.
 
+## Install
+
+```bash
+npm install @chirpier/embed
+```
+
 ## Example
 
 ```ts
@@ -9,18 +15,68 @@ import { mountChirpierChart } from "@chirpier/embed";
 
 const chart = mountChirpierChart("#chart-root", {
   eventId: "your-event-id",
+  shareToken: "your-share-token",
   state: {
     range: "1m",
     compare: true,
     view: "timeseries",
     variant: "bar",
   },
+  theme: "dark",
   autoResize: true,
 });
 
+// Update state at runtime
 chart.updateState({ range: "1w", compare: false, view: "summary" });
 chart.updateTheme("light");
+
+// Clean up when done
+chart.destroy();
 ```
+
+## Options reference
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `eventId` | `string` | — | Required. The event definition ID. |
+| `shareToken` | `string` | — | Share token for public access. |
+| `state` | `object` | See below | Chart state configuration. |
+| `theme` | `"light"` \| `"dark"` \| `"system"` | `"system"` | Color theme. |
+| `autoResize` | `boolean` | `false` | Auto-resize iframe based on content. |
+| `resizeMode` | `"auto"` \| `"fixed"` \| `"fill"` | `"auto"` | How iframe dimensions are managed. |
+| `width` | `number \| string` | — | Fixed width. |
+| `height` | `number \| string` | — | Fixed height. |
+| `minHeight` | `number \| string` | — | Minimum height constraint. |
+| `maxHeight` | `number \| string` | — | Maximum height constraint. |
+| `onRendered` | `(event) => void` | — | Called when the chart finishes rendering. |
+| `onResize` | `(event) => void` | — | Called when the chart resizes. |
+| `onError` | `(error) => void` | — | Called on embed errors. |
+| `onInteraction` | `(event) => void` | — | Called on user interactions. |
+
+### State defaults
+
+```ts
+{
+  range: "1h",
+  aggregate: "sum",
+  variant: "line",
+  compare: false,
+  header: true,
+  view: "all",
+  tracker: { condition: "gt", threshold: 0 },
+}
+```
+
+## Instance methods
+
+The `mountChirpierChart` function returns an instance with these methods:
+
+| Method | Description |
+|--------|-------------|
+| `chart.update(options)` | Update options including state, theme, and sizing |
+| `chart.updateState(state)` | Update chart state (range, view, variant, etc.) |
+| `chart.updateTheme(theme)` | Switch between light, dark, or system theme |
+| `chart.destroy()` | Remove the iframe and clean up listeners |
 
 ## Good fit
 
@@ -30,4 +86,4 @@ Use this package when:
 - you want to wrap Chirpier in another frontend framework
 - you need lower-level runtime control over theme and state updates
 
-For chart variant guidance, see [Charts](/charts).
+For chart variant guidance, see [Charts](/dashboard-and-embed/charts).

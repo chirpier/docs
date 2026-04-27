@@ -1,17 +1,92 @@
+import { Tabs } from "nextra/components";
+
 # Agent Monitoring
 
-Recommended events:
+Monitor AI agents and autonomous systems with flat numeric events. This pattern is the best starting point for OpenClaw and similar agent workflows.
 
-- `tool.errors.count`
-- `tool.calls.count`
-- `task.duration_ms`
-- `tokens.used`
-- `heartbeat.missed.count`
+## Recommended events
 
-Recommended first policies:
+| Event | Value | Why |
+|-------|-------|-----|
+| `tool.errors.count` | `1` per error | Track tool reliability across your agent's toolchain |
+| `tool.calls.count` | `1` per call | Measure tool usage volume and spot unexpected spikes |
+| `task.duration_ms` | Duration in ms | Catch tasks that are running slower than expected |
+| `tokens.used` | Token count | Monitor LLM cost per task and catch runaway token spend |
+| `heartbeat.missed.count` | `1` per miss | Detect when an agent worker stops responding |
 
-- `tool.errors.count` with hourly `sum`
-- `task.duration_ms` with hourly `average` or daily `p95_est`
-- `heartbeat.missed.count` with daily `sum`
+## Logging events
 
-This pattern is the best starting point for OpenClaw and similar agent systems.
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```ts
+await client.log({ agent: "openclaw.main", event: "tool.errors.count", value: 1,
+  meta: { tool_name: "crm.lookup", error: "timeout" } });
+
+await client.log({ agent: "openclaw.main", event: "task.duration_ms", value: 1250,
+  meta: { task_name: "email_triage" } });
+
+await client.log({ agent: "openclaw.main", event: "tokens.used", value: 3400,
+  meta: { task_name: "email_triage", model: "claude-sonnet-4-5-20250929" } });
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+client.log(Log(agent="openclaw.main", event="tool.errors.count", value=1,
+    meta={"tool_name": "crm.lookup", "error": "timeout"}))
+
+client.log(Log(agent="openclaw.main", event="task.duration_ms", value=1250,
+    meta={"task_name": "email_triage"}))
+
+client.log(Log(agent="openclaw.main", event="tokens.used", value=3400,
+    meta={"task_name": "email_triage", "model": "claude-sonnet-4-5-20250929"}))
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "tool.errors.count", Value: 1,
+    Meta: map[string]any{"tool_name": "crm.lookup", "error": "timeout"}})
+
+_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "task.duration_ms", Value: 1250,
+    Meta: map[string]any{"task_name": "email_triage"}})
+
+_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "tokens.used", Value: 3400,
+    Meta: map[string]any{"task_name": "email_triage", "model": "claude-sonnet-4-5-20250929"}})
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Recommended first policies
+
+| Event | Period | Aggregate | Condition | Threshold | Why |
+|-------|--------|-----------|-----------|-----------|-----|
+| `tool.errors.count` | `hour` | `sum` | `gt` | `10` | Catch a tool that starts failing repeatedly |
+| `task.duration_ms` | `hour` | `average` | `gt` | `5000` | Detect slowdowns before they compound |
+| `task.duration_ms` | `day` | `p95_est` | `gt` | `10000` | Track tail latency trends over time |
+| `tokens.used` | `day` | `sum` | `gt` | `100000` | Budget guard for daily token spend |
+| `heartbeat.missed.count` | `day` | `sum` | `gt` | `0` | Any missed heartbeat is worth investigating |
+
+## Using comparisons
+
+Check whether task duration is trending up compared to the same hour yesterday:
+
+```ts
+const analytics = await client.getEventAnalytics(taskDurationEventID, {
+  view: "window", period: "1h", previous: "previous_1d",
+});
+// analytics.data.mean_pct_change — e.g., 15% slower than yesterday
+```
+
+Or compare this week's token spend to last week:
+
+```ts
+const analytics = await client.getEventAnalytics(tokensUsedEventID, {
+  view: "window", period: "7d", previous: "previous_window",
+});
+// analytics.data.value_pct_change — e.g., 30% more tokens this week
+```

@@ -6,7 +6,7 @@ Package:
 pip install chirpier
 ```
 
-Recommended style:
+## Quick start
 
 ```python
 from chirpier import new_client, Log
@@ -43,6 +43,86 @@ if task_duration:
 
 client.close()
 ```
+
+The Python client also supports context managers:
+
+```python
+with new_client(api_key="chp_your_api_key") as client:
+    client.log(Log(event="task.duration_ms", value=420, agent="openclaw.main"))
+```
+
+## Configuration
+
+```python
+client = new_client(
+    api_key="chp_your_api_key",   # or set CHIRPIER_API_KEY env var
+    batch_size=500,               # flush when queue reaches this size
+    flush_delay=0.5,              # auto-flush interval in seconds
+    retries=10,                   # retry attempts with exponential backoff
+    timeout=10,                   # HTTP timeout in seconds per request
+)
+```
+
+The API key is resolved in order: explicit `api_key` parameter, `CHIRPIER_API_KEY` environment variable, `CHIRPIER_API_KEY` from a `.env` file in the working directory.
+
+## Method reference
+
+### Logging
+
+| Method | Description |
+|--------|-------------|
+| `client.log(entry)` | Queue a log for batched delivery |
+| `client.flush()` | Send all queued logs (blocks until complete) |
+| `client.shutdown()` | Flush and release resources |
+| `client.close()` | Alias for `shutdown()` |
+
+### Events
+
+| Method | Description |
+|--------|-------------|
+| `client.list_events()` | List all event definitions |
+| `client.get_event(event_id)` | Get one event definition |
+| `client.create_event(payload)` | Create a new event definition |
+| `client.update_event(event_id, payload)` | Update event metadata |
+
+### Analytics and rollups
+
+| Method | Description |
+|--------|-------------|
+| `client.get_event_analytics(event_id, *, view, period, previous)` | Get period-over-period comparison |
+| `client.get_event_logs(event_id, period, limit, offset)` | Get time-bucketed rollups |
+
+### Policies
+
+| Method | Description |
+|--------|-------------|
+| `client.list_policies()` | List all policies |
+| `client.get_policy(policy_id)` | Get one policy |
+| `client.create_policy(payload)` | Create a policy |
+| `client.update_policy(policy_id, payload)` | Update a policy |
+
+### Alerts
+
+| Method | Description |
+|--------|-------------|
+| `client.list_alerts(status=None)` | List alerts, optionally filtered by status |
+| `client.get_alert(alert_id)` | Get one alert |
+| `client.get_alert_deliveries(alert_id, limit, offset, kind)` | Read delivery attempts |
+| `client.acknowledge_alert(alert_id)` | Acknowledge an alert |
+| `client.resolve_alert(alert_id)` | Resolve an alert |
+| `client.archive_alert(alert_id)` | Archive an alert |
+
+### Destinations
+
+| Method | Description |
+|--------|-------------|
+| `client.list_destinations()` | List all destinations |
+| `client.get_destination(destination_id)` | Get one destination |
+| `client.create_destination(payload)` | Create a destination |
+| `client.update_destination(destination_id, payload)` | Update a destination |
+| `client.test_destination(destination_id)` | Send a test notification |
+
+## Good fit
 
 The Python SDK is a good fit for:
 

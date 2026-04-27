@@ -1,18 +1,91 @@
+import { Tabs } from "nextra/components";
+
 # API Monitoring
 
-For API or service monitoring, keep events flat and specific.
+Monitor API and service health with flat numeric events. Keep events specific — one event per signal, not one event per endpoint.
 
-Examples:
+## Recommended events
 
-- `api.requests.count`
-- `api.errors.count`
-- `api.response.duration_ms`
-- `rate_limit.hit.count`
+| Event | Value | Why |
+|-------|-------|-----|
+| `api.requests.count` | `1` per request | Track total request volume |
+| `api.errors.count` | `1` per error | Catch error rate increases |
+| `api.response.duration_ms` | Duration in ms | Monitor response time and tail latency |
+| `rate_limit.hit.count` | `1` per hit | Detect when clients are being throttled |
 
-Typical policies:
+## Logging events
 
-- error-count hourly `sum`
-- response-time hourly `p95_est`
-- rate-limit hit hourly `sum`
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
 
-Use analytics windows when you need to compare the current hour or day to previous periods.
+```ts
+await client.log({ agent: "api.v1", event: "api.requests.count", value: 1,
+  meta: { method: "POST", path: "/v1/orders" } });
+
+await client.log({ agent: "api.v1", event: "api.response.duration_ms", value: 145,
+  meta: { method: "POST", path: "/v1/orders", status: 201 } });
+
+await client.log({ agent: "api.v1", event: "api.errors.count", value: 1,
+  meta: { method: "GET", path: "/v1/users", status: 500, error: "db_timeout" } });
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+client.log(Log(agent="api.v1", event="api.requests.count", value=1,
+    meta={"method": "POST", "path": "/v1/orders"}))
+
+client.log(Log(agent="api.v1", event="api.response.duration_ms", value=145,
+    meta={"method": "POST", "path": "/v1/orders", "status": 201}))
+
+client.log(Log(agent="api.v1", event="api.errors.count", value=1,
+    meta={"method": "GET", "path": "/v1/users", "status": 500, "error": "db_timeout"}))
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+_ = client.Log(ctx, chirpier.Log{Agent: "api.v1", Event: "api.requests.count", Value: 1,
+    Meta: map[string]any{"method": "POST", "path": "/v1/orders"}})
+
+_ = client.Log(ctx, chirpier.Log{Agent: "api.v1", Event: "api.response.duration_ms", Value: 145,
+    Meta: map[string]any{"method": "POST", "path": "/v1/orders", "status": 201}})
+
+_ = client.Log(ctx, chirpier.Log{Agent: "api.v1", Event: "api.errors.count", Value: 1,
+    Meta: map[string]any{"method": "GET", "path": "/v1/users", "status": 500, "error": "db_timeout"}})
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Recommended first policies
+
+| Event | Period | Aggregate | Condition | Threshold | Why |
+|-------|--------|-----------|-----------|-----------|-----|
+| `api.errors.count` | `hour` | `sum` | `gt` | `50` | Catch sustained error spikes |
+| `api.response.duration_ms` | `hour` | `p95_est` | `gt` | `2000` | Tail latency affecting real users |
+| `api.response.duration_ms` | `hour` | `average` | `gt` | `500` | General slowdown detection |
+| `rate_limit.hit.count` | `hour` | `sum` | `gt` | `100` | Clients being throttled too often |
+
+## Using comparisons
+
+Compare this hour's error count to the same hour yesterday to distinguish a real incident from normal patterns:
+
+```ts
+const analytics = await client.getEventAnalytics(errorsEventID, {
+  view: "window", period: "1h", previous: "previous_1d",
+});
+// If value_pct_change is +200%, errors tripled vs the same hour yesterday — investigate
+// If value_pct_change is ~0%, this is baseline noise
+```
+
+Compare today's request volume to the same day last week to spot traffic drops:
+
+```ts
+const analytics = await client.getEventAnalytics(requestsEventID, {
+  view: "window", period: "1d", previous: "previous_7d",
+});
+// A -50% drop in count_pct_change might mean a routing issue
+```

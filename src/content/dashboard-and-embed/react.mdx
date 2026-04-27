@@ -32,6 +32,72 @@ export function RevenueWidget() {
 
 Use bare `<ChirpierChart />` markup by default. Wrap it only when your app needs host-specific layout such as a card, title, placeholder copy, or custom empty state.
 
+## Props reference
+
+### Required
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `eventId` | `string` | The event definition ID |
+| `shareToken` | `string` | Share token for public access |
+
+### Chart state
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `range` | `"1h"` \| `"1d"` \| `"1w"` \| `"1m"` | `"1h"` | Time range to display |
+| `aggregate` | `"sum"` \| `"average"` | `"sum"` | How values are aggregated |
+| `variant` | `"line"` \| `"bar"` | `"line"` | Chart rendering style |
+| `compare` | `boolean` | `false` | Show previous-period overlay |
+| `header` | `boolean` | `true` | Show the hosted event header |
+| `view` | `"all"` \| `"summary"` \| `"timeseries"` \| `"tracker"` | `"all"` | Which chart views to show |
+
+### Tracker mode
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tracker.condition` | `"gt"` \| `"gte"` \| `"lt"` \| `"lte"` \| `"eq"` | `"gt"` | Threshold comparison |
+| `tracker.threshold` | `number` | `0` | Threshold value |
+
+### Sizing
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `autoResize` | `boolean` | `false` | Auto-resize iframe based on content |
+| `resizeMode` | `"auto"` \| `"fixed"` \| `"fill"` | `"auto"` | How the iframe dimensions are managed |
+| `width` | `number \| string` | — | Fixed width |
+| `height` | `number \| string` | — | Fixed height |
+| `minHeight` | `number \| string` | — | Minimum height constraint |
+| `maxHeight` | `number \| string` | — | Maximum height constraint |
+| `aspectRatio` | `number \| string` | — | Aspect ratio for responsive sizing |
+
+### Appearance
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `theme` | `"light"` \| `"dark"` \| `"system"` | `"system"` | Color theme |
+
+### Lifecycle hooks
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onRendered` | `(event) => void` | Called when the chart finishes rendering |
+| `onResize` | `(event) => void` | Called when the chart resizes |
+| `onError` | `(error) => void` | Called on embed errors |
+| `onInteraction` | `(event) => void` | Called when the user interacts with the chart |
+
+### Ref methods
+
+Use `React.useRef<ChirpierChartRef>()` to access imperative methods:
+
+| Method | Description |
+|--------|-------------|
+| `ref.current.refresh()` | Reload the chart |
+| `ref.current.resize()` | Trigger a resize |
+| `ref.current.updateState(state)` | Update chart state programmatically |
+| `ref.current.updateTheme(theme)` | Switch color theme |
+| `ref.current.getIframe()` | Access the underlying iframe element |
+
 ## Good fit
 
 Use this package when:

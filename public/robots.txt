@@ -1,9 +1,6 @@
-# *
 User-agent: *
 Allow: /
+Disallow: /_pagefind/
 
-# Host
 Host: https://docs.chirpier.co
-
-# Sitemaps
 Sitemap: https://docs.chirpier.co/sitemap.xml

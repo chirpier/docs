@@ -6,7 +6,7 @@ Package:
 npm install @chirpier/chirpier-js
 ```
 
-Recommended style:
+## Quick start
 
 ```ts
 import { createClient } from "@chirpier/chirpier-js";
@@ -48,6 +48,79 @@ if (taskDuration) {
 
 await client.shutdown();
 ```
+
+## Configuration
+
+```ts
+const client = createClient({
+  key: "chp_your_api_key",       // or set CHIRPIER_API_KEY env var
+  batchSize: 500,                // flush when queue reaches this size
+  flushDelay: 500,               // auto-flush interval in ms
+  retries: 15,                   // retry attempts with exponential backoff
+  timeout: 5000,                 // HTTP timeout in ms per request
+});
+```
+
+The API key is resolved in order: explicit `key` parameter, `CHIRPIER_API_KEY` environment variable, `CHIRPIER_API_KEY` from a `.env` file in the working directory.
+
+## Method reference
+
+### Logging
+
+| Method | Description |
+|--------|-------------|
+| `client.log(entry)` | Queue a log for batched delivery |
+| `client.flush()` | Send all queued logs immediately |
+| `client.shutdown()` | Flush and release resources |
+| `client.close()` | Alias for `shutdown()` |
+
+### Events
+
+| Method | Description |
+|--------|-------------|
+| `client.listEvents()` | List all event definitions |
+| `client.getEvent(eventID)` | Get one event definition |
+| `client.createEvent(payload)` | Create a new event definition |
+| `client.updateEvent(eventID, payload)` | Update event metadata |
+
+### Analytics and rollups
+
+| Method | Description |
+|--------|-------------|
+| `client.getEventAnalytics(eventID, query)` | Get period-over-period comparison |
+| `client.getEventLogs(eventID, options)` | Get time-bucketed rollups |
+
+### Policies
+
+| Method | Description |
+|--------|-------------|
+| `client.listPolicies()` | List all policies |
+| `client.getPolicy(policyID)` | Get one policy |
+| `client.createPolicy(payload)` | Create a policy |
+| `client.updatePolicy(policyID, payload)` | Update a policy |
+
+### Alerts
+
+| Method | Description |
+|--------|-------------|
+| `client.listAlerts(status?)` | List alerts, optionally filtered by status |
+| `client.getAlert(alertID)` | Get one alert |
+| `client.getAlertDeliveries(alertID, options)` | Read delivery attempts |
+| `client.acknowledgeAlert(alertID)` | Acknowledge an alert |
+| `client.resolveAlert(alertID)` | Resolve an alert |
+| `client.archiveAlert(alertID)` | Archive an alert |
+
+### Destinations
+
+| Method | Description |
+|--------|-------------|
+| `client.listDestinations()` | List all destinations |
+| `client.getDestination(destinationID)` | Get one destination |
+| `client.createDestination(payload)` | Create a destination |
+| `client.updateDestination(destinationID, payload)` | Update a destination |
+| `client.testDestination(destinationID)` | Send a test notification |
+
+## Good fit
 
 The JavaScript SDK is a good default for:
 

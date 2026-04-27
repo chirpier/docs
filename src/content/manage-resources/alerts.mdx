@@ -19,34 +19,63 @@ Alerts are runtime records created when policies trigger.
 
 ## Alert reads and lifecycle actions
 
-- `GET /v1.0/alerts`
-- `GET /v1.0/alerts/:alertID`
-- `GET /v1.0/alerts/:alertID/deliveries`
-- `POST /v1.0/alerts/:alertID/acknowledge`
-- `POST /v1.0/alerts/:alertID/resolve`
-- `POST /v1.0/alerts/:alertID/archive`
+- `GET /v1.0/alerts` — list alerts, optionally filter with `?status=triggered`
+- `GET /v1.0/alerts/:alertID` — read one alert
+- `GET /v1.0/alerts/:alertID/deliveries` — read delivery attempts
+- `POST /v1.0/alerts/:alertID/acknowledge` — mark as seen
+- `POST /v1.0/alerts/:alertID/resolve` — mark as resolved
+- `POST /v1.0/alerts/:alertID/archive` — move out of active views
 
-## Statuses
+## Alert lifecycle
 
-- `triggered`
-- `acknowledged`
-- `resolved`
-- `archived`
+```text
+triggered → acknowledged → resolved → archived
+```
+
+| Status | Meaning | Typical action |
+|--------|---------|----------------|
+| `triggered` | Policy threshold breached. Delivery is pending or complete. | Investigate the cause. |
+| `acknowledged` | An operator has seen the alert. | Work on a fix. |
+| `resolved` | The issue has been addressed. | Verify the fix holds. |
+| `archived` | Alert is closed. | No further action needed. |
+
+## What an alert contains
+
+Each alert records the policy state at trigger time:
+
+- `policy_id`, `event_id` — which policy and event
+- `period`, `aggregate`, `condition`, `threshold` — the rule that fired
+- `severity` — the policy's severity level
+- `value` — the aggregated value that crossed the threshold
+- `count`, `min`, `max` — rollup stats from the triggering bucket
+- `triggered_at` — when the policy evaluated and fired
 
 ## Delivery investigation
 
+After an alert is triggered, Chirpier delivers it to matching destinations. Each delivery attempt is recorded with:
+
+| Field | Description |
+|-------|-------------|
+| `channel` | Destination type (slack, discord, telegram, webhook, email) |
+| `target` | Where it was sent (URL, email address, etc.) |
+| `status` | `sent` or `failed` |
+| `response_status` | HTTP status code from the downstream provider |
+| `error_message` | Error details if delivery failed |
+| `created_at` | When the attempt was made |
+
 Use delivery history to answer:
 
-- was the alert routed anywhere?
-- did the destination test succeed?
-- what HTTP status or error came back?
+- Was the alert routed to any destination?
+- Did the downstream provider accept the delivery?
+- What HTTP status or error came back?
+- Was a test send successful?
 
 Filter delivery reads with:
 
-- `kind=alert`
-- `kind=test`
-- `kind=all`
+- `kind=alert` — real alert deliveries
+- `kind=test` — destination test deliveries
+- `kind=all` — both, for debugging
 
-Use `kind=test` immediately after testing a destination.
+Use `kind=test` immediately after testing a destination to verify the send succeeded.
 
 For delivery target configuration, continue with [Destinations](/manage-resources/destinations).

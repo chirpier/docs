@@ -6,7 +6,7 @@ Package:
 go get github.com/chirpier/chirpier-go
 ```
 
-Recommended style:
+## Quick start
 
 ```go
 client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
@@ -44,6 +44,82 @@ for _, eventDef := range events {
     }
 }
 ```
+
+## Configuration
+
+```go
+client, err := chirpier.NewClient(chirpier.Options{
+    Key:        "chp_your_api_key", // or set CHIRPIER_API_KEY env var
+    BatchSize:  500,                // flush when queue reaches this size
+    FlushDelay: 500 * time.Millisecond, // auto-flush interval
+    Retries:    10,                 // retry attempts with exponential backoff
+    Timeout:    10 * time.Second,   // HTTP timeout per request
+    MaxWorkers: 3,                  // concurrent batch delivery workers
+})
+```
+
+The API key is resolved in order: explicit `Key` field, `CHIRPIER_API_KEY` environment variable, `CHIRPIER_API_KEY` from a `.env` file in the working directory.
+
+## Method reference
+
+All control-plane methods accept a `context.Context` as the first parameter.
+
+### Logging
+
+| Method | Description |
+|--------|-------------|
+| `client.Log(ctx, entry)` | Queue a log for batched delivery |
+| `client.Flush(ctx)` | Send all queued logs immediately |
+| `client.Stop(ctx)` | Flush and release resources |
+| `client.Close(ctx)` | Alias for `Stop()` |
+
+### Events
+
+| Method | Description |
+|--------|-------------|
+| `client.ListEvents(ctx)` | List all event definitions |
+| `client.GetEvent(ctx, eventID)` | Get one event definition |
+| `client.CreateEvent(ctx, payload)` | Create a new event definition |
+| `client.UpdateEvent(ctx, eventID, payload)` | Update event metadata |
+
+### Analytics and rollups
+
+| Method | Description |
+|--------|-------------|
+| `client.GetEventAnalytics(ctx, eventID, query)` | Get period-over-period comparison |
+| `client.GetEventLogs(ctx, eventID, period, limit, offset)` | Get time-bucketed rollups |
+
+### Policies
+
+| Method | Description |
+|--------|-------------|
+| `client.ListPolicies(ctx)` | List all policies |
+| `client.GetPolicy(ctx, policyID)` | Get one policy |
+| `client.CreatePolicy(ctx, payload)` | Create a policy |
+| `client.UpdatePolicy(ctx, policyID, payload)` | Update a policy |
+
+### Alerts
+
+| Method | Description |
+|--------|-------------|
+| `client.ListAlerts(ctx, status)` | List alerts, optionally filtered by status |
+| `client.GetAlert(ctx, alertID)` | Get one alert |
+| `client.GetAlertDeliveries(ctx, alertID, limit, offset, kind)` | Read delivery attempts |
+| `client.AcknowledgeAlert(ctx, alertID)` | Acknowledge an alert |
+| `client.ResolveAlert(ctx, alertID)` | Resolve an alert |
+| `client.ArchiveAlert(ctx, alertID)` | Archive an alert |
+
+### Destinations
+
+| Method | Description |
+|--------|-------------|
+| `client.ListDestinations(ctx)` | List all destinations |
+| `client.GetDestination(ctx, destinationID)` | Get one destination |
+| `client.CreateDestination(ctx, payload)` | Create a destination |
+| `client.UpdateDestination(ctx, destinationID, payload)` | Update a destination |
+| `client.TestDestination(ctx, destinationID)` | Send a test notification |
+
+## Good fit
 
 The Go SDK is a good fit for:
 

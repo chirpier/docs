@@ -33,12 +33,26 @@ Endpoint:
 GET /v1.0/events/:eventID/logs?period=minute|hour|day&limit=&offset=
 ```
 
+### What rollups store
+
+Each rollup bucket aggregates all logs that fell within that time window:
+
+| Field | Description |
+|-------|-------------|
+| `count` | Number of logs in the bucket |
+| `value` | Sum of all `value` fields |
+| `min` | Smallest value logged |
+| `max` | Largest value logged |
+| `squares` | Sum of squared values (used to compute variance and standard deviation) |
+
+Chirpier stores these pre-aggregated buckets rather than raw log data. This is how it supports `average`, `p95_est`, and `p99_est` aggregates in policies without retaining every individual log long-term.
+
 Rollups are best for:
 
 - charts
 - recent history inspection
 - building your own comparisons
-- validating monitor inputs
+- validating policy inputs
 
 ## Analytics windows
 
@@ -66,25 +80,15 @@ Supported comparison keys:
 - `previous_7d`
 - `previous_1m`
 
-Supported window combinations:
+Common comparison examples:
 
-- `period=1h&previous=previous_window`
-- `period=1h&previous=previous_1d`
-- `period=1h&previous=previous_7d`
-- `period=1h&previous=previous_1m`
-- `period=1d&previous=previous_window`
-- `period=1d&previous=previous_7d`
-- `period=1d&previous=previous_1m`
-- `period=7d&previous=previous_window`
-- `period=7d&previous=previous_1m`
-- `period=1m&previous=previous_window`
+- `period=1h&previous=previous_window` — this hour vs the previous hour
+- `period=1h&previous=previous_1d` — this hour vs the same hour yesterday
+- `period=1d&previous=previous_7d` — today vs the same day last week
+- `period=7d&previous=previous_window` — this week vs last week
+- `period=1m&previous=previous_window` — this month vs last month
 
-Use analytics windows for:
-
-- last hour vs previous hour
-- last hour vs same hour yesterday
-- last day vs same day last month
-- week-over-week or month-over-month summaries
+For the full combination table, see the [Analytics API](/api-reference/analytics) reference.
 
 Analytics windows return a comparison summary rather than a time series. Typical response fields include:
 

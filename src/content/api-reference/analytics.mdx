@@ -20,16 +20,18 @@ Required query parameters:
 
 ## Supported window combinations
 
-- `period=1h&previous=previous_window`
-- `period=1h&previous=previous_1d`
-- `period=1h&previous=previous_7d`
-- `period=1h&previous=previous_1m`
-- `period=1d&previous=previous_window`
-- `period=1d&previous=previous_7d`
-- `period=1d&previous=previous_1m`
-- `period=7d&previous=previous_window`
-- `period=7d&previous=previous_1m`
-- `period=1m&previous=previous_window`
+| Period | Previous | What it compares |
+|--------|----------|-----------------|
+| `1h` | `previous_window` | This hour vs the previous hour |
+| `1h` | `previous_1d` | This hour vs the same hour yesterday |
+| `1h` | `previous_7d` | This hour vs the same hour 7 days ago |
+| `1h` | `previous_1m` | This hour vs the same hour 30 days ago |
+| `1d` | `previous_window` | Today vs yesterday |
+| `1d` | `previous_7d` | Today vs the same day last week |
+| `1d` | `previous_1m` | Today vs the same day last month |
+| `7d` | `previous_window` | This week vs last week |
+| `7d` | `previous_1m` | This week vs the same week last month |
+| `1m` | `previous_window` | This month vs last month |
 
 If a combination is not supported, the API returns `400`.
 
@@ -112,14 +114,37 @@ analytics, err := client.GetEventAnalytics(ctx, EVENT_ID, chirpier.AnalyticsWind
 
 ## Response fields
 
-- `current_*`: values for the requested window ending now
-- `previous_*`: values for the comparison window selected by `previous`
-- `*_delta`: absolute change between the two windows
-- `*_pct_change`: percentage change relative to the previous window
-- `current_mean` / `previous_mean`: average value per sample in each window
-- `current_stddev` / `previous_stddev`: estimated spread from aggregated squares
+| Field | Description |
+|-------|-------------|
+| `current_value` | Sum of all values in the current window |
+| `current_count` | Number of logs in the current window |
+| `current_mean` | Average value per log (`current_value / current_count`) |
+| `current_stddev` | Estimated standard deviation from aggregated squares |
+| `previous_value` | Sum of all values in the comparison window |
+| `previous_count` | Number of logs in the comparison window |
+| `previous_mean` | Average value per log in the comparison window |
+| `previous_stddev` | Standard deviation in the comparison window |
+| `value_delta` | `current_value - previous_value` |
+| `count_delta` | `current_count - previous_count` |
+| `mean_delta` | `current_mean - previous_mean` |
+| `value_pct_change` | Percentage change in value relative to the previous window |
+| `count_pct_change` | Percentage change in count relative to the previous window |
+| `mean_pct_change` | Percentage change in mean relative to the previous window |
 
 The response field names do not change by comparison type. For example, `period=1h&previous=previous_7d` still returns `previous_value`, not `last_week_value`.
+
+## Reading the response
+
+Using the example response above (`period=1h`, `previous=previous_7d`):
+
+- **Total value this hour**: 1280 (sum of all logged values)
+- **Total value same hour last week**: 910
+- **Value is up 40.7%** from the same hour 7 days ago (`value_pct_change`)
+- **Average per log**: 20 now vs 17.5 last week, a 14.3% increase (`mean_pct_change`)
+- **Volume**: 64 logs now vs 52 last week, 23% more activity (`count_pct_change`)
+- **Spread**: standard deviation widened slightly (6.1 vs 5.4), meaning values are a bit more variable
+
+If `data` is `null`, there were no logs in either window.
 
 ## Notes
 

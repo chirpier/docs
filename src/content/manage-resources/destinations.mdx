@@ -27,38 +27,105 @@ The current API carries the provider type in the destination `channel` field.
 - `discord`
 - `telegram`
 
-## Routing model
+## Configuration per channel type
 
-Destinations can be filtered by:
+Each channel type has different requirements for `url` and `credentials`.
 
-- `policy_ids`
+### Slack
 
-This lets you create broad workspace-level routes or tighter routes for specific events and agent workflows.
-
-## Common examples
-
-Slack destination:
+Provide the incoming webhook URL. No credentials needed.
 
 ```json
 {
-  "url": "https://hooks.slack.com/services/T000/B000/secret",
   "channel": "slack",
+  "url": "https://hooks.slack.com/services/T000/B000/secret",
+  "scope": "all",
+  "policy_ids": [],
   "enabled": true
 }
 ```
 
-Telegram bot:
+### Discord
+
+Provide the Discord webhook URL. No credentials needed.
+
+```json
+{
+  "channel": "discord",
+  "url": "https://discord.com/api/webhooks/123456/webhook-token",
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
+}
+```
+
+### Telegram
+
+No `url` field. Provide `bot_token` and `chat_id` in the `credentials` object.
 
 ```json
 {
   "channel": "telegram",
-  "enabled": true,
   "credentials": {
-    "bot_token": "123456:telegram-bot-token",
+    "bot_token": "123456:ABCdefGHIjklMNOpqrsTUVwxyz",
     "chat_id": "987654321"
-  }
+  },
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
 }
 ```
+
+### Webhook
+
+Provide the target URL. Optionally include an `authorization` header value in `credentials` for authenticated endpoints.
+
+```json
+{
+  "channel": "webhook",
+  "url": "https://example.com/chirpier/alerts",
+  "credentials": {
+    "authorization": "Bearer your-secret-token"
+  },
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
+}
+```
+
+Without authentication:
+
+```json
+{
+  "channel": "webhook",
+  "url": "https://example.com/chirpier/alerts",
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
+}
+```
+
+### Email
+
+Chirpier sends alert emails using its own mailer. No `url` or `credentials` needed. Alerts are delivered to the workspace owner's email address.
+
+```json
+{
+  "channel": "email",
+  "scope": "all",
+  "policy_ids": [],
+  "enabled": true
+}
+```
+
+## Routing model
+
+Destinations can be scoped to control which alerts they receive:
+
+- `scope: "all"` — the destination receives every alert for the workspace.
+- `scope` with `policy_ids` — the destination only receives alerts from the listed policies.
+
+This lets you create broad workspace-level routes (e.g., a Slack channel for all alerts) or tighter routes for specific events and agent workflows (e.g., a Telegram bot only for critical production policies).
 
 ## Destination APIs
 
@@ -68,4 +135,16 @@ Telegram bot:
 - `PUT /v1.0/destinations/:destinationID`
 - `POST /v1.0/destinations/:destinationID/test`
 
-Testing a destination creates test delivery history, which you can inspect from the related alert context with `kind=test`.
+## Testing a destination
+
+Always test a destination before relying on it for production alerts. The test endpoint sends a synthetic alert and returns the test `alert_id`:
+
+```json
+{
+  "alert_id": "414d5d9c-b8c0-4e8b-bf3a-0d4e3e616604",
+  "destination_id": "5e9d6fd1-727a-46f6-a377-6c8ef407efdc",
+  "status": "sent"
+}
+```
+
+Inspect the test delivery with `GET /v1.0/alerts/:alertID/deliveries?kind=test` to verify the downstream provider received it, check the HTTP status code, and see any error messages.

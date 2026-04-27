@@ -32,3 +32,32 @@ All three SDKs share these important behaviors:
 </PathGrid>
 
 If you only need raw HTTP calls, use [API Reference](/api-reference).
+
+## Production behavior
+
+All three SDKs batch logs locally and flush them in the background. Understanding these defaults helps with production deployments.
+
+### Batching and flushing
+
+Logs are queued in memory and flushed automatically:
+
+- **Batch size**: 500 logs (configurable). The SDK flushes when the queue reaches this size.
+- **Flush interval**: 500 ms (configurable). If the batch size is not reached, logs flush on this timer.
+- **`flush()`**: Sends all queued logs immediately. Blocks until the batch is delivered.
+- **`shutdown()` / `close()`**: Flushes all remaining logs and releases resources. Always call this before your process exits.
+
+### Retry and backoff
+
+Failed batches are retried with exponential backoff and jitter:
+
+- **Retryable errors**: Network failures, `429` (rate limit), and most `5xx` responses.
+- **Non-retryable errors**: `401`, `403`, `404` are not retried.
+- **Backoff**: Delay doubles per attempt, with random jitter added. `429` responses respect the `Retry-After` header.
+- **Default attempts**: 10-15 depending on SDK.
+- **Logs are not dropped**: Failed batches are re-queued for retry, not discarded.
+
+### Concurrency
+
+- **JavaScript**: Single async worker with lock-based queue coordination.
+- **Python**: Single background thread processing batches sequentially.
+- **Go**: Configurable worker pool (default 3) for concurrent batch delivery. All methods accept `context.Context` for cancellation.

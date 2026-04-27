@@ -31,7 +31,9 @@ Those belong in rollups, policies, or analytics queries.
 
 ## Event definitions
 
-When Chirpier receives an unknown event, it creates an event definition automatically. That definition becomes the anchor for:
+When Chirpier receives a log with an `agent` + `event` pair it has not seen before, it auto-creates an event definition. There is no manual registration step. The first log you send for a new event name creates the definition, and every subsequent log with the same identity appends to it.
+
+That definition becomes the anchor for:
 
 - dashboard views
 - rollup reads
@@ -39,13 +41,15 @@ When Chirpier receives an unknown event, it creates an event definition automati
 - policy creation
 - public sharing and embeds
 
-Useful event-definition fields include:
+You can update event definitions after creation to add context:
 
-- `description`
-- `unit`
-- `timezone`
-- `public`
-- `share_token`
+| Field | Description |
+|-------|-------------|
+| `description` | Human-readable description shown in the dashboard |
+| `unit` | Measurement unit label (e.g., `ms`, `USD`, `count`) |
+| `timezone` | Timezone for day-level rollups and alerting |
+| `public` | Whether the event is publicly accessible |
+| `share_token` | Auto-generated token for public access (read-only) |
 
 ## Agent and metadata
 
@@ -58,6 +62,12 @@ Use `meta` for inspection context such as:
 - `workflow`
 - `source`
 - `query`
+
+`meta` constraints:
+
+- Maximum size: **1 KB** per log
+- Maximum keys: **10 top-level keys** when `meta` is a JSON object
+- Must be valid JSON
 
 Do not rely on `meta` as a first-class analytical grouping key in v1.
 

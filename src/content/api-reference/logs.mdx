@@ -56,24 +56,25 @@ Example:
 
 ## Field notes
 
-- `log_id`: optional UUID. If omitted, Chirpier generates a UUIDv7.
-- `agent`: optional producer identity.
-- `event`: required flat event name.
-- `value`: required numeric value.
-- `occurred_at`: optional timestamp. Defaults to `now`.
-- `meta`: optional JSON object or JSON value up to 1KB.
+| Field | Required | Description |
+|-------|----------|-------------|
+| `log_id` | No | UUID. If omitted, Chirpier generates a UUIDv7. |
+| `agent` | No | Producer identity. Part of the event definition identity alongside `event`. |
+| `event` | Yes | Flat event name (e.g., `task.duration_ms`). |
+| `value` | Yes | Numeric value. Must be finite (not NaN or Infinity). |
+| `occurred_at` | No | ISO 8601 timestamp. Defaults to `now`. Must be within the last 30 days and no more than 1 day in the future. |
+| `meta` | No | JSON object or value. Maximum **1 KB**. Object-shaped values can have at most **10 top-level keys**. |
 
-## Validation notes
+## Validation rules
 
-- hard API maximum: 250 logs per request
-- `event` is required
+- Hard API maximum: **250 logs per request**
+- `event` is required and must be non-empty after trimming whitespace
+- `value` must be a finite number
 - `occurred_at` must be within the last 30 days and no more than 1 day in the future
-- `meta` must be valid JSON
-- object-shaped `meta` values can have at most 10 top-level keys
-- blank `log_id` values are replaced with generated UUIDs
-- `value` is numeric
+- `meta` must be valid JSON, max 1 KB, max 10 top-level keys if object-shaped
+- Blank `log_id` values are replaced with generated UUIDs
 
-Unknown events are auto-created as event definitions.
+Unknown `agent` + `event` pairs are auto-created as event definitions on first log. There is no manual registration step.
 
 ## Example request
 

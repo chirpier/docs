@@ -9,8 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@chirpier/charts": "^0.3.0",
-    "@chirpier/embed": "^0.3.0",
+    "@chirpier/charts": "^0.3.2",
+    "@chirpier/embed": "^0.3.2",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "next": "15.1.11",

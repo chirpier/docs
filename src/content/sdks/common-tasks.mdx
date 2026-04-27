@@ -1,21 +1,259 @@
+import { Tabs } from "nextra/components";
+
 # Common Tasks
 
-All Chirpier SDKs expose helpers around the same resource model.
+All Chirpier SDKs expose helpers around the same resource model. These examples show the most common operations beyond logging.
 
-## Typical helper tasks
+## Resolve an event definition
 
-- list events
-- read one event definition
-- read one analytics comparison
-- update event metadata
-- list policies
-- create a policy
-- list alerts
-- read alert deliveries
-- acknowledge, resolve, or archive an alert
-- test a destination
-- read event rollups
-- create, read, list, and update destinations
+After logging, use `listEvents` to find the event definition and get the `event_id` needed for analytics, policies, and sharing.
+
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```ts
+const events = await client.listEvents();
+const event = events.find(
+  (e) => e.agent === "openclaw.main" && e.event === "task.duration_ms",
+);
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+events = client.list_events()
+event = next(
+    (e for e in events if e.get("agent") == "openclaw.main" and e.get("event") == "task.duration_ms"),
+    None,
+)
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+events, _ := client.ListEvents(ctx)
+for _, e := range events {
+    if e.Agent == "openclaw.main" && e.Event == "task.duration_ms" {
+        // use e.EventID
+    }
+}
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Query analytics comparisons
+
+Use analytics windows to compare the current period against a previous one.
+
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```ts
+const analytics = await client.getEventAnalytics(eventID, {
+  view: "window",
+  period: "1h",
+  previous: "previous_1d",
+});
+
+// analytics.data.value_pct_change shows % change vs same hour yesterday
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+analytics = client.get_event_analytics(
+    event_id,
+    view="window",
+    period="1h",
+    previous="previous_1d",
+)
+
+# analytics["data"]["value_pct_change"] shows % change vs same hour yesterday
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+analytics, _ := client.GetEventAnalytics(ctx, eventID, chirpier.AnalyticsWindowQuery{
+    View:     "window",
+    Period:   "1h",
+    Previous: "previous_1d",
+})
+
+// analytics.Data.ValuePctChange shows % change vs same hour yesterday
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Create a policy
+
+Policies define alert conditions. Choose the aggregate based on the event shape.
+
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```ts
+const policy = await client.createPolicy({
+  event_id: eventID,
+  title: "High error rate",
+  channel: "ops",
+  period: "hour",
+  aggregate: "sum",
+  condition: "gt",
+  threshold: 50,
+  severity: "warning",
+  enabled: true,
+});
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+policy = client.create_policy({
+    "event_id": event_id,
+    "title": "High error rate",
+    "channel": "ops",
+    "period": "hour",
+    "aggregate": "sum",
+    "condition": "gt",
+    "threshold": 50,
+    "severity": "warning",
+    "enabled": True,
+})
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+policy, _ := client.CreatePolicy(ctx, chirpier.Policy{
+    EventID:   eventID,
+    Title:     "High error rate",
+    Channel:   "ops",
+    Period:    "hour",
+    Aggregate: "sum",
+    Condition: "gt",
+    Threshold: 50,
+    Severity:  "warning",
+    Enabled:   true,
+})
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Set up a destination and test it
+
+Create a destination, send a test notification, and inspect the delivery.
+
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```ts
+const destination = await client.createDestination({
+  channel: "slack",
+  url: "https://hooks.slack.com/services/T000/B000/secret",
+  scope: "all",
+  policy_ids: [],
+  enabled: true,
+});
+
+const test = await client.testDestination(destination.destination_id);
+const deliveries = await client.getAlertDeliveries(test.alert_id, { kind: "test" });
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+destination = client.create_destination({
+    "channel": "slack",
+    "url": "https://hooks.slack.com/services/T000/B000/secret",
+    "scope": "all",
+    "policy_ids": [],
+    "enabled": True,
+})
+
+test = client.test_destination(destination["destination_id"])
+deliveries = client.get_alert_deliveries(test["alert_id"], kind="test")
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+destination, _ := client.CreateDestination(ctx, chirpier.Destination{
+    Channel:   "slack",
+    URL:       "https://hooks.slack.com/services/T000/B000/secret",
+    Scope:     "all",
+    PolicyIDs: []string{},
+    Enabled:   true,
+})
+
+test, _ := client.TestDestination(ctx, destination.DestinationID)
+deliveries, _ := client.GetAlertDeliveries(ctx, test.AlertID, 0, 0, "test")
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Triage an alert
+
+Read an alert, inspect deliveries, and move it through the lifecycle.
+
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tabs.Tab>
+
+```ts
+const alerts = await client.listAlerts("triggered");
+
+for (const alert of alerts) {
+  const deliveries = await client.getAlertDeliveries(alert.alert_id, { kind: "alert" });
+  // inspect deliveries...
+
+  await client.acknowledgeAlert(alert.alert_id);
+  // later: await client.resolveAlert(alert.alert_id);
+}
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+alerts = client.list_alerts(status="triggered")
+
+for alert in alerts:
+    deliveries = client.get_alert_deliveries(alert["alert_id"], kind="alert")
+    # inspect deliveries...
+
+    client.acknowledge_alert(alert["alert_id"])
+    # later: client.resolve_alert(alert["alert_id"])
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+alerts, _ := client.ListAlerts(ctx, "triggered")
+
+for _, alert := range alerts {
+    deliveries, _ := client.GetAlertDeliveries(ctx, alert.AlertID, 0, 0, "alert")
+    // inspect deliveries...
+
+    _, _ = client.AcknowledgeAlert(ctx, alert.AlertID)
+    // later: client.ResolveAlert(ctx, alert.AlertID)
+}
+```
+
+  </Tabs.Tab>
+</Tabs>
 
 ## When to use SDK helpers
 
@@ -23,15 +261,6 @@ Use the SDK helpers when you want one authenticated client for both:
 
 - Logging event data
 - Managing Chirpier resources
-
-This includes the common OpenClaw loop:
-
-- send logs
-- list events and resolve `event_id`
-- query analytics windows
-- create policies
-- create destinations
-- test destinations and inspect test deliveries
 
 Use raw HTTP when you need language-agnostic integrations, shell automation, or direct infrastructure-level control.
 

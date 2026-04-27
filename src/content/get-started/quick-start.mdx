@@ -1,4 +1,5 @@
 import { Steps } from "nextra/components";
+import { Tabs } from "nextra/components";
 
 export const dynamic = "force-dynamic";
 
@@ -34,23 +35,77 @@ Use the [SDK overview](/sdks) to pick [JavaScript](/sdks/javascript), [Go](/sdks
 
 ### Confirm the event definition exists
 
-Once you've logged the event, Chirpier creates the event definition automatically. That event becomes the anchor for dashboard charts, policies, analytics, and public facing charts.
+Once you've logged the event, Chirpier auto-creates the event definition from the `agent` + `event` pair. There is no manual registration step. That event becomes the anchor for dashboard charts, policies, analytics, and public facing charts.
 
 ### Inspect the event in the app
 
 Open the Chirpier dashboard and verify the event appears in the Events surface with the expected name, description, and rollup activity.
 
+### Check a period comparison
+
+Use the analytics endpoint to compare the current window against a previous one. This is how you see changes at a glance without building your own comparison logic.
+
+<Tabs items={["JavaScript", "Python", "Go", "Raw API"]}>
+  <Tabs.Tab>
+
+```ts
+const analytics = await client.getEventAnalytics(eventID, {
+  view: "window",
+  period: "1h",
+  previous: "previous_1d",
+});
+// analytics.data.value_pct_change — e.g., "token spend is 20% up from same hour yesterday"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```python
+analytics = client.get_event_analytics(event_id, view="window", period="1h", previous="previous_1d")
+# analytics["data"]["value_pct_change"] — e.g., "token spend is 20% up from same hour yesterday"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```go
+analytics, _ := client.GetEventAnalytics(ctx, eventID, chirpier.AnalyticsWindowQuery{
+    View: "window", Period: "1h", Previous: "previous_1d",
+})
+// analytics.Data.ValuePctChange — e.g., "token spend is 20% up from same hour yesterday"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```bash
+curl -G "https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics" \
+  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+  --data-urlencode "view=window" \
+  --data-urlencode "period=1h" \
+  --data-urlencode "previous=previous_1d"
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+See [Analytics API](/api-reference/analytics) for all supported period and comparison combinations.
+
 ### Create your first policy
 
-Create a policy for the event and choose the aggregate that matches the event shape.
+Create a policy for the event and choose the aggregate that matches the event shape. For example, a count event like `tool.errors.count` should use `sum`, while a latency event like `task.duration_ms` should use `average` or `p95_est`.
+
+See [Choosing the right aggregate](/manage-resources/policies#choosing-the-right-aggregate) for guidance.
 
 ### Test a destination
 
-Create destination for alerts to Slack, Discord, Telegram, email, or generic destination destination and run a test send before relying on production delivery.
+Create a destination for alerts to Slack, Discord, Telegram, email, or webhook and run a test send before relying on production delivery. Inspect the test delivery to verify the downstream provider received it.
+
+See [Destinations](/manage-resources/destinations) for configuration examples per channel type.
 
 ### Share or embed the chart
 
-Once the event is public, use the hosted event page directly or embed it with the Chirpier chart clients.
+Once the event is public, use the hosted event page directly or embed it with the Chirpier chart clients. See [Public Event Pages](/dashboard-and-embed/public-event-pages) for the sharing flow.
 
 </Steps>
 

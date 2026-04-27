@@ -49,11 +49,13 @@ In the current API shape, the destination provider type is carried in the `chann
 
 ## Supported destination provider types
 
-- `email`
-- `webhook`
-- `slack`
-- `discord`
-- `telegram`
+| Channel | `url` | `credentials` |
+|---------|-------|---------------|
+| `slack` | Incoming webhook URL | Not needed |
+| `discord` | Discord webhook URL | Not needed |
+| `telegram` | Not needed | `{"bot_token": "...", "chat_id": "..."}` |
+| `webhook` | Target endpoint URL | Optional `{"authorization": "Bearer ..."}` |
+| `email` | Not needed | Not needed (uses Chirpier's mailer) |
 
 ## Scope rules
 

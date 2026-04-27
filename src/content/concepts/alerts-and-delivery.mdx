@@ -4,30 +4,57 @@ Policies, alerts, and destinations are separate resources with different jobs.
 
 ## Policies
 
-A policy defines when an event should trigger.
+A policy defines when an event should trigger an alert. You configure:
 
-Typical policy inputs:
+| Input | Description |
+|-------|-------------|
+| `event_id` | Which event definition to monitor |
+| `period` | Rollup window to evaluate: `minute`, `hour`, or `day` |
+| `aggregate` | How to reduce the window: `sum`, `count`, `average`, `min`, `max`, `p95_est`, `p99_est` |
+| `condition` | Comparison operator: `gt`, `lt`, `eq`, `gte`, `lte` |
+| `threshold` | Numeric threshold to compare against |
+| `severity` | Alert severity: `info`, `warning`, `error`, `critical` |
+| `channel` | Routing namespace (e.g., `default`, `ops`, `market`) |
 
-- `event_id`
-- `period`
-- `aggregate`
-- `condition`
-- `threshold`
-- `severity`
-- `channel`
+## How alert evaluation works
+
+Chirpier evaluates policies through a pipeline that runs automatically in the background:
+
+1. **Logs arrive** via the ingestion API and are queued for processing.
+2. **Rollup aggregation**: The consumer aggregates logs into minute, hour, and day rollup buckets. Each bucket stores count, sum, min, max, and sum-of-squares.
+3. **Policy evaluation**: A background process checks each enabled policy against the latest completed rollup bucket for that policy's period. If the aggregate value meets the condition and threshold, an alert is created.
+4. **Alert delivery**: A separate process (running every ~1 minute) picks up newly triggered alerts and routes them to matching destinations.
+
+This means alert latency depends on the policy period:
+
+- A **minute** policy can fire within roughly 1-2 minutes of the triggering log.
+- An **hour** policy fires after the hour boundary, when the hourly rollup completes.
+- A **day** policy fires after the day boundary (in the event's configured timezone).
+
+Policies are evaluated per completed rollup bucket, not per individual log.
 
 ## Alerts
 
 An alert is the runtime result of a triggered policy.
 
-Alert lifecycle states:
+Alert lifecycle:
 
-- `triggered`
-- `acknowledged`
-- `resolved`
-- `archived`
+```text
+triggered → acknowledged → resolved → archived
+```
 
-The servicer API exposes lifecycle actions to acknowledge, resolve, and archive alerts.
+| Status | Meaning |
+|--------|---------|
+| `triggered` | Policy threshold was breached. Alert is active and delivery is pending. |
+| `acknowledged` | An operator has seen the alert. |
+| `resolved` | The issue has been addressed. |
+| `archived` | Alert is closed and moved out of active views. |
+
+Transitions are performed via the API:
+
+- `POST /v1.0/alerts/:alertID/acknowledge`
+- `POST /v1.0/alerts/:alertID/resolve`
+- `POST /v1.0/alerts/:alertID/archive`
 
 ## Destinations and delivery history
 
@@ -39,11 +66,28 @@ Destinations route alerts outward. The current API stores the destination provid
 - `telegram`
 - `email`
 
+### Delivery routing
+
+When an alert is triggered, Chirpier finds matching destinations:
+
+- Destinations with `scope: "all"` receive every alert for the workspace.
+- Destinations with specific `policy_ids` only receive alerts from those policies.
+- If no destination matches, the alert is delivered to the workspace owner's email as a fallback.
+
+### Delivery history
+
 After testing or delivering alerts, inspect delivery attempts through:
 
 ```text
 GET /v1.0/alerts/:alertID/deliveries?kind=alert|test|all
 ```
+
+Each delivery attempt records:
+
+- `channel` and `target` (where it was sent)
+- `status`: `sent` or `failed`
+- `response_status`: HTTP status code from the downstream provider
+- `error_message`: error details if delivery failed
 
 Delivery history semantics:
 

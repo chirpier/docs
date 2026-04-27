@@ -1,6 +1,6 @@
 # Policies
 
-Policies turn event events into alert conditions.
+Policies turn events into alert conditions.
 
 <PathGrid>
   <PathCard
@@ -19,29 +19,76 @@ Policies turn event events into alert conditions.
 
 ## Core inputs
 
-- `event_id`
-- `title`
-- `channel`
-- `period`
-- `aggregate`
-- `condition`
-- `threshold`
-- `severity`
-- `enabled`
+| Field | Values | Description |
+|-------|--------|-------------|
+| `event_id` | UUID | Which event definition to monitor |
+| `title` | string | Human-readable label for the policy |
+| `channel` | string | Routing namespace (e.g., `default`, `ops`, `market`) |
+| `period` | `minute`, `hour`, `day` | Rollup window to evaluate |
+| `aggregate` | `sum`, `count`, `average`, `min`, `max`, `p95_est`, `p99_est` | How to reduce the window |
+| `condition` | `gt`, `lt`, `eq`, `gte`, `lte` | Comparison operator |
+| `threshold` | number | Value to compare against |
+| `severity` | `info`, `warning`, `error`, `critical` | Alert severity |
+| `enabled` | boolean | Whether the policy is active |
 
-## Aggregate selection
+## Choosing the right aggregate
 
-Choose the aggregate based on the raw event shape.
+The correct aggregate depends on what the raw event value represents. Picking the wrong aggregate leads to alerts that never fire or fire on noise.
 
-Common patterns:
+### Count and occurrence events
 
-- `*.count`, `*.errors.count`, `*.used` -> usually `sum`
-- `*.duration_ms` -> usually `average`, `p95_est`, `p99_est`, or `max`
-- `*.score`, `*.price_usd` -> usually `average`, `min`, or `max`
+Events like `tool.errors.count`, `api.requests.count`, `job.retry.count` where each log has `value: 1` (or a small integer representing "this happened N times").
+
+| Aggregate | When to use | Example policy |
+|-----------|-------------|----------------|
+| `sum` | Total occurrences in the period | "Alert if error count exceeds 50 per hour" |
+| `count` | Number of logs (not value-weighted) | "Alert if more than 100 error logs per hour" |
+
+For most count events, `sum` is the right choice.
+
+### Latency and duration events
+
+Events like `task.duration_ms`, `api.response.duration_ms` where each log carries a timing measurement.
+
+| Aggregate | When to use | Example policy |
+|-----------|-------------|----------------|
+| `average` | Typical performance | "Alert if average response time exceeds 500ms per hour" |
+| `p95_est` | Tail latency affecting many users | "Alert if p95 latency exceeds 2s per day" |
+| `p99_est` | Worst-case tail latency | "Alert if p99 latency exceeds 5s per day" |
+| `max` | Absolute worst case | "Alert if any request exceeds 10s per hour" |
+
+For latency, start with `average` or `p95_est`. Use `p99_est` or `max` for strict SLA monitoring.
+
+### Additive and gauge events
+
+Events like `tokens.used`, `queue.backlog.gauge`, `market.bitcoin.price_usd` where the value is a measurement or running total.
+
+| Aggregate | When to use | Example policy |
+|-----------|-------------|----------------|
+| `sum` | Cumulative spend or volume | "Alert if token spend exceeds 10,000 per day" |
+| `average` | Typical level | "Alert if average queue depth exceeds 500 per minute" |
+| `min` | Floor monitoring | "Alert if price drops below 60,000" |
+| `max` | Ceiling monitoring | "Alert if backlog exceeds 1,000 per minute" |
+
+### Binary and heartbeat events
+
+Events like `heartbeat.missed.count` where any non-zero value is a problem.
+
+| Aggregate | When to use | Example policy |
+|-----------|-------------|----------------|
+| `sum` | Any occurrence is bad | "Alert if missed heartbeats > 0 per day" with `condition: gt`, `threshold: 0` |
+
+## Period selection
+
+The `period` determines how often the policy is evaluated:
+
+- `minute` — fastest alerting, fires within ~1-2 minutes. Use for critical operational signals.
+- `hour` — fires after the hour boundary. Good for rate-based alerts (errors per hour, requests per hour).
+- `day` — fires after the day boundary (in the event's timezone). Use for daily budgets, SLA reporting, and trend monitoring.
 
 ## Channel routing
 
-The policy `channel` field is the routing namespace for alerts. Typical values are:
+The policy `channel` field is a routing namespace for alerts. Typical values are:
 
 - `default`
 - `ops`
