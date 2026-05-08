@@ -6,4 +6,5 @@ export default {
   destinations: "Destinations API",
   analytics: "Analytics API",
   schemas: "Schemas",
+  "error-codes": "Error Codes",
 };

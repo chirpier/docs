@@ -1,0 +1,335 @@
+# Error Codes
+
+Every error response from the Chirpier API uses a standard JSON envelope. This page lists all error codes, their HTTP status codes, and common causes.
+
+## Error response format
+
+All API errors return a JSON body with the following shape:
+
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "A human-readable description of what went wrong."
+  }
+}
+```
+
+The `code` field is a stable, machine-readable string you can match on programmatically. The `message` field is informational and may change between releases.
+
+## Error code reference
+
+### `INVALID_TOKEN`
+
+| HTTP Status | `401 Unauthorized` |
+| :---------- | :----------------- |
+
+The bearer token is missing, malformed, or does not resolve to a valid user.
+
+Common causes:
+
+- The `Authorization` header is absent or not in `Bearer <token>` format.
+- The token has been revoked or has expired.
+- The token string is empty or contains extra whitespace.
+
+```json
+{
+  "error": {
+    "code": "INVALID_TOKEN",
+    "message": "invalid bearer token"
+  }
+}
+```
+
+---
+
+### `UNAUTHORIZED`
+
+| HTTP Status | `401 Unauthorized` |
+| :---------- | :----------------- |
+
+The request lacks valid credentials for the target resource.
+
+Common causes:
+
+- An admin endpoint was called with an incorrect or missing admin secret.
+
+---
+
+### `FORBIDDEN`
+
+| HTTP Status | `403 Forbidden` |
+| :---------- | :-------------- |
+
+The authenticated user does not have permission to perform the requested action. This is distinct from `UNAUTHORIZED`, which means the caller has not proven their identity at all.
+
+---
+
+### `QUOTA_EXCEEDED`
+
+| HTTP Status | `403 Forbidden` |
+| :---------- | :-------------- |
+
+The account has exceeded its plan quota for the current billing period.
+
+Common causes:
+
+- The number of ingested logs has reached the subscription limit.
+
+```json
+{
+  "error": {
+    "code": "QUOTA_EXCEEDED",
+    "message": "monthly log quota exceeded"
+  }
+}
+```
+
+---
+
+### `BAD_REQUEST`
+
+| HTTP Status | `400 Bad Request` |
+| :---------- | :----------------- |
+
+The request body or query parameters are invalid.
+
+Common causes:
+
+- A required field such as `event` is missing from a log entry.
+- A path parameter like `eventID` is not a valid UUID.
+- Query parameters such as `limit` or `offset` are not valid integers.
+- The `meta` field exceeds 1 KB or has more than 10 top-level keys.
+- The `occurred_at` timestamp is older than 30 days or more than 1 day in the future.
+- More than 250 log entries were sent in a single request.
+
+```json
+{
+  "error": {
+    "code": "BAD_REQUEST",
+    "message": "Event is required"
+  }
+}
+```
+
+---
+
+### `INVALID_PERIOD`
+
+| HTTP Status | `400 Bad Request` |
+| :---------- | :----------------- |
+
+The `period` value supplied to a rollup or policy endpoint is not one of the accepted values.
+
+Common causes:
+
+- Using a period other than `minute`, `hour`, or `day` on event log reads.
+- Providing an unsupported period when creating or updating a policy.
+
+```json
+{
+  "error": {
+    "code": "INVALID_PERIOD",
+    "message": "invalid period"
+  }
+}
+```
+
+---
+
+### `INVALID_DELIVERY_KIND`
+
+| HTTP Status | `400 Bad Request` |
+| :---------- | :----------------- |
+
+The `kind` query parameter on a delivery-attempts read is not a recognized delivery type.
+
+```json
+{
+  "error": {
+    "code": "INVALID_DELIVERY_KIND",
+    "message": "invalid delivery kind"
+  }
+}
+```
+
+---
+
+### `INVALID_CONFIG`
+
+| HTTP Status | `400 Bad Request` |
+| :---------- | :----------------- |
+
+The configuration object for a destination is invalid.
+
+Common causes:
+
+- A required field for the destination channel type (Slack, Discord, webhook, etc.) is missing or malformed.
+
+```json
+{
+  "error": {
+    "code": "INVALID_CONFIG",
+    "message": "webhook URL is required"
+  }
+}
+```
+
+---
+
+### `INVALID_TRANSITION`
+
+| HTTP Status | `409 Conflict` |
+| :---------- | :------------- |
+
+The requested alert state transition is not allowed from the current state.
+
+Common causes:
+
+- Trying to acknowledge an alert that has already been resolved.
+- Trying to resolve an alert that has already been archived.
+
+```json
+{
+  "error": {
+    "code": "INVALID_TRANSITION",
+    "message": "cannot transition from resolved to acknowledged"
+  }
+}
+```
+
+---
+
+### `NOT_FOUND`
+
+| HTTP Status | `404 Not Found` |
+| :---------- | :-------------- |
+
+The requested resource does not exist or is not accessible by the authenticated user.
+
+Common causes:
+
+- The UUID in the URL path does not match any resource owned by the current user.
+- The resource was deleted.
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "alert not found"
+  }
+}
+```
+
+---
+
+### `CONFLICT`
+
+| HTTP Status | `409 Conflict` |
+| :---------- | :------------- |
+
+The request conflicts with the current state of the resource. See also `INVALID_TRANSITION` for alert-specific state conflicts.
+
+---
+
+### `TOO_MANY_REQUESTS`
+
+| HTTP Status | `429 Too Many Requests` |
+| :---------- | :---------------------- |
+
+The per-token rate limit has been exceeded. Chirpier applies a sliding-window rate limit per bearer token.
+
+Common causes:
+
+- Sending too many requests in a short time window from the same token.
+
+```json
+{
+  "error": {
+    "code": "TOO_MANY_REQUESTS",
+    "message": "rate limit exceeded"
+  }
+}
+```
+
+**Handling rate limits:** back off and retry with exponential delay. The rate limit window resets automatically.
+
+---
+
+### `PUBLISHER_OVERLOADED`
+
+| HTTP Status | `503 Service Unavailable` |
+| :---------- | :------------------------ |
+
+The ingestion pipeline is temporarily at capacity and cannot accept new logs.
+
+Common causes:
+
+- A sudden burst of log traffic has filled the internal publish queue.
+
+```json
+{
+  "error": {
+    "code": "PUBLISHER_OVERLOADED",
+    "message": "publisher overloaded"
+  }
+}
+```
+
+**Handling this error:** retry the request after a short delay. The system will recover once the queue drains.
+
+---
+
+### `BAD_GATEWAY`
+
+| HTTP Status | `502 Bad Gateway` |
+| :---------- | :----------------- |
+
+An upstream service returned an error. This is primarily seen when testing a destination.
+
+Common causes:
+
+- The configured webhook URL is unreachable or returned an error during a test delivery.
+
+```json
+{
+  "error": {
+    "code": "BAD_GATEWAY",
+    "message": "upstream returned 500"
+  }
+}
+```
+
+---
+
+### `SERVICE_UNAVAILABLE`
+
+| HTTP Status | `503 Service Unavailable` |
+| :---------- | :------------------------ |
+
+The service is temporarily unable to handle the request. See also `PUBLISHER_OVERLOADED` for the logs-specific variant.
+
+---
+
+### `INTERNAL_SERVER_ERROR`
+
+| HTTP Status | `500 Internal Server Error` |
+| :---------- | :-------------------------- |
+
+An unexpected error occurred on the server.
+
+Common causes:
+
+- A database or internal service failure.
+- A bug in request processing.
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_SERVER_ERROR",
+    "message": "failed to enqueue logs"
+  }
+}
+```
+
+If you receive this error consistently, contact support with the request details.
