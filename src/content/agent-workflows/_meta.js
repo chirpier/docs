@@ -3,5 +3,5 @@ export default {
   "event-taxonomy": "Event Taxonomy",
   "monitor-patterns": "Monitor Patterns",
   "destinations-and-triage": "Destination and Triage",
-  "chirpier-skills": "chirpier-skills",
+  "chirrop-skills": "ChirrOp Skills",
 };

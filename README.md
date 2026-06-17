@@ -1,6 +1,6 @@
-# Chirpier Docs
+# ChirrOp Docs
 
-This is the documentation server for Chirpier.
+This is the documentation server for ChirrOp.
 
 ## Source Of Truth
 

@@ -62,11 +62,11 @@ const PathCard = ({ href, title, description, icon = "compass" }) => {
         display: "block",
         textDecoration: "none",
         color: "inherit",
-        border: "1px solid hsl(var(--chirpier-card-border) / 0.9)",
+        border: "1px solid hsl(var(--chirrop-card-border) / 0.9)",
         borderRadius: "18px",
         padding: "1rem",
         background: "linear-gradient(180deg, hsl(40 30% 99%) 0%, hsl(40 24% 98%) 100%)",
-        boxShadow: "var(--chirpier-shadow-md)",
+        boxShadow: "var(--chirrop-shadow-md)",
       }}
     >
       <div
@@ -85,8 +85,8 @@ const PathCard = ({ href, title, description, icon = "compass" }) => {
       >
         {iconSpec.glyph}
       </div>
-      <div style={{ fontSize: "1rem", fontWeight: 600, color: "hsl(var(--chirpier-foreground))", marginBottom: "0.35rem" }}>{title}</div>
-      <div style={{ fontSize: "0.95rem", lineHeight: "1.55rem", color: "hsl(var(--chirpier-muted-foreground))" }}>{description}</div>
+      <div style={{ fontSize: "1rem", fontWeight: 600, color: "hsl(var(--chirrop-foreground))", marginBottom: "0.35rem" }}>{title}</div>
+      <div style={{ fontSize: "0.95rem", lineHeight: "1.55rem", color: "hsl(var(--chirrop-muted-foreground))" }}>{description}</div>
     </a>
   );
 };
@@ -102,7 +102,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "28px",
         lineHeight: "2.5rem",
         fontWeight: "700",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         marginBottom: "1.5rem",
         marginTop: "1.5rem",
         fontFamily: "var(--font-mono), monospace",
@@ -120,7 +120,7 @@ export const useMDXComponents = (components) => ({
         fontWeight: "600",
         marginBottom: "1.25rem",
         marginTop: "1.25rem",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         fontFamily: "var(--font-mono), monospace",
       }}
       {...props}
@@ -134,7 +134,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "18px",
         lineHeight: "2rem",
         fontWeight: "600",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         marginBottom: "1rem",
         marginTop: "1rem",
         fontFamily: "var(--font-mono), monospace",
@@ -150,7 +150,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "16px",
         lineHeight: "1.5rem",
         fontWeight: "500",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         marginBottom: "1rem",
         marginTop: "1rem",
         fontFamily: "var(--font-mono), monospace",
@@ -166,7 +166,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "16px",
         lineHeight: "1.85rem",
         fontWeight: "400",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         marginBottom: "0.5rem",
         marginTop: "0.5rem",
       }}
@@ -181,7 +181,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "400",
-        color: "hsl(var(--chirpier-primary))",
+        color: "hsl(var(--chirrop-primary))",
         marginBottom: "0.5rem",
         marginTop: "0.5rem",
       }}
@@ -196,7 +196,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "400",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         listStyleType: "disc",
         listStylePosition: "inside",
         marginLeft: "1rem",
@@ -214,7 +214,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "400",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         listStyleType: "decimal",
         listStylePosition: "inside",
         marginLeft: "1rem",
@@ -232,7 +232,7 @@ export const useMDXComponents = (components) => ({
         fontSize: "15px",
         lineHeight: "1.85rem",
         fontWeight: "400",
-        color: "hsl(var(--chirpier-foreground))",
+        color: "hsl(var(--chirrop-foreground))",
         marginBottom: "0.5rem",
         paddingLeft: "0.5rem",
         display: "list-item"
@@ -246,7 +246,7 @@ export const useMDXComponents = (components) => ({
     <hr
       style={{
         border: "none",
-        borderTop: "1px solid hsl(var(--chirpier-card-border) / 0.9)",
+        borderTop: "1px solid hsl(var(--chirrop-card-border) / 0.9)",
         marginTop: "2rem",
         marginBottom: "2rem"
       }}

@@ -2,22 +2,22 @@
 
 Use this page for the first OpenClaw end-to-end pass.
 
-Guided mode means you explicitly tell OpenClaw to use `chirpier-skills`.
+Guided mode means you explicitly tell OpenClaw to use `chirrop-skills`.
 
 ## Goal
 
-Verify that OpenClaw can follow the Chirpier contract without inventing its own event taxonomy or policy semantics.
+Verify that OpenClaw can follow the ChirrOp contract without inventing its own event taxonomy or policy semantics.
 
 ## Recommended sequence
 
-1. export `CHIRPIER_API_KEY`
-2. explicitly tell OpenClaw to use `chirpier-skills`
+1. export `CHIRROP_API_KEY`
+2. explicitly tell OpenClaw to use `chirrop-skills`
 3. emit canonical events:
    - `tool.errors.count`
    - `task.duration_ms`
    - `tokens.used`
    - `heartbeat.missed.count`
-4. confirm event definitions appear in Chirpier
+4. confirm event definitions appear in ChirrOp
 5. run one analytics comparison with `GET /v1.0/events/:eventID/analytics`
 6. create one valid policy and one intentionally invalid policy
 7. inspect `minute`, `hour`, and `day` rollups
@@ -28,11 +28,11 @@ Verify that OpenClaw can follow the Chirpier contract without inventing its own 
 
 ## Good prompts
 
-- "Use chirpier-skills to send canonical OpenClaw task duration and tool error events to Chirpier."
-- "Use chirpier-skills to compare the last hour of OpenClaw tool errors with the previous hour using Chirpier analytics."
-- "Use chirpier-skills to create a valid policy for OpenClaw tool failures in the last hour."
-- "Use chirpier-skills to set up a Slack destination, send a test notification, and inspect test delivery history."
-- "Use chirpier-skills to show me the public dashboard page for OpenClaw task latency."
+- "Use chirrop-skills to send canonical OpenClaw task duration and tool error events to ChirrOp."
+- "Use chirrop-skills to compare the last hour of OpenClaw tool errors with the previous hour using ChirrOp analytics."
+- "Use chirrop-skills to create a valid policy for OpenClaw tool failures in the last hour."
+- "Use chirrop-skills to set up a Slack destination, send a test notification, and inspect test delivery history."
+- "Use chirrop-skills to show me the public dashboard page for OpenClaw task latency."
 
 ## Pass criteria
 

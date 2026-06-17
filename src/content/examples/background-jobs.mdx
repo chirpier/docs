@@ -2,7 +2,7 @@ import { Tabs } from "nextra/components";
 
 # Background Jobs
 
-Background jobs are a strong fit for Chirpier because the model is simple and operational. Each job run produces a small number of flat events that map directly to the signals you care about.
+Background jobs are a strong fit for ChirrOp because the model is simple and operational. Each job run produces a small number of flat events that map directly to the signals you care about.
 
 ## Recommended events
 
@@ -47,13 +47,13 @@ client.log(Log(agent="worker.billing", event="queue.backlog.gauge", value=42,
   <Tabs.Tab>
 
 ```go
-_ = client.Log(ctx, chirpier.Log{Agent: "worker.billing", Event: "job.completed.count", Value: 1,
+_ = client.Log(ctx, chirrop.Log{Agent: "worker.billing", Event: "job.completed.count", Value: 1,
     Meta: map[string]any{"job_type": "invoice_generate", "queue": "billing"}})
 
-_ = client.Log(ctx, chirpier.Log{Agent: "worker.billing", Event: "job.duration_ms", Value: 3200,
+_ = client.Log(ctx, chirrop.Log{Agent: "worker.billing", Event: "job.duration_ms", Value: 3200,
     Meta: map[string]any{"job_type": "invoice_generate"}})
 
-_ = client.Log(ctx, chirpier.Log{Agent: "worker.billing", Event: "queue.backlog.gauge", Value: 42,
+_ = client.Log(ctx, chirrop.Log{Agent: "worker.billing", Event: "queue.backlog.gauge", Value: 42,
     Meta: map[string]any{"queue": "billing"}})
 ```
 

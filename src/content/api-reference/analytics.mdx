@@ -41,8 +41,8 @@ If a combination is not supported, the API returns `400`.
   <Tabs.Tab>
 
 ```bash
-curl -G https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+curl -G https://api.chirrop.com/v1.0/events/$EVENT_ID/analytics \
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
   --data-urlencode "view=window" \
   --data-urlencode "period=1h" \
   --data-urlencode "previous=previous_7d"
@@ -75,7 +75,7 @@ analytics = client.get_event_analytics(
   <Tabs.Tab>
 
 ```go
-analytics, err := client.GetEventAnalytics(ctx, EVENT_ID, chirpier.AnalyticsWindowQuery{
+analytics, err := client.GetEventAnalytics(ctx, EVENT_ID, chirrop.AnalyticsWindowQuery{
     View:     "window",
     Period:   "1h",
     Previous: "previous_7d",
@@ -153,4 +153,4 @@ If `data` is `null`, there were no logs in either window.
 - day and larger windows respect the event definition `timezone`
 - public event sharing uses `event_id` together with `share_token`, but analytics reads still use the authenticated control-plane API
 
-Use [API Reference](/api-reference) for the broader control-plane contract, [Event Taxonomy](/agent-workflows/event-taxonomy) for generic naming guidance, [chirpier-skills](/agent-workflows/chirpier-skills) for the agent workflow layer, and [Canonical Event Names](/openclaw/taxonomy) for the OpenClaw-specific path.
+Use [API Reference](/api-reference) for the broader control-plane contract, [Event Taxonomy](/agent-workflows/event-taxonomy) for generic naming guidance, [chirrop-skills](/agent-workflows/chirrop-skills) for the agent workflow layer, and [Canonical Event Names](/openclaw/taxonomy) for the OpenClaw-specific path.

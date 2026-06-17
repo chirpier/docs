@@ -39,8 +39,8 @@ Example request:
   <Tabs.Tab>
 
 ```bash
-curl -G https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+curl -G https://api.chirrop.com/v1.0/events/$EVENT_ID/analytics \
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
   --data-urlencode "view=window" \
   --data-urlencode "period=1h" \
   --data-urlencode "previous=previous_window"
@@ -73,7 +73,7 @@ analytics = client.get_event_analytics(
   <Tabs.Tab>
 
 ```go
-analytics, err := client.GetEventAnalytics(ctx, EVENT_ID, chirpier.AnalyticsWindowQuery{
+analytics, err := client.GetEventAnalytics(ctx, EVENT_ID, chirrop.AnalyticsWindowQuery{
     View:     "window",
     Period:   "1h",
     Previous: "previous_window",

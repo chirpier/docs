@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /_pagefind/
 
-Host: https://docs.chirpier.co
-Sitemap: https://docs.chirpier.co/sitemap.xml
+Host: https://docs.chirrop.com
+Sitemap: https://docs.chirrop.com/sitemap.xml

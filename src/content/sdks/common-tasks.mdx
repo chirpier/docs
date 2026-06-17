@@ -2,7 +2,7 @@ import { Tabs } from "nextra/components";
 
 # Common Tasks
 
-All Chirpier SDKs expose helpers around the same resource model. These examples show the most common operations beyond logging.
+All ChirrOp SDKs expose helpers around the same resource model. These examples show the most common operations beyond logging.
 
 ## Resolve an event definition
 
@@ -79,7 +79,7 @@ analytics = client.get_event_analytics(
   <Tabs.Tab>
 
 ```go
-analytics, _ := client.GetEventAnalytics(ctx, eventID, chirpier.AnalyticsWindowQuery{
+analytics, _ := client.GetEventAnalytics(ctx, eventID, chirrop.AnalyticsWindowQuery{
     View:     "window",
     Period:   "1h",
     Previous: "previous_1d",
@@ -133,7 +133,7 @@ policy = client.create_policy({
   <Tabs.Tab>
 
 ```go
-policy, _ := client.CreatePolicy(ctx, chirpier.Policy{
+policy, _ := client.CreatePolicy(ctx, chirrop.Policy{
     EventID:   eventID,
     Title:     "High error rate",
     Channel:   "ops",
@@ -189,7 +189,7 @@ deliveries = client.get_alert_deliveries(test["alert_id"], kind="test")
   <Tabs.Tab>
 
 ```go
-destination, _ := client.CreateDestination(ctx, chirpier.Destination{
+destination, _ := client.CreateDestination(ctx, chirrop.Destination{
     Channel:   "slack",
     URL:       "https://hooks.slack.com/services/T000/B000/secret",
     Scope:     "all",
@@ -260,7 +260,7 @@ for _, alert := range alerts {
 Use the SDK helpers when you want one authenticated client for both:
 
 - Logging event data
-- Managing Chirpier resources
+- Managing ChirrOp resources
 
 Use raw HTTP when you need language-agnostic integrations, shell automation, or direct infrastructure-level control.
 

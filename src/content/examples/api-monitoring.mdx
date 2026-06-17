@@ -47,13 +47,13 @@ client.log(Log(agent="api.v1", event="api.errors.count", value=1,
   <Tabs.Tab>
 
 ```go
-_ = client.Log(ctx, chirpier.Log{Agent: "api.v1", Event: "api.requests.count", Value: 1,
+_ = client.Log(ctx, chirrop.Log{Agent: "api.v1", Event: "api.requests.count", Value: 1,
     Meta: map[string]any{"method": "POST", "path": "/v1/orders"}})
 
-_ = client.Log(ctx, chirpier.Log{Agent: "api.v1", Event: "api.response.duration_ms", Value: 145,
+_ = client.Log(ctx, chirrop.Log{Agent: "api.v1", Event: "api.response.duration_ms", Value: 145,
     Meta: map[string]any{"method": "POST", "path": "/v1/orders", "status": 201}})
 
-_ = client.Log(ctx, chirpier.Log{Agent: "api.v1", Event: "api.errors.count", Value: 1,
+_ = client.Log(ctx, chirrop.Log{Agent: "api.v1", Event: "api.errors.count", Value: 1,
     Meta: map[string]any{"method": "GET", "path": "/v1/users", "status": 500, "error": "db_timeout"}})
 ```
 

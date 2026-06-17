@@ -1,14 +1,14 @@
 # Core Concepts
 
-Chirpier is built around a small set of concepts that map directly to the product workflow and public API contract.
+ChirrOp is built around a small set of concepts that map directly to the product workflow and public API contract.
 
 ## Event Logs
 
-An event log is the numeric signal you send to Chirpier. It includes an event name, a value, and optional context such as `agent`, `occurred_at`, and `meta`.
+An event log is the numeric signal you send to ChirrOp. It includes an event name, a value, and optional context such as `agent`, `occurred_at`, and `meta`.
 
 ## Events
 
-When Chirpier sees a new unique event, it creates an event definition that becomes the anchor point for charts, policies, and rollups.
+When ChirrOp sees a new unique event, it creates an event definition that becomes the anchor point for charts, policies, and rollups.
 
 Useful event metadata includes `description`, `unit`, `timezone`, `public`.
 
@@ -18,11 +18,11 @@ Rollups answer the time-bucketed question for `minute`, `hour`, or `day`. Analyt
 
 ## Charts
 
-Charts visualize an event definition over time using hosted Chirpier views, chart variants, and canonical page state.
+Charts visualize an event definition over time using hosted ChirrOp views, chart variants, and canonical page state.
 
 ## Policies
 
-Policies describe the rule Chirpier evaluates for an event definition, such as whether the hourly sum is greater than a threshold.
+Policies describe the rule ChirrOp evaluates for an event definition, such as whether the hourly sum is greater than a threshold.
 
 ## Alerts
 

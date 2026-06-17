@@ -2,7 +2,7 @@ import { Tabs } from "nextra/components";
 
 # Destinations API
 
-Chirpier still uses `/destinations` in the HTTP route names, but conceptually these are reusable alert destinations.
+ChirrOp still uses `/destinations` in the HTTP route names, but conceptually these are reusable alert destinations.
 
 <PathGrid>
   <PathCard
@@ -55,7 +55,7 @@ In the current API shape, the destination provider type is carried in the `chann
 | `discord` | Discord webhook URL | Not needed |
 | `telegram` | Not needed | `{"bot_token": "...", "chat_id": "..."}` |
 | `webhook` | Target endpoint URL | Optional `{"authorization": "Bearer ..."}` |
-| `email` | Not needed | Not needed (uses Chirpier's mailer) |
+| `email` | Not needed | Not needed (uses ChirrOp's mailer) |
 
 ## Scope rules
 
@@ -77,8 +77,8 @@ Current matching logic:
   <Tabs.Tab>
 
 ```bash
-curl -X POST "https://api.chirpier.co/v1.0/destinations" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -X POST "https://api.chirrop.com/v1.0/destinations" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "channel": "slack",
@@ -121,7 +121,7 @@ destination = client.create_destination(
   <Tabs.Tab>
 
 ```go
-destination, err := client.CreateDestination(ctx, chirpier.Destination{
+destination, err := client.CreateDestination(ctx, chirrop.Destination{
     Channel:   "slack",
     URL:       "https://hooks.slack.com/services/T000/B000/secret",
     Scope:     "all",
@@ -163,11 +163,11 @@ Pair destination tests with `GET /v1.0/alerts/:alertID/deliveries?kind=test` usi
   <Tabs.Tab>
 
 ```bash
-TEST_ALERT_ID=$(curl -s -X POST "https://api.chirpier.co/v1.0/destinations/$DESTINATION_ID/test" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" | jq -r '.alert_id')
+TEST_ALERT_ID=$(curl -s -X POST "https://api.chirrop.com/v1.0/destinations/$DESTINATION_ID/test" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" | jq -r '.alert_id')
 
-curl -G "https://api.chirpier.co/v1.0/alerts/$TEST_ALERT_ID/deliveries" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -G "https://api.chirrop.com/v1.0/alerts/$TEST_ALERT_ID/deliveries" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   --data-urlencode "kind=test"
 ```
 

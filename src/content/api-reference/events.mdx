@@ -64,8 +64,8 @@ Example request body:
   <Tabs.Tab>
 
 ```bash
-curl -X POST "https://api.chirpier.co/v1.0/events" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -X POST "https://api.chirrop.com/v1.0/events" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "event": "task.duration_ms",
@@ -113,7 +113,7 @@ event_definition = client.create_event(
 ```go
 public := true
 
-eventDefinition, err := client.CreateEvent(ctx, chirpier.CreateEventPayload{
+eventDefinition, err := client.CreateEvent(ctx, chirrop.CreateEventPayload{
     Event:       "task.duration_ms",
     Agent:       "openclaw.main",
     Description: "Task runtime for the main OpenClaw worker",
@@ -190,11 +190,11 @@ Use `minute`, `hour`, or `day` exactly. Other values return `400`.
   <Tabs.Tab>
 
 ```bash
-curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
-  "https://api.chirpier.co/v1.0/events"
+curl -H "Authorization: Bearer $CHIRROP_TOKEN" \
+  "https://api.chirrop.com/v1.0/events"
 
-curl -H "Authorization: Bearer $CHIRPIER_TOKEN" \
-  "https://api.chirpier.co/v1.0/events/$EVENT_ID/logs?period=hour&limit=24"
+curl -H "Authorization: Bearer $CHIRROP_TOKEN" \
+  "https://api.chirrop.com/v1.0/events/$EVENT_ID/logs?period=hour&limit=24"
 ```
 
   </Tabs.Tab>

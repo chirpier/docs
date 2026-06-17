@@ -1,6 +1,6 @@
 # Rollups and Analytics
 
-Chirpier exposes two different ways to read an event.
+ChirrOp exposes two different ways to read an event.
 
 <PathGrid>
   <PathCard
@@ -45,7 +45,7 @@ Each rollup bucket aggregates all logs that fell within that time window:
 | `max` | Largest value logged |
 | `squares` | Sum of squared values (used to compute variance and standard deviation) |
 
-Chirpier stores these pre-aggregated buckets rather than raw log data. This is how it supports `average`, `p95_est`, and `p99_est` aggregates in policies without retaining every individual log long-term.
+ChirrOp stores these pre-aggregated buckets rather than raw log data. This is how it supports `average`, `p95_est`, and `p99_est` aggregates in policies without retaining every individual log long-term.
 
 Rollups are best for:
 
@@ -56,7 +56,7 @@ Rollups are best for:
 
 ## Analytics windows
 
-Use analytics windows when you need Chirpier to compare the current window to a previous one.
+Use analytics windows when you need ChirrOp to compare the current window to a previous one.
 
 The response schema stays the same for every analytics window. `current_*` always refers to the requested window, and `previous_*` always refers to the comparison window selected by the `previous` query parameter.
 

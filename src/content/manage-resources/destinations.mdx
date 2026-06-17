@@ -1,6 +1,6 @@
 # Destinations
 
-Destinations are reusable outbound delivery targets for Chirpier alerts.
+Destinations are reusable outbound delivery targets for ChirrOp alerts.
 
 <PathGrid>
   <PathCard
@@ -83,7 +83,7 @@ Provide the target URL. Optionally include an `authorization` header value in `c
 ```json
 {
   "channel": "webhook",
-  "url": "https://example.com/chirpier/alerts",
+  "url": "https://example.com/chirrop/alerts",
   "credentials": {
     "authorization": "Bearer your-secret-token"
   },
@@ -98,7 +98,7 @@ Without authentication:
 ```json
 {
   "channel": "webhook",
-  "url": "https://example.com/chirpier/alerts",
+  "url": "https://example.com/chirrop/alerts",
   "scope": "all",
   "policy_ids": [],
   "enabled": true
@@ -107,7 +107,7 @@ Without authentication:
 
 ### Email
 
-Chirpier sends alert emails using its own mailer. No `url` or `credentials` needed. Alerts are delivered to the workspace owner's email address.
+ChirrOp sends alert emails using its own mailer. No `url` or `credentials` needed. Alerts are delivered to the workspace owner's email address.
 
 ```json
 {

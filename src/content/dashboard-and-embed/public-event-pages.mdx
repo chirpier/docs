@@ -2,11 +2,11 @@ import { Tabs } from "nextra/components";
 
 # Public Event Pages
 
-Chirpier exposes hosted public event pages at `https://www.chirpier.co/events/:eventId?share=:shareToken` for shareable events.
+ChirrOp exposes hosted public event pages at `https://www.chirrop.com/events/:eventId?share=:shareToken` for shareable events.
 
 ## Enable public sharing
 
-To make an event publicly accessible, update the event definition to set `public: true`. Chirpier auto-generates a `share_token` when the event is created — you use this token alongside the `event_id` for public access.
+To make an event publicly accessible, update the event definition to set `public: true`. ChirrOp auto-generates a `share_token` when the event is created — you use this token alongside the `event_id` for public access.
 
 <Tabs items={["JavaScript", "Python", "Go", "Raw API"]}>
   <Tabs.Tab>
@@ -18,7 +18,7 @@ const event = await client.getEvent(eventID);
 await client.updateEvent(eventID, { public: true });
 
 // The share_token is available on the event definition
-const shareURL = `https://www.chirpier.co/events/${event.event_id}?share=${event.share_token}`;
+const shareURL = `https://www.chirrop.com/events/${event.event_id}?share=${event.share_token}`;
 ```
 
   </Tabs.Tab>
@@ -31,7 +31,7 @@ event = client.get_event(event_id)
 client.update_event(event_id, {"public": True})
 
 # The share_token is available on the event definition
-share_url = f"https://www.chirpier.co/events/{event['event_id']}?share={event['share_token']}"
+share_url = f"https://www.chirrop.com/events/{event['event_id']}?share={event['share_token']}"
 ```
 
   </Tabs.Tab>
@@ -44,7 +44,7 @@ event, _ := client.GetEvent(ctx, eventID)
 client.UpdateEvent(ctx, eventID, map[string]any{"public": true})
 
 // The share_token is available on the event definition
-shareURL := fmt.Sprintf("https://www.chirpier.co/events/%s?share=%s", event.EventID, event.ShareToken)
+shareURL := fmt.Sprintf("https://www.chirrop.com/events/%s?share=%s", event.EventID, event.ShareToken)
 ```
 
   </Tabs.Tab>
@@ -52,12 +52,12 @@ shareURL := fmt.Sprintf("https://www.chirpier.co/events/%s?share=%s", event.Even
 
 ```bash
 # Get the event to find its share_token
-curl "https://api.chirpier.co/v1.0/events/$EVENT_ID" \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY"
+curl "https://api.chirrop.com/v1.0/events/$EVENT_ID" \
+  -H "Authorization: Bearer $CHIRROP_API_KEY"
 
 # Make it public
-curl -X PUT "https://api.chirpier.co/v1.0/events/$EVENT_ID" \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+curl -X PUT "https://api.chirrop.com/v1.0/events/$EVENT_ID" \
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"public": true}'
 ```
@@ -84,12 +84,12 @@ That pair is required for hosted public reads. Share the URL directly or use it 
 
 ## Embedding the public page
 
-Both `@chirpier/charts` (React) and `@chirpier/embed` (framework-agnostic) use the hosted public page as the runtime surface. They render it in an iframe and communicate via `postMessage`.
+Both `@chirropjs/charts` (React) and `@chirropjs/embed` (framework-agnostic) use the hosted public page as the runtime surface. They render it in an iframe and communicate via `postMessage`.
 
 To embed a chart, you need the `eventId` and `shareToken` from the event definition:
 
 ```tsx
-<ChirpierChart
+<ChirrOpChart
   eventId="your-event-id"
   shareToken="your-share-token"
   range="1d"

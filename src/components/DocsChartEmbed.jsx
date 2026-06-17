@@ -1,6 +1,6 @@
 'use client';
 
-import { ChirpierChart } from "@chirpier/charts";
+import { ChirrOpChart } from "@chirropjs/charts";
 
 export default function DocsChartEmbed({
   eventId,
@@ -9,7 +9,7 @@ export default function DocsChartEmbed({
   minHeight = 320,
 }) {
   return (
-    <ChirpierChart
+    <ChirrOpChart
       eventId={eventId}
       shareToken={shareToken}
       baseUrl="http://localhost:5173"
@@ -21,3 +21,4 @@ export default function DocsChartEmbed({
     />
   );
 }
+

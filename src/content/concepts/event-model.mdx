@@ -1,6 +1,6 @@
 # Event Model
 
-Chirpier is built around flat numeric events.
+ChirrOp is built around flat numeric events.
 
 ## Events are the schema
 
@@ -31,7 +31,7 @@ Those belong in rollups, policies, or analytics queries.
 
 ## Event definitions
 
-When Chirpier receives a log with an `agent` + `event` pair it has not seen before, it auto-creates an event definition. There is no manual registration step. The first log you send for a new event name creates the definition, and every subsequent log with the same identity appends to it.
+When ChirrOp receives a log with an `agent` + `event` pair it has not seen before, it auto-creates an event definition. There is no manual registration step. The first log you send for a new event name creates the definition, and every subsequent log with the same identity appends to it.
 
 That definition becomes the anchor for:
 

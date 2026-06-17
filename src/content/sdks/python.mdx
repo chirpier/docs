@@ -3,13 +3,13 @@
 Package:
 
 ```bash
-pip install chirpier
+pip install chirrop
 ```
 
 ## Quick start
 
 ```python
-from chirpier import new_client, Log
+from chirrop import new_client, Log
 
 client = new_client(api_key="chp_your_api_key")
 client.log(Log(event="task.duration_ms", value=420, agent="openclaw.main", meta={"task_name": "email_triage"}))
@@ -55,7 +55,7 @@ with new_client(api_key="chp_your_api_key") as client:
 
 ```python
 client = new_client(
-    api_key="chp_your_api_key",   # or set CHIRPIER_API_KEY env var
+    api_key="chp_your_api_key",   # or set CHIRROP_API_KEY env var
     batch_size=500,               # flush when queue reaches this size
     flush_delay=0.5,              # auto-flush interval in seconds
     retries=10,                   # retry attempts with exponential backoff
@@ -63,7 +63,7 @@ client = new_client(
 )
 ```
 
-The API key is resolved in order: explicit `api_key` parameter, `CHIRPIER_API_KEY` environment variable, `CHIRPIER_API_KEY` from a `.env` file in the working directory.
+The API key is resolved in order: explicit `api_key` parameter, `CHIRROP_API_KEY` environment variable, `CHIRROP_API_KEY` from a `.env` file in the working directory.
 
 ## Method reference
 

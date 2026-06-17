@@ -1,19 +1,19 @@
 # Framework-Agnostic
 
-Use `@chirpier/embed` when you need the hosted Chirpier runtime outside React.
+Use `@chirropjs/embed` when you need the hosted ChirrOp runtime outside React.
 
 ## Install
 
 ```bash
-npm install @chirpier/embed
+npm install @chirropjs/embed
 ```
 
 ## Example
 
 ```ts
-import { mountChirpierChart } from "@chirpier/embed";
+import { mountChirrOpChart } from "@chirropjs/embed";
 
-const chart = mountChirpierChart("#chart-root", {
+const chart = mountChirrOpChart("#chart-root", {
   eventId: "your-event-id",
   shareToken: "your-share-token",
   state: {
@@ -69,7 +69,7 @@ chart.destroy();
 
 ## Instance methods
 
-The `mountChirpierChart` function returns an instance with these methods:
+The `mountChirrOpChart` function returns an instance with these methods:
 
 | Method | Description |
 |--------|-------------|
@@ -83,7 +83,7 @@ The `mountChirpierChart` function returns an instance with these methods:
 Use this package when:
 
 - you are embedding in plain JavaScript
-- you want to wrap Chirpier in another frontend framework
+- you want to wrap ChirrOp in another frontend framework
 - you need lower-level runtime control over theme and state updates
 
 For chart variant guidance, see [Charts](/dashboard-and-embed/charts).

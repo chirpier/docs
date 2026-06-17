@@ -48,13 +48,13 @@ client.log(Log(agent="openclaw.main", event="tokens.used", value=3400,
   <Tabs.Tab>
 
 ```go
-_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "tool.errors.count", Value: 1,
+_ = client.Log(ctx, chirrop.Log{Agent: "openclaw.main", Event: "tool.errors.count", Value: 1,
     Meta: map[string]any{"tool_name": "crm.lookup", "error": "timeout"}})
 
-_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "task.duration_ms", Value: 1250,
+_ = client.Log(ctx, chirrop.Log{Agent: "openclaw.main", Event: "task.duration_ms", Value: 1250,
     Meta: map[string]any{"task_name": "email_triage"}})
 
-_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "tokens.used", Value: 3400,
+_ = client.Log(ctx, chirrop.Log{Agent: "openclaw.main", Event: "tokens.used", Value: 3400,
     Meta: map[string]any{"task_name": "email_triage", "model": "claude-sonnet-4-5-20250929"}})
 ```
 

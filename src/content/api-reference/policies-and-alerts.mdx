@@ -57,8 +57,8 @@ Allowed enum values:
   <Tabs.Tab>
 
 ```bash
-curl -X POST "https://api.chirpier.co/v1.0/policies" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -X POST "https://api.chirrop.com/v1.0/policies" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "event_id": "'$EVENT_ID'",
@@ -72,8 +72,8 @@ curl -X POST "https://api.chirpier.co/v1.0/policies" \
     "enabled": true
   }'
 
-curl -X PUT "https://api.chirpier.co/v1.0/policies/$POLICY_ID" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -X PUT "https://api.chirrop.com/v1.0/policies/$POLICY_ID" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title": "Task duration still too high"}'
 ```
@@ -124,7 +124,7 @@ updated = client.update_policy(policy["policy_id"], {"title": "Task duration sti
   <Tabs.Tab>
 
 ```go
-policy, err := client.CreatePolicy(ctx, chirpier.Policy{
+policy, err := client.CreatePolicy(ctx, chirrop.Policy{
     EventID:   EVENT_ID,
     Title:     "Task duration too high",
     Channel:   "ops",
@@ -136,7 +136,7 @@ policy, err := client.CreatePolicy(ctx, chirpier.Policy{
     Enabled:   true,
 })
 
-updated, err := client.UpdatePolicy(ctx, policy.PolicyID, chirpier.Policy{Title: "Task duration still too high"})
+updated, err := client.UpdatePolicy(ctx, policy.PolicyID, chirrop.Policy{Title: "Task duration still too high"})
 ```
 
   </Tabs.Tab>
@@ -225,8 +225,8 @@ Example delivery attempt:
   <Tabs.Tab>
 
 ```bash
-curl -G "https://api.chirpier.co/v1.0/alerts/$ALERT_ID/deliveries" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -G "https://api.chirrop.com/v1.0/alerts/$ALERT_ID/deliveries" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   --data-urlencode "kind=alert" \
   --data-urlencode "limit=20" \
   --data-urlencode "offset=0"

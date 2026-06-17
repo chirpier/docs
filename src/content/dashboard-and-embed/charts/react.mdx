@@ -1,13 +1,13 @@
 # React Usage
 
-Use `@chirpier/charts` when you want a React component wrapper around the hosted embed runtime.
+Use `@chirropjs/charts` when you want a React component wrapper around the hosted embed runtime.
 
 ```tsx
-import { ChirpierChart } from "@chirpier/charts";
+import { ChirrOpChart } from "@chirropjs/charts";
 
 export function RevenueWidget() {
   return (
-    <ChirpierChart
+    <ChirrOpChart
       eventId="your-event-id"
       shareToken="your-share-token"
       view="timeseries"
@@ -26,7 +26,7 @@ export function RevenueWidget() {
 
 The React component is the easiest path when your app already manages layout and lifecycle in React.
 
-`ChirpierChart` supports these main props:
+`ChirrOpChart` supports these main props:
 
 - `eventId`: required hosted event identifier
 - `shareToken`: optional share-scoped access token appended as `?share=...`
@@ -45,21 +45,21 @@ Host-specific layout such as titles, cards, placeholders, and branded error stat
 
 ## Multiple Embeds
 
-For multiple embeds, prefer a single `CHIRPIER_EMBEDS_JSON` env var and resolve the entry your page needs.
+For multiple embeds, prefer a single `CHIRROP_EMBEDS_JSON` env var and resolve the entry your page needs.
 
 ```bash
-CHIRPIER_EMBEDS_JSON='{"revenue":{"eventId":"evt_revenue","shareToken":"shr_revenue"},"signups":{"eventId":"evt_signups","shareToken":"shr_signups"}}'
+CHIRROP_EMBEDS_JSON='{"revenue":{"eventId":"evt_revenue","shareToken":"shr_revenue"},"signups":{"eventId":"evt_signups","shareToken":"shr_signups"}}'
 ```
 
 ```tsx
-import { ChirpierChart } from "@chirpier/charts";
+import { ChirrOpChart } from "@chirropjs/charts";
 
-const embeds = JSON.parse(process.env.CHIRPIER_EMBEDS_JSON ?? "{}");
+const embeds = JSON.parse(process.env.CHIRROP_EMBEDS_JSON ?? "{}");
 const revenue = embeds.revenue;
 
 export function RevenueWidget() {
   return (
-    <ChirpierChart
+    <ChirrOpChart
       eventId={revenue.eventId}
       shareToken={revenue.shareToken}
       view="timeseries"
@@ -74,4 +74,4 @@ export function RevenueWidget() {
 }
 ```
 
-If `shareToken` is sensitive, keep `CHIRPIER_EMBEDS_JSON` server-side and pass only the embed your page needs into the client.
+If `shareToken` is sensitive, keep `CHIRROP_EMBEDS_JSON` server-side and pass only the embed your page needs into the client.

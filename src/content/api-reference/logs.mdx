@@ -13,7 +13,7 @@ POST /v1.0/logs
 Hosted default:
 
 ```text
-https://logs.chirpier.co/v1.0/logs
+https://logs.chirrop.com/v1.0/logs
 ```
 
 ## Request body
@@ -58,7 +58,7 @@ Example:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `log_id` | No | UUID. If omitted, Chirpier generates a UUIDv7. |
+| `log_id` | No | UUID. If omitted, ChirrOp generates a UUIDv7. |
 | `agent` | No | Producer identity. Part of the event definition identity alongside `event`. |
 | `event` | Yes | Flat event name (e.g., `task.duration_ms`). |
 | `value` | Yes | Numeric value. Must be finite (not NaN or Infinity). |
@@ -82,8 +82,8 @@ Unknown `agent` + `event` pairs are auto-created as event definitions on first l
   <Tabs.Tab>
 
 ```bash
-curl -X POST "https://logs.chirpier.co/v1.0/logs" \
-  -H "Authorization: Bearer $CHIRPIER_TOKEN" \
+curl -X POST "https://logs.chirrop.com/v1.0/logs" \
+  -H "Authorization: Bearer $CHIRROP_TOKEN" \
   -H "Content-Type: application/json" \
   -d '[
     {
@@ -99,9 +99,9 @@ curl -X POST "https://logs.chirpier.co/v1.0/logs" \
   <Tabs.Tab>
 
 ```ts
-import { createClient } from "@chirpier/chirpier-js";
+import { createClient } from "@chirropjs/chirrop-js";
 
-const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
+const client = createClient({ key: process.env.CHIRROP_API_KEY! });
 
 await client.log({
   agent: "openclaw.main",
@@ -118,7 +118,7 @@ await client.shutdown();
   <Tabs.Tab>
 
 ```python
-from chirpier import Log, new_client
+from chirrop import Log, new_client
 
 client = new_client(api_key="chp_your_api_key")
 client.log(
@@ -139,13 +139,13 @@ client.close()
 ```go
 ctx := context.Background()
 
-client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+client, err := chirrop.NewClient(chirrop.Options{Key: "chp_your_api_key"})
 if err != nil {
     return err
 }
 defer client.Close(ctx)
 
-if err := client.Log(ctx, chirpier.Log{
+if err := client.Log(ctx, chirrop.Log{
     Agent: "openclaw.main",
     Event: "task.duration_ms",
     Value: 420,

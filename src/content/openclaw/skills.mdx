@@ -1,6 +1,6 @@
-# Use chirpier-skills
+# Use chirrop-skills
 
-`chirpier-skills` is the recommended way to make Chirpier feel native inside OpenClaw.
+`chirrop-skills` is the recommended way to make ChirrOp feel native inside OpenClaw.
 
 It gives OpenClaw an opinionated workflow for:
 
@@ -15,56 +15,56 @@ It gives OpenClaw an opinionated workflow for:
 
 ```bash
 # Install all skills
-npx skills @chirpier/chirpier-skills
+npx skills @chirropjs/chirrop-skills
 
 # Or install individual skills
-npx skills @chirpier/chirpier-skills/chirpier
-npx skills @chirpier/chirpier-skills/chirpier-monitoring
-npx skills @chirpier/chirpier-skills/chirpier-destinations
-npx skills @chirpier/chirpier-skills/chirpier-alert-triage
+npx skills @chirropjs/chirrop-skills/chirrop
+npx skills @chirropjs/chirrop-skills/chirrop-monitoring
+npx skills @chirropjs/chirrop-skills/chirrop-destinations
+npx skills @chirropjs/chirrop-skills/chirrop-alert-triage
 ```
 
 ## Recommended starting path
 
-1. export `CHIRPIER_API_KEY`
-2. start with the `chirpier` skill
+1. export `CHIRROP_API_KEY`
+2. start with the `chirrop` skill
 3. emit events first and confirm the event definition appears
-4. use the matching Chirpier SDK for the runtime when possible
+4. use the matching ChirrOp SDK for the runtime when possible
 5. run analytics comparisons when the task is periodic comparison rather than thresholding
 6. create policies and destinations when threshold-based alerting matters
 7. direct humans to the public dashboard page when they need to inspect trends
 
 ## Which skill to use
 
-- `chirpier`: default starting point for logging, reading event definitions, running first-pass analytics comparisons, and creating first policies
-- `chirpier-monitoring`: best for recurring comparisons, dashboards, public dashboard pages, market monitoring, sentiment workflows, tool failures, and latency tracking
-- `chirpier-destinations`: focused on Slack, Discord, Telegram, email, and generic destination setup
-- `chirpier-alert-triage`: focused on reading active alerts, checking deliveries, acknowledging, resolving, and archiving
+- `chirrop`: default starting point for logging, reading event definitions, running first-pass analytics comparisons, and creating first policies
+- `chirrop-monitoring`: best for recurring comparisons, dashboards, public dashboard pages, market monitoring, sentiment workflows, tool failures, and latency tracking
+- `chirrop-destinations`: focused on Slack, Discord, Telegram, email, and generic destination setup
+- `chirrop-alert-triage`: focused on reading active alerts, checking deliveries, acknowledging, resolving, and archiving
 
 ## OpenClaw task mapping
 
 | OpenClaw task | Skill |
 | --- | --- |
-| log events, confirm event definition, first analytics check, first policy | `chirpier` |
-| recurring comparisons, charts, public dashboard page handoff | `chirpier-monitoring` |
-| create or test destinations | `chirpier-destinations` |
-| investigate an already-triggered alert | `chirpier-alert-triage` |
+| log events, confirm event definition, first analytics check, first policy | `chirrop` |
+| recurring comparisons, charts, public dashboard page handoff | `chirrop-monitoring` |
+| create or test destinations | `chirrop-destinations` |
+| investigate an already-triggered alert | `chirrop-alert-triage` |
 
 ## What to tell OpenClaw
 
-These are good prompts or task instructions for an OpenClaw workflow that has `chirpier-skills` available:
+These are good prompts or task instructions for an OpenClaw workflow that has `chirrop-skills` available:
 
-- "Send OpenClaw task duration and error events to Chirpier"
-- "Compare the last hour of OpenClaw tool errors with the previous hour using Chirpier analytics"
+- "Send OpenClaw task duration and error events to ChirrOp"
+- "Compare the last hour of OpenClaw tool errors with the previous hour using ChirrOp analytics"
 - "Create a policy for OpenClaw tool failures in the last hour"
-- "Set up a Slack destination for Chirpier alerts"
+- "Set up a Slack destination for ChirrOp alerts"
 - "Show me the public dashboard page for OpenClaw task latency trends"
 
 ## Why this helps
 
 Without skills, each OpenClaw workflow may invent its own event names and policy patterns.
 
-With `chirpier-skills`, OpenClaw gets consistent guidance:
+With `chirrop-skills`, OpenClaw gets consistent guidance:
 
 - event names are the schema
 - the stable event identity is `agent + event`
@@ -74,7 +74,7 @@ With `chirpier-skills`, OpenClaw gets consistent guidance:
 - use analytics `previous` windows for explicit comparison queries
 - treat `meta` as inspection context in v1
 
-The skills also now align with the Chirpier SDKs for:
+The skills also now align with the ChirrOp SDKs for:
 
 - event lookup by stable `agent + event`
 - analytics queries
@@ -83,14 +83,14 @@ The skills also now align with the Chirpier SDKs for:
 
 ## Contract source of truth
 
-`chirpier-skills` should follow the contract defined in the docs site.
+`chirrop-skills` should follow the contract defined in the docs site.
 
 - use `docs` as the normative source for event identity, periods, analytics window conventions, destination terminology, public dashboard pages, and delivery-history kinds
-- treat `chirpier-skills` as the operational layer OpenClaw follows when applying that contract
+- treat `chirrop-skills` as the operational layer OpenClaw follows when applying that contract
 
 For testing, start with guided mode first:
 
-1. explicitly tell OpenClaw to use `chirpier-skills`
+1. explicitly tell OpenClaw to use `chirrop-skills`
 2. verify it emits canonical event names and valid policies
 3. then repeat in natural mode and confirm it still follows the same contract
 
@@ -99,8 +99,8 @@ For testing, start with guided mode first:
 For the best OpenClaw integration path, read these pages in order:
 
 1. [Export API Keys](/openclaw/keys)
-2. [Agentic Workflows: chirpier-skills](/agent-workflows/chirpier-skills)
-3. [Use chirpier-skills](/openclaw/skills)
+2. [Agentic Workflows: chirrop-skills](/agent-workflows/chirrop-skills)
+3. [Use chirrop-skills](/openclaw/skills)
 4. [Instrument OpenClaw](/openclaw/instrument)
 5. [Analytics Comparisons](/openclaw/analytics)
 6. [End-To-End Walkthrough](/openclaw/walkthrough)

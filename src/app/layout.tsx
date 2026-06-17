@@ -39,16 +39,16 @@ export async function generateStaticParams() {
 }
 
 export const metadata = {
-  metadataBase: new URL("https://docs.chirpier.co"),
+  metadataBase: new URL("https://docs.chirrop.com"),
   title: {
-    default: "Chirpier Docs",
-    template: "%s - Chirpier",
+    default: "ChirrOp Docs",
+    template: "%s - ChirrOp",
   },
   description:
-    "Documentation for Chirpier, including product guides, OpenClaw integration, SDK usage, charts, alerts, and practical use cases.",
-  applicationName: "Chirpier Docs",
+    "Documentation for ChirrOp, including product guides, OpenClaw integration, SDK usage, charts, alerts, and practical use cases.",
+  applicationName: "ChirrOp Docs",
   keywords: [
-    "Chirpier",
+    "ChirrOp",
     "OpenClaw",
     "docs",
     "monitoring",
@@ -61,21 +61,21 @@ export const metadata = {
     canonical: "/",
   },
   appleWebApp: {
-    title: "Chirpier Docs",
+    title: "ChirrOp Docs",
   },
   openGraph: {
     type: "website",
-    url: "https://docs.chirpier.co/",
-    siteName: "Chirpier Docs",
-    title: "Chirpier Docs",
+    url: "https://docs.chirrop.com/",
+    siteName: "ChirrOp Docs",
+    title: "ChirrOp Docs",
     description:
-      "Product docs and OpenClaw integration guides for Chirpier.",
+      "Product docs and OpenClaw integration guides for ChirrOp.",
     images: [
       {
         url: "/icon.png",
         width: 512,
         height: 512,
-        alt: "Chirpier Docs",
+        alt: "ChirrOp Docs",
       },
     ],
   },
@@ -85,10 +85,10 @@ export const metadata = {
   },
   twitter: {
     card: "summary",
-    site: "@chirpier",
-    title: "Chirpier Docs",
+    site: "@chirrop",
+    title: "ChirrOp Docs",
     description:
-      "Product docs and OpenClaw integration guides for Chirpier.",
+      "Product docs and OpenClaw integration guides for ChirrOp.",
     images: ["/icon.png"],
   },
   icons: {
@@ -120,15 +120,15 @@ export default async function RootLayout({ children }) {
               letterSpacing: "-0.01em",
               fontFamily: "Fira Code"
             }}
-            title={`Chirpier`}
+            title={`ChirrOp`}
           >
-            <Image src="/icon.png" alt="Chirpier" width={32} height={32} />
-            Chirpier
+            <Image src="/icon.png" alt="ChirrOp" width={32} height={32} />
+            ChirrOp
           </span>
         </>
       }
-      logoLink="https://www.chirpier.co"
-      projectLink={"https://github.com/chirpier/docs"}
+      logoLink="https://www.chirrop.com"
+      projectLink={"https://github.com/chirrop/docs"}
     ></Navbar>
   );
 
@@ -163,8 +163,8 @@ export default async function RootLayout({ children }) {
               }}
             >
               {new Date().getFullYear()} ©{" "}
-              <a href="https://www.chirpier.co" target="_blank">
-                Chirpier
+              <a href="https://www.chirrop.com" target="_blank">
+                ChirrOp
               </a>
               .
             </Footer>
@@ -172,7 +172,7 @@ export default async function RootLayout({ children }) {
           darkMode={false}
           nextThemes={{ defaultTheme: "light" }}
           editLink="Edit this page on GitHub"
-          docsRepositoryBase="https://github.com/chirpier/docs"
+          docsRepositoryBase="https://github.com/chirrop/docs"
           feedback={{
             content: "Feedback",
             labels: "feedback",

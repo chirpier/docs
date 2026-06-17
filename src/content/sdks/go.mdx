@@ -3,19 +3,19 @@
 Package:
 
 ```bash
-go get github.com/chirpier/chirpier-go
+go get github.com/chirrop/chirrop-go
 ```
 
 ## Quick start
 
 ```go
-client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+client, err := chirrop.NewClient(chirrop.Options{Key: "chp_your_api_key"})
 if err != nil {
     return err
 }
 defer client.Close(context.Background())
 
-_ = client.Log(context.Background(), chirpier.Log{
+_ = client.Log(context.Background(), chirrop.Log{
     Agent: "openclaw.main",
     Event: "task.duration_ms",
     Value: 420,
@@ -26,13 +26,13 @@ _ = client.Flush(context.Background())
 events, _ := client.ListEvents(context.Background())
 for _, eventDef := range events {
     if eventDef.Agent == "openclaw.main" && eventDef.Event == "task.duration_ms" {
-        _, _ = client.GetEventAnalytics(context.Background(), eventDef.EventID, chirpier.AnalyticsWindowQuery{
+        _, _ = client.GetEventAnalytics(context.Background(), eventDef.EventID, chirrop.AnalyticsWindowQuery{
             View:     "window",
             Period:   "1h",
             Previous: "previous_window",
         })
 
-        destination, _ := client.CreateDestination(context.Background(), chirpier.Destination{
+        destination, _ := client.CreateDestination(context.Background(), chirrop.Destination{
             Channel: "slack",
             URL:     "https://hooks.slack.com/services/T000/B000/secret",
             Scope:   "all",
@@ -48,8 +48,8 @@ for _, eventDef := range events {
 ## Configuration
 
 ```go
-client, err := chirpier.NewClient(chirpier.Options{
-    Key:        "chp_your_api_key", // or set CHIRPIER_API_KEY env var
+client, err := chirrop.NewClient(chirrop.Options{
+    Key:        "chp_your_api_key", // or set CHIRROP_API_KEY env var
     BatchSize:  500,                // flush when queue reaches this size
     FlushDelay: 500 * time.Millisecond, // auto-flush interval
     Retries:    10,                 // retry attempts with exponential backoff
@@ -58,7 +58,7 @@ client, err := chirpier.NewClient(chirpier.Options{
 })
 ```
 
-The API key is resolved in order: explicit `Key` field, `CHIRPIER_API_KEY` environment variable, `CHIRPIER_API_KEY` from a `.env` file in the working directory.
+The API key is resolved in order: explicit `Key` field, `CHIRROP_API_KEY` environment variable, `CHIRROP_API_KEY` from a `.env` file in the working directory.
 
 ## Method reference
 

@@ -1,12 +1,12 @@
 # Embed Charts
 
-Chirpier provides hosted event embeds for rendering public event charts outside the main web app.
+ChirrOp provides hosted event embeds for rendering public event charts outside the main web app.
 
 Typical flow:
 
 1. Choose the public `eventId` to embed.
 2. Optionally provide a `shareToken` if the embed should be scoped through a share link.
-3. Render the hosted runtime in an iframe with `@chirpier/charts` or `@chirpier/embed`.
+3. Render the hosted runtime in an iframe with `@chirropjs/charts` or `@chirropjs/embed`.
 4. Configure the embedded experience with `state`, sizing, and theme options.
 5. React to rendered, resize, interaction, and error events in the host app.
 
@@ -30,4 +30,4 @@ Core configuration options:
 - `width`, `height`, `minHeight`, `maxHeight`, `aspectRatio`
 - `autoResize` or `resizeMode`: `auto`, `fixed`, `fill`
 
-Use `@chirpier/charts` for React apps and `@chirpier/embed` for framework-agnostic usage.
+Use `@chirropjs/charts` for React apps and `@chirropjs/embed` for framework-agnostic usage.

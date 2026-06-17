@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 Use this guide to go from account creation to a live event, first policy, first destination test, and first shared chart.
 
-If you are using Chirpier with agent workflows, especially OpenClaw, continue with [Agentic Workflows](/agent-workflows) and then [OpenClaw Guides](/openclaw) after this flow.
+If you are using ChirrOp with agent workflows, especially OpenClaw, continue with [Agentic Workflows](/agent-workflows) and then [OpenClaw Guides](/openclaw) after this flow.
 
 ## Steps
 
@@ -15,11 +15,11 @@ If you are using Chirpier with agent workflows, especially OpenClaw, continue wi
 
 ### Create an account
 
-Create an account at [chirpier.co](https://www.chirpier.co/auth).
+Create an account at [chirrop.com](https://www.chirrop.com/auth).
 
 ### Get your workspace token
 
-Open the Integration page in Chirpier and copy the bearer token you will use for both logging and control-plane APIs.
+Open the Integration page in ChirrOp and copy the bearer token you will use for both logging and control-plane APIs.
 
 ### Send your first event
 
@@ -35,11 +35,11 @@ Use the [SDK overview](/sdks) to pick [JavaScript](/sdks/javascript), [Go](/sdks
 
 ### Confirm the event definition exists
 
-Once you've logged the event, Chirpier auto-creates the event definition from the `agent` + `event` pair. There is no manual registration step. That event becomes the anchor for dashboard charts, policies, analytics, and public facing charts.
+Once you've logged the event, ChirrOp auto-creates the event definition from the `agent` + `event` pair. There is no manual registration step. That event becomes the anchor for dashboard charts, policies, analytics, and public facing charts.
 
 ### Inspect the event in the app
 
-Open the Chirpier dashboard and verify the event appears in the Events surface with the expected name, description, and rollup activity.
+Open the ChirrOp dashboard and verify the event appears in the Events surface with the expected name, description, and rollup activity.
 
 ### Check a period comparison
 
@@ -69,7 +69,7 @@ analytics = client.get_event_analytics(event_id, view="window", period="1h", pre
   <Tabs.Tab>
 
 ```go
-analytics, _ := client.GetEventAnalytics(ctx, eventID, chirpier.AnalyticsWindowQuery{
+analytics, _ := client.GetEventAnalytics(ctx, eventID, chirrop.AnalyticsWindowQuery{
     View: "window", Period: "1h", Previous: "previous_1d",
 })
 // analytics.Data.ValuePctChange — e.g., "token spend is 20% up from same hour yesterday"
@@ -79,8 +79,8 @@ analytics, _ := client.GetEventAnalytics(ctx, eventID, chirpier.AnalyticsWindowQ
   <Tabs.Tab>
 
 ```bash
-curl -G "https://api.chirpier.co/v1.0/events/$EVENT_ID/analytics" \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+curl -G "https://api.chirrop.com/v1.0/events/$EVENT_ID/analytics" \
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
   --data-urlencode "view=window" \
   --data-urlencode "period=1h" \
   --data-urlencode "previous=previous_1d"
@@ -105,10 +105,10 @@ See [Destinations](/manage-resources/destinations) for configuration examples pe
 
 ### Share or embed the chart
 
-Once the event is public, use the hosted event page directly or embed it with the Chirpier chart clients. See [Public Event Pages](/dashboard-and-embed/public-event-pages) for the sharing flow.
+Once the event is public, use the hosted event page directly or embed it with the ChirrOp chart clients. See [Public Event Pages](/dashboard-and-embed/public-event-pages) for the sharing flow.
 
 </Steps>
 
 > [!NOTE]
 >
-> Continue with [See Your Event in Chirpier](/get-started/see-data), [Manage Resources](/manage-resources), or [Visualize And Embed](/dashboard-and-embed).
+> Continue with [See Your Event in ChirrOp](/get-started/see-data), [Manage Resources](/manage-resources), or [Visualize And Embed](/dashboard-and-embed).

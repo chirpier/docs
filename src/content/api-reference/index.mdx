@@ -1,6 +1,6 @@
 # API Reference
 
-Chirpier exposes two public HTTP surfaces:
+ChirrOp exposes two public HTTP surfaces:
 
 - logs APIs for event logging
 - control-plane APIs for reading and managing resources
@@ -17,8 +17,8 @@ The same bearer token works for both logs and control-plane APIs.
 
 ## Base URLs
 
-- Logs: `https://logs.chirpier.co`
-- Resources: use your Chirpier app or API host for `/v1.0/events`, `/v1.0/policies`, `/v1.0/alerts`, and `/v1.0/destinations`
+- Logs: `https://logs.chirrop.com`
+- Resources: use your ChirrOp app or API host for `/v1.0/events`, `/v1.0/policies`, `/v1.0/alerts`, and `/v1.0/destinations`
 
 ## Error shape
 
@@ -38,7 +38,7 @@ Unauthorized requests return `401` when the bearer token is missing or invalid.
   <PathCard
     href="/api-reference/logs"
     title="Logs API"
-    description="Write flat numeric events to Chirpier through `POST /v1.0/logs`."
+    description="Write flat numeric events to ChirrOp through `POST /v1.0/logs`."
     icon="rocket"
   />
   <PathCard

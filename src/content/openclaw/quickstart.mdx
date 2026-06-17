@@ -2,19 +2,19 @@ import { Tabs } from "nextra/components";
 
 # OpenClaw Quickstart
 
-This is the fastest path to get Chirpier working with OpenClaw.
+This is the fastest path to get ChirrOp working with OpenClaw.
 
 ## Recommended path
 
-1. create or copy a Chirpier API key from the web app
-2. export that key into the OpenClaw runtime as `CHIRPIER_API_KEY`
-3. install or load `chirpier-skills`
-4. start with the `chirpier` skill
+1. create or copy a ChirrOp API key from the web app
+2. export that key into the OpenClaw runtime as `CHIRROP_API_KEY`
+3. install or load `chirrop-skills`
+4. start with the `chirrop` skill
 5. emit one canonical OpenClaw event
-6. confirm the event definition appears in Chirpier
+6. confirm the event definition appears in ChirrOp
 7. create one chart and one policy
 
-For v1, Chirpier standardizes backend rollup periods on:
+For v1, ChirrOp standardizes backend rollup periods on:
 
 - `minute`
 - `hour`
@@ -22,7 +22,7 @@ For v1, Chirpier standardizes backend rollup periods on:
 
 Use those values in event-log and alerting APIs. UI shortcuts like `30d` belong to chart/embed filtering, not the backend period contract.
 
-If you want the opinionated OpenClaw workflow, use `chirpier-skills`. If you want the thinnest possible setup, emit the same events directly with the SDK.
+If you want the opinionated OpenClaw workflow, use `chirrop-skills`. If you want the thinnest possible setup, emit the same events directly with the SDK.
 
 Minimal example:
 
@@ -30,8 +30,8 @@ Minimal example:
   <Tabs.Tab>
 
 ```bash
-curl -X POST "https://logs.chirpier.co/v1.0/logs" \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+curl -X POST "https://logs.chirrop.com/v1.0/logs" \
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
   -H "Content-Type: application/json" \
   -d '[{"agent":"openclaw.main","event":"tool.errors.count","value":1,"meta":{"tool_name":"browser.open","workflow":"triage"}}]'
 ```
@@ -40,9 +40,9 @@ curl -X POST "https://logs.chirpier.co/v1.0/logs" \
   <Tabs.Tab>
 
 ```ts
-import { createClient } from "@chirpier/chirpier-js";
+import { createClient } from "@chirropjs/chirrop-js";
 
-const client = createClient({ key: process.env.CHIRPIER_API_KEY! });
+const client = createClient({ key: process.env.CHIRROP_API_KEY! });
 
 await client.log({
   agent: "openclaw.main",
@@ -85,7 +85,7 @@ await client.shutdown();
   <Tabs.Tab>
 
 ```python
-from chirpier import Log, new_client
+from chirrop import Log, new_client
 
 client = new_client(api_key="chp_your_api_key")
 client.log(Log(agent="openclaw.main", event="tool.errors.count", value=1, meta={"tool_name": "browser.open", "workflow": "triage"}))
@@ -108,19 +108,19 @@ client.close()
 
 ```go
 ctx := context.Background()
-client, err := chirpier.NewClient(chirpier.Options{Key: "chp_your_api_key"})
+client, err := chirrop.NewClient(chirrop.Options{Key: "chp_your_api_key"})
 if err != nil {
     return err
 }
 defer client.Close(ctx)
 
-_ = client.Log(ctx, chirpier.Log{Agent: "openclaw.main", Event: "tool.errors.count", Value: 1, Meta: map[string]any{"tool_name": "browser.open", "workflow": "triage"}})
+_ = client.Log(ctx, chirrop.Log{Agent: "openclaw.main", Event: "tool.errors.count", Value: 1, Meta: map[string]any{"tool_name": "browser.open", "workflow": "triage"}})
 _ = client.Flush(ctx)
 
 events, _ := client.ListEvents(ctx)
 for _, eventDef := range events {
     if eventDef.Agent == "openclaw.main" && eventDef.Event == "tool.errors.count" {
-        _, _ = client.GetEventAnalytics(ctx, eventDef.EventID, chirpier.AnalyticsWindowQuery{View: "window", Period: "1h", Previous: "previous_window"})
+        _, _ = client.GetEventAnalytics(ctx, eventDef.EventID, chirrop.AnalyticsWindowQuery{View: "window", Period: "1h", Previous: "previous_window"})
     }
 }
 ```
@@ -128,4 +128,4 @@ for _, eventDef := range events {
   </Tabs.Tab>
 </Tabs>
 
-Then continue with [Use chirpier-skills](/openclaw/skills), [Analytics Comparisons](/openclaw/analytics), and [Canonical Event Names](/openclaw/taxonomy).
+Then continue with [Use chirrop-skills](/openclaw/skills), [Analytics Comparisons](/openclaw/analytics), and [Canonical Event Names](/openclaw/taxonomy).

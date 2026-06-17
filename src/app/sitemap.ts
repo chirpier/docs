@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import fs from "fs";
 import path from "path";
 
-const BASE_URL = "https://docs.chirpier.co";
+const BASE_URL = "https://docs.chirrop.com";
 
 function getContentPages(
   dir: string,

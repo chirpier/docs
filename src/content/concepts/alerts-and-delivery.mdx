@@ -18,7 +18,7 @@ A policy defines when an event should trigger an alert. You configure:
 
 ## How alert evaluation works
 
-Chirpier evaluates policies through a pipeline that runs automatically in the background:
+ChirrOp evaluates policies through a pipeline that runs automatically in the background:
 
 1. **Logs arrive** via the ingestion API and are queued for processing.
 2. **Rollup aggregation**: The consumer aggregates logs into minute, hour, and day rollup buckets. Each bucket stores count, sum, min, max, and sum-of-squares.
@@ -68,7 +68,7 @@ Destinations route alerts outward. The current API stores the destination provid
 
 ### Delivery routing
 
-When an alert is triggered, Chirpier finds matching destinations:
+When an alert is triggered, ChirrOp finds matching destinations:
 
 - Destinations with `scope: "all"` receive every alert for the workspace.
 - Destinations with specific `policy_ids` only receive alerts from those policies.

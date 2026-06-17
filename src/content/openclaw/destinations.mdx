@@ -41,11 +41,11 @@ Test deliveries are hidden from the default delivery history view, so use `kind=
 
 ```bash
 TEST_ALERT_ID=$(curl -s -X POST \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
-  https://api.chirpier.co/v1.0/destinations/$DESTINATION_ID/test | jq -r '.alert_id')
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
+  https://api.chirrop.com/v1.0/destinations/$DESTINATION_ID/test | jq -r '.alert_id')
 
-curl -G https://api.chirpier.co/v1.0/alerts/$TEST_ALERT_ID/deliveries \
-  -H "Authorization: Bearer $CHIRPIER_API_KEY" \
+curl -G https://api.chirrop.com/v1.0/alerts/$TEST_ALERT_ID/deliveries \
+  -H "Authorization: Bearer $CHIRROP_API_KEY" \
   --data-urlencode "kind=test"
 ```
 

@@ -3,13 +3,13 @@
 Package:
 
 ```bash
-npm install @chirpier/chirpier-js
+npm install @chirropjs/chirrop-js
 ```
 
 ## Quick start
 
 ```ts
-import { createClient } from "@chirpier/chirpier-js";
+import { createClient } from "@chirropjs/chirrop-js";
 
 const client = createClient({ key: "chp_your_api_key" });
 
@@ -53,7 +53,7 @@ await client.shutdown();
 
 ```ts
 const client = createClient({
-  key: "chp_your_api_key",       // or set CHIRPIER_API_KEY env var
+  key: "chp_your_api_key",       // or set CHIRROP_API_KEY env var
   batchSize: 500,                // flush when queue reaches this size
   flushDelay: 500,               // auto-flush interval in ms
   retries: 15,                   // retry attempts with exponential backoff
@@ -61,7 +61,7 @@ const client = createClient({
 });
 ```
 
-The API key is resolved in order: explicit `key` parameter, `CHIRPIER_API_KEY` environment variable, `CHIRPIER_API_KEY` from a `.env` file in the working directory.
+The API key is resolved in order: explicit `key` parameter, `CHIRROP_API_KEY` environment variable, `CHIRROP_API_KEY` from a `.env` file in the working directory.
 
 ## Method reference
 

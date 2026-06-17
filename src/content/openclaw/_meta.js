@@ -2,7 +2,7 @@ export default {
   index: "Overview",
   quickstart: "OpenClaw Quickstart",
   keys: "Export API Keys",
-  skills: "Use chirpier-skills",
+  skills: "Use chirrop-skills",
   instrument: "Instrument OpenClaw",
   analytics: "Analytics Comparisons",
   walkthrough: "End-To-End Walkthrough",

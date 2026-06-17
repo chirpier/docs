@@ -4,10 +4,10 @@ The current embed clients accept an optional `shareToken`, not a separate embed-
 
 When present, the token is passed to the hosted event page as `?share=<token>`.
 
-When you have multiple embeds, prefer grouping them under one `CHIRPIER_EMBEDS_JSON` value and resolving the specific entry you need per page.
+When you have multiple embeds, prefer grouping them under one `CHIRROP_EMBEDS_JSON` value and resolving the specific entry you need per page.
 
 ```bash
-CHIRPIER_EMBEDS_JSON='{"revenue":{"eventId":"evt_revenue","shareToken":"shr_revenue"},"signups":{"eventId":"evt_signups","shareToken":"shr_signups"}}'
+CHIRROP_EMBEDS_JSON='{"revenue":{"eventId":"evt_revenue","shareToken":"shr_revenue"},"signups":{"eventId":"evt_signups","shareToken":"shr_signups"}}'
 ```
 
 Document these guarantees clearly if your app issues share tokens dynamically:
